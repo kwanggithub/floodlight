@@ -28,7 +28,7 @@ public interface IVirtualNetworkService extends IFloodlightService {
      * @param network The network to add the host to.
      * @param port The logical port name to attach the host to. Must be unique.
      */
-    public void addHost(MACAddress mac, String network, String port); 
+    public void addHost(MACAddress mac, String network, String port, String attachment); 
     
     /**
      * Deletes a host from a virtual network. Either the MAC or Port must

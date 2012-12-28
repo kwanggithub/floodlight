@@ -26,10 +26,15 @@ public class VirtualNetworkSerializer extends JsonSerializer<VirtualNetwork> {
         jGen.writeStringField("guid", vNet.guid);
         jGen.writeStringField("gateway", vNet.gateway);
 
-        jGen.writeArrayFieldStart("mac");
+        jGen.writeArrayFieldStart("hosts");
         Iterator<MACAddress> hit = vNet.hosts.iterator();
-        while (hit.hasNext())
-            jGen.writeString(hit.next().toString());
+        while (hit.hasNext()) {
+            MACAddress hostMac = hit.next();
+            jGen.writeStartObject();
+            jGen.writeStringField("mac", hostMac.toString());
+            jGen.writeStringField("id", vNet.macToHostId.get(hostMac));
+            jGen.writeEndObject();
+        }
         jGen.writeEndArray();
         
         jGen.writeEndObject();

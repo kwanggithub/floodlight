@@ -3,6 +3,9 @@ package net.floodlightcontroller.virtualnetwork;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import net.floodlightcontroller.util.MACAddress;
@@ -20,7 +23,8 @@ public class VirtualNetwork{
     protected String guid; // network id
     protected String gateway; // network gateway
     protected Collection<MACAddress> hosts; // array of hosts explicitly added to this network
-
+    protected Map<MACAddress, String> macToHostId; // hst mac to host id
+    
     /**
      * Constructor requires network name and id
      * @param name: network name
@@ -31,6 +35,7 @@ public class VirtualNetwork{
         this.guid = guid;
         this.gateway = null;
         this.hosts = new ArrayList<MACAddress>();
+        this.macToHostId = new ConcurrentHashMap<MACAddress, String>();
         return;        
     }
 
@@ -56,8 +61,9 @@ public class VirtualNetwork{
      * Adds a host to this network record
      * @param host: MAC address as MACAddress
      */
-    public void addHost(MACAddress host){
+    public void addHost(MACAddress host, String attachment){
         this.hosts.add(host);
+        this.macToHostId.put(host, attachment);
         return;        
     }
     

@@ -76,7 +76,7 @@ public class HostResource extends org.restlet.resource.ServerResource {
         } catch (IOException e) {
             log.error("Could not parse JSON {}", e.getMessage());
         }
-        vns.addHost(MACAddress.valueOf(host.mac), host.guid, host.port);
+        vns.addHost(MACAddress.valueOf(host.mac), host.guid, host.port, host.attachment);
         setStatus(Status.SUCCESS_OK);
         return "{\"status\":\"ok\"}";
     }
