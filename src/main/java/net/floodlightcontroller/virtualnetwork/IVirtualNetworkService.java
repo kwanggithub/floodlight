@@ -29,7 +29,14 @@ public interface IVirtualNetworkService extends IFloodlightService {
      * @param port The logical port name to attach the host to. Must be unique.
      */
     public void addHost(MACAddress mac, String network, String port, String attachment); 
-    
+
+    /**
+     * Adds a host to a virtual network. If a mapping already exists the
+     * new one will override the old mapping.
+     * @param host VirtualNetworkHost object with fields populated
+     */
+    public void addHost(VirtualNetworkHost host); 
+
     /**
      * Deletes a host from a virtual network. Either the MAC or Port must
      * be specified.
@@ -43,4 +50,11 @@ public interface IVirtualNetworkService extends IFloodlightService {
      * @return Collection <VirtualNetwork>
      */
     public Collection <VirtualNetwork> listNetworks();
+    
+    /**
+     * Update fields of an existing host, e.g., tenant id
+     * @param host VirtualNetworkHost object with selected fields populated and unchanged fields left null
+     */
+    public void updateHost(VirtualNetworkHost host); 
+
 }

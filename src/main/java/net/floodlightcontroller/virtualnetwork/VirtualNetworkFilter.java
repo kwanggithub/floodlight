@@ -74,7 +74,7 @@ public class VirtualNetworkFilter
     protected Map<Integer, Set<String>> gatewayToGuid; // Gateway IP -> Network ID
     protected Map<MACAddress, Integer> macToGateway; // Gateway MAC -> Gateway IP
     protected Map<MACAddress, String> macToGuid; // Host MAC -> Network ID
-    protected Map<String, MACAddress> portToMac; // Host MAC -> logical port name
+    protected Map<String, MACAddress> portToMac; // logical port name --> Host MAC
     
     /**
      * Adds a gateway to a virtual network.
@@ -202,7 +202,7 @@ public class VirtualNetworkFilter
     }
 
     @Override
-    public void addHost(MACAddress mac, String guid, String port, String attachment) {
+    public void addHost(MACAddress mac, String guid, String port, String hostId) {
         if (guid != null) {
             if (log.isDebugEnabled()) {
                 log.debug("Adding {} to network ID {} on port {}",
@@ -211,14 +211,26 @@ public class VirtualNetworkFilter
             // We ignore old mappings
             macToGuid.put(mac, guid);
             portToMac.put(port, mac);
-            if(vNetsByGuid.get(guid)!=null)
-                vNetsByGuid.get(guid).addHost(new MACAddress(mac.toBytes()), attachment);
+            if(vNetsByGuid.get(guid)!=null){
+                VirtualNetworkHost host = new VirtualNetworkHost();
+                host.mac = mac;
+                host.guid = guid;
+                host.port = port;
+                host.hostId = hostId;
+                vNetsByGuid.get(guid).addHost(host);
+            }
         } else {
             log.warn("Could not add MAC {} to network ID {} on port {}, the network does not exist",
                      new Object[] {mac, guid, port});
         }
     }
-
+    @Override
+    public void addHost(VirtualNetworkHost host) {
+        // kept here for now to keep prior mapping arrays correctly filled
+        // TODO: Some mapping arrays may no longer be needed now that host data structure is used
+        addHost(host.mac, host.guid, host.port, host.hostId);
+        vNetsByGuid.get(host.guid).addHost(host);
+    }
     @Override
     public void deleteHost(MACAddress mac, String port) {
         if (log.isDebugEnabled()) {
@@ -226,16 +238,16 @@ public class VirtualNetworkFilter
         }
         if (mac == null && port == null) return;
         if (port != null) {
-            MACAddress host = portToMac.remove(port);
-            if(vNetsByGuid.get(macToGuid.get(host)) != null)
-                vNetsByGuid.get(macToGuid.get(host)).removeHost(host);
-            macToGuid.remove(host);
+            MACAddress hostMac = portToMac.remove(port);
+            if(vNetsByGuid.get(macToGuid.get(hostMac)) != null)
+                vNetsByGuid.get(macToGuid.get(hostMac)).removeHostByMAC(hostMac);
+            macToGuid.remove(hostMac);
         } else if (mac != null) {
             if (!portToMac.isEmpty()) {
                 for (Entry<String, MACAddress> entry : portToMac.entrySet()) {
                     if (entry.getValue().equals(mac)) {
                         if(vNetsByGuid.get(macToGuid.get(entry.getValue())) != null)
-                            vNetsByGuid.get(macToGuid.get(entry.getValue())).removeHost(entry.getValue());
+                            vNetsByGuid.get(macToGuid.get(entry.getValue())).removeHostByMAC(entry.getValue());
                         portToMac.remove(entry.getKey());
                         macToGuid.remove(entry.getValue());
                         return;
@@ -519,4 +531,31 @@ public class VirtualNetworkFilter
         return vNetsByGuid.values();
         
     }
+
+    @Override
+    public void updateHost(VirtualNetworkHost hostDiff) {
+        if(hostDiff.mac == null)
+            return;
+        
+        VirtualNetworkHost host = vNetsByGuid.get(macToGuid.get(hostDiff.mac)).hosts.get(hostDiff.mac);
+        VirtualNetworkHost newHost = host.clone();
+
+        // make all necessary changes
+        if (hostDiff.tenantId != null) {
+            newHost.tenantId = hostDiff.tenantId;
+        }
+        
+        if (hostDiff.guid != null) {
+            newHost.guid = hostDiff.guid;
+        }
+        
+        // delete old host
+        deleteHost(host.mac, host.port);
+        
+        // add new host
+        addHost(newHost);
+        
+        return;
+    }
+
 }

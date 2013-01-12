@@ -15,6 +15,7 @@ public class VirtualNetworkWebRoutable implements RestletRoutable {
         router.attach("/tenants/{tenant}/networks/{network}", NetworkResource.class); // PUT, DELETE
         router.attach("/tenants/{tenant}/networks", NetworkResource.class); // POST
         router.attach("/tenants/{tenant}/networks/{network}/ports/{port}/attachment", HostResource.class);
+        router.attach("/tenants/{tenant}/host/{mac}", TenantResource.class); // PUT
         router.attachDefault(NoOp.class);
         return router;
     }

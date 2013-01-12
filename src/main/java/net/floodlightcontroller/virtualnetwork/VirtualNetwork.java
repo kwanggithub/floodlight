@@ -1,9 +1,5 @@
 package net.floodlightcontroller.virtualnetwork;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -22,8 +18,7 @@ public class VirtualNetwork{
     protected String name; // network name
     protected String guid; // network id
     protected String gateway; // network gateway
-    protected Collection<MACAddress> hosts; // array of hosts explicitly added to this network
-    protected Map<MACAddress, String> macToHostId; // hst mac to host id
+    protected ConcurrentHashMap<MACAddress, VirtualNetworkHost> hosts; // array of hosts explicitly added to this network
     
     /**
      * Constructor requires network name and id
@@ -34,8 +29,7 @@ public class VirtualNetwork{
         this.name = name;
         this.guid = guid;
         this.gateway = null;
-        this.hosts = new ArrayList<MACAddress>();
-        this.macToHostId = new ConcurrentHashMap<MACAddress, String>();
+        this.hosts = new ConcurrentHashMap<MACAddress, VirtualNetworkHost>();
         return;        
     }
 
@@ -61,9 +55,9 @@ public class VirtualNetwork{
      * Adds a host to this network record
      * @param host: MAC address as MACAddress
      */
-    public void addHost(MACAddress host, String attachment){
-        this.hosts.add(host);
-        this.macToHostId.put(host, attachment);
+    public void addHost(VirtualNetworkHost host){
+        removeHostByMAC(host.mac);
+        this.hosts.put(host.mac, host);
         return;        
     }
     
@@ -72,15 +66,10 @@ public class VirtualNetwork{
      * @param host: MAC address as MACAddress
      * @return boolean: true: removed, false: host not found
      */
-    public boolean removeHost(MACAddress host){
-        Iterator<MACAddress> iter = this.hosts.iterator();
-        while(iter.hasNext()){
-            MACAddress element = iter.next();
-            if(element.equals(host) ){
-                //assuming MAC address for host is unique
-                iter.remove();
-                return true;
-            }                
+    public boolean removeHostByMAC(MACAddress hostMac){
+        if (hosts.containsKey(hostMac)) {
+            hosts.remove(hostMac);
+            return true;
         }
         return false;
     }

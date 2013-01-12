@@ -3,8 +3,6 @@ package net.floodlightcontroller.virtualnetwork;
 import java.io.IOException;
 import java.util.Iterator;
 
-import net.floodlightcontroller.util.MACAddress;
-
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonSerializer;
@@ -25,14 +23,19 @@ public class VirtualNetworkSerializer extends JsonSerializer<VirtualNetwork> {
         jGen.writeStringField("name", vNet.name);
         jGen.writeStringField("guid", vNet.guid);
         jGen.writeStringField("gateway", vNet.gateway);
-
+ 
         jGen.writeArrayFieldStart("hosts");
-        Iterator<MACAddress> hit = vNet.hosts.iterator();
+        Iterator<VirtualNetworkHost> hit = vNet.hosts.values().iterator();
         while (hit.hasNext()) {
-            MACAddress hostMac = hit.next();
+            VirtualNetworkHost host = hit.next();
             jGen.writeStartObject();
-            jGen.writeStringField("mac", hostMac.toString());
-            jGen.writeStringField("id", vNet.macToHostId.get(hostMac));
+            jGen.writeStringField("id", host.hostId);
+            jGen.writeStringField("port", host.port);
+            jGen.writeStringField("mac", host.mac.toString());
+            jGen.writeStringField("tenant", host.tenantId);
+            jGen.writeStringField("network", host.guid);
+            for (int i = 0; i < host.ipAddresses.size(); i++)
+                jGen.writeStringField("ip", host.ipAddresses.get(i).toString());                
             jGen.writeEndObject();
         }
         jGen.writeEndArray();

@@ -16,15 +16,8 @@ import org.slf4j.LoggerFactory;
 
 public class HostResource extends org.restlet.resource.ServerResource {
     protected static Logger log = LoggerFactory.getLogger(HostResource.class);
-    
-    public class HostDefinition {
-        String port = null; // Logical port name
-        String guid = null; // Network ID
-        String mac = null; // MAC Address
-        String attachment = null; // Attachment name
-    }
-    
-    protected void jsonToHostDefinition(String json, HostDefinition host) throws IOException {
+        
+    protected void jsonToHost(String json, VirtualNetworkHost host) throws IOException {
         MappingJsonFactory f = new MappingJsonFactory();
         JsonParser jp;
         
@@ -52,9 +45,12 @@ public class HostResource extends org.restlet.resource.ServerResource {
                 while (jp.nextToken() != JsonToken.END_OBJECT) {
                     String field = jp.getCurrentName();
                     if (field.equals("id")) {
-                        host.attachment = jp.getText();
+                        jp.nextToken();
+                        host.hostId = jp.getText();
                     } else if (field.equals("mac")) {
-                        host.mac = jp.getText();
+                        jp.nextToken();
+                        String m = jp.getText();
+                        host.mac = MACAddress.valueOf(m);
                     }
                 }
             }
@@ -68,15 +64,17 @@ public class HostResource extends org.restlet.resource.ServerResource {
         IVirtualNetworkService vns =
                 (IVirtualNetworkService)getContext().getAttributes().
                     get(IVirtualNetworkService.class.getCanonicalName());
-        HostDefinition host = new HostDefinition();
+        VirtualNetworkHost host = new VirtualNetworkHost();
         host.port = (String) getRequestAttributes().get("port");
         host.guid = (String) getRequestAttributes().get("network");
+        host.tenantId = (String) getRequestAttributes().get("tenant");
+        
         try {
-            jsonToHostDefinition(postData, host);
+            jsonToHost(postData, host);
         } catch (IOException e) {
             log.error("Could not parse JSON {}", e.getMessage());
         }
-        vns.addHost(MACAddress.valueOf(host.mac), host.guid, host.port, host.attachment);
+        vns.addHost(host);
         setStatus(Status.SUCCESS_OK);
         return "{\"status\":\"ok\"}";
     }
@@ -85,10 +83,14 @@ public class HostResource extends org.restlet.resource.ServerResource {
     @Delete
     public String deleteHost() {
         String port = (String) getRequestAttributes().get("port");
+        String mac = (String) getRequestAttributes().get("mac");
         IVirtualNetworkService vns =
                 (IVirtualNetworkService)getContext().getAttributes().
                     get(IVirtualNetworkService.class.getCanonicalName());
-        vns.deleteHost(null, port);
+        if (mac != null)
+            vns.deleteHost(MACAddress.valueOf(mac), port);
+        else
+            vns.deleteHost(null, port);
         setStatus(Status.SUCCESS_OK);
         return "{\"status\":\"ok\"}";
     }
