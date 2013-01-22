@@ -31,12 +31,14 @@ public class TenantResource extends ServerResource {
         
         host.ipAddresses = null;
 
-        try {
-            jsonToHost(postData, host);
-        } catch (IOException e) {
-            log.error("Could not parse JSON {}", e.getMessage());
+        if(postData != null) {
+            try {
+                jsonToHost(postData, host);
+            } catch (IOException e) {
+                log.error("Could not parse JSON {}", e.getMessage());
+            }
         }
-
+        
         vns.updateHost(host);
         setStatus(Status.SUCCESS_OK);
         return "{\"status\":\"ok\"}";

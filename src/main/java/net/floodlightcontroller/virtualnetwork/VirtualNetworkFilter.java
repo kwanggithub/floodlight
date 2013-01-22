@@ -210,6 +210,7 @@ public class VirtualNetworkFilter
             }
             // We ignore old mappings
             macToGuid.put(mac, guid);
+            
             portToMac.put(port, mac);
             if(vNetsByGuid.get(guid)!=null){
                 VirtualNetworkHost host = new VirtualNetworkHost();
@@ -239,9 +240,11 @@ public class VirtualNetworkFilter
         if (mac == null && port == null) return;
         if (port != null) {
             MACAddress hostMac = portToMac.remove(port);
-            if(vNetsByGuid.get(macToGuid.get(hostMac)) != null)
-                vNetsByGuid.get(macToGuid.get(hostMac)).removeHostByMAC(hostMac);
-            macToGuid.remove(hostMac);
+            if(hostMac != null) {
+                if(vNetsByGuid.get(macToGuid.get(hostMac)) != null)
+                    vNetsByGuid.get(macToGuid.get(hostMac)).removeHostByMAC(hostMac);
+                macToGuid.remove(hostMac);
+            }
         } else if (mac != null) {
             if (!portToMac.isEmpty()) {
                 for (Entry<String, MACAddress> entry : portToMac.entrySet()) {
@@ -253,6 +256,10 @@ public class VirtualNetworkFilter
                         return;
                     }
                 }
+            } else {
+                if(vNetsByGuid.get(macToGuid.get(mac)) != null)
+                    vNetsByGuid.get(macToGuid.get(mac)).removeHostByMAC(mac);
+                macToGuid.remove(mac);
             }
         }
     }
@@ -537,8 +544,12 @@ public class VirtualNetworkFilter
         if(hostDiff.mac == null)
             return;
         
-        VirtualNetworkHost host = vNetsByGuid.get(macToGuid.get(hostDiff.mac)).hosts.get(hostDiff.mac);
-        VirtualNetworkHost newHost = host.clone();
+        VirtualNetworkHost host=null, newHost=null;
+        
+        if (vNetsByGuid.get(macToGuid.get(hostDiff.mac)) != null) {
+            host = vNetsByGuid.get(macToGuid.get(hostDiff.mac)).hosts.get(hostDiff.mac);
+            newHost = host.clone();
+        }
 
         // make all necessary changes
         if (hostDiff.tenantId != null) {
