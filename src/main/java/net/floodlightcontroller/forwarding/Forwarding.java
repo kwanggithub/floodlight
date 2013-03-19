@@ -75,24 +75,24 @@ public class Forwarding extends ForwardingBase implements IFloodlightModule {
                                           FloodlightContext cntx) {
         Ethernet eth = IFloodlightProviderService.bcStore.get(cntx, 
                                    IFloodlightProviderService.CONTEXT_PI_PAYLOAD);
-        // debug below
-        if (eth.getEtherType() == Ethernet.TYPE_IPv6) {
-        	IPv6 pkt = (IPv6) eth.getPayload();
-        	String srcIPv6 = "null";
-			try {
-				srcIPv6 = Inet6Address.getByAddress(pkt.getSourceAddress()).toString();
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-			}
-        	String dstIPv6 = "null";
-			try {
-				dstIPv6 = Inet6Address.getByAddress(pkt.getDestinationAddress()).toString();
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-			}
-        	log.debug("IPv6 flow: SOURCE: {} --> DESTINATION: {}", srcIPv6, dstIPv6);
-        }
-        // debug above
+//        // debug below
+//        if (eth.getEtherType() == Ethernet.TYPE_IPv6) {
+//        	IPv6 pkt = (IPv6) eth.getPayload();
+//        	String srcIPv6 = "null";
+//			try {
+//				srcIPv6 = Inet6Address.getByAddress(pkt.getSourceAddress()).toString();
+//			} catch (UnknownHostException e) {
+//				e.printStackTrace();
+//			}
+//        	String dstIPv6 = "null";
+//			try {
+//				dstIPv6 = Inet6Address.getByAddress(pkt.getDestinationAddress()).toString();
+//			} catch (UnknownHostException e) {
+//				e.printStackTrace();
+//			}
+//        	log.debug("IPv6 flow: SOURCE: {} --> DESTINATION: {}", srcIPv6, dstIPv6);
+//        }
+//        // debug above
         
         // If a decision has been made we obey it
         // otherwise we just forward
