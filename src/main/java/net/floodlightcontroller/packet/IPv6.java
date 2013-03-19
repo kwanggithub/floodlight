@@ -22,11 +22,8 @@
 package net.floodlightcontroller.packet;
 
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.net.Inet6Address;
 
 /**
  * @author Scott Groel, Clemson University
@@ -40,7 +37,7 @@ public class IPv6 extends BasePacket {
 
     static {
         protocolClassMap = new HashMap<Byte, Class<? extends IPacket>>();
-//        protocolClassMap.put(PROTOCOL_ICMPv6, ICMPv6.class);
+        protocolClassMap.put(PROTOCOL_ICMPv6, ICMPv6.class);
         protocolClassMap.put(PROTOCOL_TCP, TCP.class);
         protocolClassMap.put(PROTOCOL_UDP, UDP.class);
     }
@@ -51,8 +48,8 @@ public class IPv6 extends BasePacket {
     protected short payloadLength;
     protected byte nextHeader;
     protected byte hopLimit;
-    protected int[] sourceAddress;
-    protected int[] destinationAddress;
+    protected byte[] sourceAddress;
+    protected byte[] destinationAddress;
     
     protected boolean isTruncated;
 
@@ -62,8 +59,8 @@ public class IPv6 extends BasePacket {
     public IPv6() {
         super();
         this.version = 6;
-        this.sourceAddress = new int[4];
-        this.destinationAddress = new int[4];
+        this.sourceAddress = new byte[16];
+        this.destinationAddress = new byte[16];
         isTruncated = false;
     }
 
@@ -85,14 +82,14 @@ public class IPv6 extends BasePacket {
     /**
      * @return the sourceAddress
      */
-    public int[] getSourceAddress() {
+    public byte[] getSourceAddress() {
         return sourceAddress;
     }
 
     /**
      * @param sourceAddress the sourceAddress to set
      */
-    public IPv6 setSourceAddress(int[] sourceAddress) {
+    public IPv6 setSourceAddress(byte[] sourceAddress) {
         this.sourceAddress = sourceAddress;
         return this;
     }
@@ -105,7 +102,7 @@ public class IPv6 extends BasePacket {
         return this;
     }
 
-    private static int[] toIPv6Address(String sourceAddress2) {
+    private static byte[] toIPv6Address(String sourceAddress) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -113,14 +110,14 @@ public class IPv6 extends BasePacket {
 	/**
      * @return the destinationAddress
      */
-    public int[] getDestinationAddress() {
+    public byte[] getDestinationAddress() {
         return destinationAddress;
     }
 
     /**
      * @param destinationAddress the destinationAddress to set
      */
-    public IPv6 setDestinationAddress(int[] destinationAddress) {
+    public IPv6 setDestinationAddress(byte[] destinationAddress) {
         this.destinationAddress = destinationAddress;
         return this;
     }
@@ -148,14 +145,10 @@ public class IPv6 extends BasePacket {
         this.payloadLength = bb.getShort();
         this.nextHeader = bb.get();
         this.hopLimit = bb.get();
-        this.sourceAddress[0] = bb.getInt();
-        this.sourceAddress[1] = bb.getInt();
-        this.sourceAddress[2] = bb.getInt();
-        this.sourceAddress[3] = bb.getInt();
-        this.destinationAddress[0] = bb.getInt();
-        this.destinationAddress[1] = bb.getInt();
-        this.destinationAddress[2] = bb.getInt();
-        this.destinationAddress[3] = bb.getInt();                
+        for (int i=0; i<16; i++)
+        	this.sourceAddress[i] = bb.get();
+        for (int i=0; i<16; i++)
+        	this.destinationAddress[i] = bb.get();
 
         IPacket payload;
         do {
@@ -167,7 +160,7 @@ public class IPv6 extends BasePacket {
 	                throw new RuntimeException("Error parsing payload for IPv6 packet", e);
 	            }
 	        } else {
-	        	if (this.nextHeader != 0 && this.nextHeader != 58)
+	        	if (this.nextHeader != 0)
 	        		continue;
 	        	else
 	        		payload = new Data();
@@ -186,5 +179,4 @@ public class IPv6 extends BasePacket {
 		return null;
 	}
 
-   
 }

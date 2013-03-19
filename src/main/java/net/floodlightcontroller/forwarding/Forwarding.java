@@ -18,6 +18,8 @@
 package net.floodlightcontroller.forwarding;
 
 import java.io.IOException;
+import java.net.Inet6Address;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,6 +43,7 @@ import net.floodlightcontroller.core.util.AppCookie;
 import net.floodlightcontroller.counter.ICounterStoreService;
 import net.floodlightcontroller.packet.Ethernet;
 import net.floodlightcontroller.packet.IPacket;
+import net.floodlightcontroller.packet.IPv6;
 import net.floodlightcontroller.routing.ForwardingBase;
 import net.floodlightcontroller.routing.IRoutingDecision;
 import net.floodlightcontroller.routing.IRoutingService;
@@ -73,8 +76,22 @@ public class Forwarding extends ForwardingBase implements IFloodlightModule {
         Ethernet eth = IFloodlightProviderService.bcStore.get(cntx, 
                                    IFloodlightProviderService.CONTEXT_PI_PAYLOAD);
         // debug below
-        @SuppressWarnings("unused")
-		IPacket pkt = eth.getPayload();
+        if (eth.getEtherType() == Ethernet.TYPE_IPv6) {
+        	IPv6 pkt = (IPv6) eth.getPayload();
+        	String srcIPv6 = "null";
+			try {
+				srcIPv6 = Inet6Address.getByAddress(pkt.getSourceAddress()).toString();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+        	String dstIPv6 = "null";
+			try {
+				dstIPv6 = Inet6Address.getByAddress(pkt.getDestinationAddress()).toString();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+        	log.debug("IPv6 flow: SOURCE: {} --> DESTINATION: {}", srcIPv6, dstIPv6);
+        }
         // debug above
         
         // If a decision has been made we obey it
