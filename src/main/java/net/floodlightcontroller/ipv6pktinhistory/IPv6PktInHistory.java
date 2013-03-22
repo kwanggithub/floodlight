@@ -20,7 +20,6 @@ import net.floodlightcontroller.core.module.FloodlightModuleException;
 import net.floodlightcontroller.core.module.IFloodlightModule;
 import net.floodlightcontroller.core.module.IFloodlightService;
 import net.floodlightcontroller.core.types.SwitchMessagePair;
-import net.floodlightcontroller.forwarding.Forwarding;
 import net.floodlightcontroller.packet.Ethernet;
 import net.floodlightcontroller.packet.IPv6;
 
