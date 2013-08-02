@@ -1,0 +1,7 @@
+[ {
+  "external-user" : [ {
+    "company-id" : "acme",
+    "user-id" : "coyote"
+  } ],
+  "name" : "foo"
+} ]

@@ -1,0 +1,31 @@
+[ {
+  "interface" : [ {
+    "interface" : {
+      "name" : "port1",
+      "number" : 1
+    },
+    "switch-dpid" : "00:00:00:00:00:00:00:02"
+  }, {
+    "interface" : {
+      "name" : "port1",
+      "number" : 1
+    },
+    "switch-dpid" : "00:00:00:00:00:00:00:01"
+  } ],
+  "switch-dpid" : "00:00:00:00:00:00:00:01"
+}, {
+  "interface" : [ {
+    "interface" : {
+      "name" : "port1",
+      "number" : 1
+    },
+    "switch-dpid" : "00:00:00:00:00:00:00:04"
+  }, {
+    "interface" : {
+      "name" : "port1",
+      "number" : 1
+    },
+    "switch-dpid" : "00:00:00:00:00:00:00:03"
+  } ],
+  "switch-dpid" : "00:00:00:00:00:00:00:03"
+} ]

@@ -1,0 +1,9 @@
+{
+  "bigdecimal" : 21422452342.34234,
+  "biginteger" : 21422452345234234,
+  "binary" : "AQID",
+  "boolean" : true,
+  "double" : 23456.3456,
+  "int" : 1234,
+  "string" : "HelloWorld"
+}

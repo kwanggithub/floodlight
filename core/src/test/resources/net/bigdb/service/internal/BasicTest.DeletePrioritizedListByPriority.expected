@@ -1,0 +1,7 @@
+[ {
+  "name" : "test",
+  "priority" : 50
+}, {
+  "name" : "bar",
+  "priority" : 200
+} ]

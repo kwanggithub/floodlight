@@ -1,0 +1,9 @@
+# Load the base set of floodlight schemas
+treespaces:
+  - name: controller
+    modules:
+      - name: floodlight
+        revision: 2012-10-22
+      - name: aaa
+      - name: cluster
+        revision: 2013-06-12

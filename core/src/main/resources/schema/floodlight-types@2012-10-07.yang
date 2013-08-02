@@ -1,0 +1,842 @@
+module floodlight-types {
+    namespace "urn:floodlight:types:yang";
+    prefix "floodlight";
+
+    import bigdb {
+        prefix bigdb;
+        revision-date 2012-10-12;
+    }
+
+    import ietf-yang-types {
+        prefix "yang";
+        revision-date "2010-09-24";
+    }
+
+    import ietf-inet-types {
+        prefix "inet";
+        revision-date "2010-09-24";
+    }
+
+    description "Common types for the floodlight OpenFlow controller";
+
+    organization "www.openflowhub.org";
+
+    revision "2012-10-07" {
+        description "Initial revision.";
+    }
+
+    typedef identifier-string {
+        description
+            "A general string type for identifier, e.g., names,
+             especially used as key to a map.";
+        type string {
+            length "1..255";
+            pattern "[a-zA-Z][-.0-9a-zA-Z_]*";
+        }
+    }
+
+    typedef description-string {
+        description
+            "Short string used for description of objects or entities.";
+        type string {
+            length 1..128;
+        }
+    }
+
+    typedef alias-string {
+        description "An alias for a host, switch, or link";
+        type string {
+            length "1..255";
+            pattern "[a-zA-Z][a-zA-Z0-9_-]*";
+        }
+    }
+
+    typedef dpid-string {
+        description "A colon-separated hex DPID string";
+        type string {
+            length "min..32";
+            pattern "[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){7}";
+        }
+    }
+
+    typedef uuid {
+        description "A unique identifier, e.g., 02a32314-7a75-44fe-9412-6bcb36b25367";
+        type string {
+            length 32;
+            pattern "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{8}";
+        }
+    }
+
+    typedef switch-port {
+        description "A port on the datapath of a switch";
+        type uint16 {
+            range "1..max";
+        }
+    }
+
+    typedef cidr-address {
+        description "An IPv4 address with an optional CIDR suffix";
+        type union {
+            type inet:ip-prefix;
+            type inet:ip-address;
+        }
+    }
+
+    typedef link-type {
+        description "The type of inter-switch link";
+        type enumeration {
+            enum internal;
+            enum external;
+            enum invalid;
+            enum tunnel; // will go away - Srini
+        }
+    }
+
+    typedef link-direction {
+        description "Whether a link is bidirectional or unidirection";
+        type enumeration {
+            enum bidirectional;
+            enum unidirectional;
+        }
+    }
+
+    typedef of-match-field {
+        description "A list of OpenFlow 1.0 match fields";
+        type enumeration {
+            enum in-port;
+            enum dl-dst;
+            enum dl-src;
+            enum dl-vlan;
+            enum dl-type;
+            enum dl-vlan-pcp;
+            enum nw-dst;
+            enum nw-src;
+            enum nw-proto;
+            enum nw-tos;
+            enum tp-dst;
+            enum tp-src;
+        }
+    }
+
+    typedef uptime_milliseconds {
+        description "System Uptime in milliseconds";
+        type uint64;
+    }
+
+    typedef date-time-string {
+        description "Date and time";
+        type yang:date-and-time;
+    }
+
+    typedef switch-port-string {
+        description "Switch port string";
+        type string;
+    }
+
+    typedef mac-string {
+        description "A colon-separated hex MAC string";
+        type yang:mac-address;
+    }
+
+    typedef vlan-integer {
+        description "VLAN tag";
+        type int32 {
+            range "0..4096";
+         }
+    }
+
+    typedef device-id-string {
+        description
+            "The type for device-id as an opaque string.";
+        type string {
+            pattern '([0-9][0-9A-F]+)(-[0-9A-F]+)*';
+        }
+    }
+
+    typedef switch-capabilities {
+        type uint32;
+    }
+
+    typedef switch-port-feature {
+        type uint32;
+    }
+
+    typedef switch-port-flags {
+        type uint32;
+    }
+
+    typedef attachment-point {
+        description "An device's location on the network, encoded as 'DPID|port|status'";
+        type string {
+            length "min..36";
+            pattern "[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){7}|[0-9]+|.+";
+        }
+    }
+
+    typedef device-observation-string {
+        description "The obserservation that a packet of this form appeared on this link,
+                encoded as DPID|port|mac-string|vlan|ip-string";
+        type string {
+            pattern "[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){7}|[0-9]+|[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}|[0-9]{1,4}|([0-9]{1,3}\\.){3}[0-9]{1,3}";
+        }
+    }
+
+    typedef of-counter64 {
+        description "openflow 64 bit counter, -1 reserved as a N/A indicator";
+        type uint64;
+    }
+
+    typedef of-counter32 {
+        description "openflow 32 bit counter, -1 reserved as a N/A indicator";
+        type uint32;
+    }
+
+    typedef controller-role {
+        description "enumeration that defines the role of the controller.";
+        type enumeration {
+            enum equal;
+            enum master;
+            enum slave;
+        }
+    }
+
+    typedef priority-type {
+        type uint32 {
+            range 0..65535;
+        }
+        default 32768;
+    }
+
+    typedef vlan-range-string {
+        type string {
+            length "1..max";
+        }
+    }
+
+    typedef flow-cookie {
+        description "associates flow with creator of flow";
+        type uint64;
+    }
+
+    typedef ether-type {
+        description "well known ethernet type";
+        type uint16;
+    }
+
+    grouping vlan-range-grouping {
+        list vlan-range {
+            leaf vlan-min {
+                type uint16;
+            }
+            leaf vlan-max {
+                type uint16;
+            }
+        }
+    }
+
+    grouping vlan-range-container-grouping {
+        container vlan-range {
+            uses floodlight-types:vlan-range-grouping;
+        }
+    }
+
+    grouping inet-address-grouping {
+        description "defines an end point, ip address and port.";
+        leaf ip {
+            type inet:ip-address;
+            description "IP address";
+            bigdb:column-header "IP Address";
+        }
+        leaf inet-port {
+            type inet:port-number;
+            bigdb:column-header "IP Port";
+        }
+    }
+
+    grouping of-description-data {
+        description "An OF 1.0 OFDescriptionData message.";
+        leaf manufacturer-description {
+            type string {
+                length min..256;
+            }
+        }
+        leaf hardware-description {
+            type string {
+                length min..256;
+            }
+        }
+        leaf datapath-description {
+            type string {
+                length min..256;
+            }
+        }
+        leaf serial-number {
+            type string {
+                length min..32;
+            }
+        }
+        leaf software-description {
+            type string {
+                length min..256;
+            }
+        }
+    }
+
+    grouping switch-attribute-groupings {
+        description "Switch attributes";
+
+        container attributes {
+            description "Switch attributes";
+            config false;
+            leaf fast-wildcards {
+                type uint32;
+            }
+            leaf supports-ofpp-flood {
+                type boolean;
+                default "false";
+            }
+            leaf supports-nx-role {
+                type boolean;
+                default "false";
+            }
+            leaf supports-ofpp-table {
+                type boolean;
+                default "false";
+            }
+            container description-data {
+                uses of-description-data;
+            }
+        }
+    }
+
+    grouping of-action {
+        description "An open flow action";
+        leaf action-type {
+            type enumeration {
+                enum output;
+                enum set-vlan-id;
+                enum set-vlan-pcp;
+                enum strip-vlan;
+                enum set-dl-src;
+                enum set-dl-dst;
+                enum set-nw-src;
+                enum set-nw-dst;
+                enum set-nw-tos;
+                enum set-tp-src;
+                enum set-tp-dst;
+                enum opaque-enqueue;
+            }
+        }
+
+        container output-data {
+            leaf port {
+                type uint16;
+            }
+            leaf max-length {
+                type uint16;
+            }
+        }
+
+        container set-vlan-id-data {
+            leaf vlan-id {
+                type vlan-integer;
+            }
+        }
+
+        container set-vlan-pcp-data {
+            leaf vlan-pcp {
+                type uint8;
+            }
+        }
+
+        container set-dl-src-data {
+            leaf src-dl-addr {
+                type yang:mac-address;
+            }
+        }
+
+        container set-dl-dst-data {
+            leaf dst-dl-addr {
+                type yang:mac-address;
+            }
+        }
+
+        container set-nw-src-data {
+            leaf src-nw-addr {
+                type inet:ip-address;
+            }
+        }
+
+        container set-nw-dst-data {
+            leaf dst-nw-addr {
+                type inet:ip-address;
+            }
+        }
+        container set-nw-tos-data {
+            leaf tos {
+                type uint8;
+            }
+        }
+        container set-tp-src-data {
+            leaf src-port {
+                type inet:port-number;
+            }
+        }
+        container set-tp-dst-data {
+            leaf dst-port {
+                type inet:port-number;
+            }
+        }
+        container opaque-enqueue-data {
+            leaf port {
+                type uint16;
+            }
+            leaf queue-id {
+                type uint32;
+            }
+        }
+    }
+
+    grouping of-action-sequence {
+        description "An OpenFlow action along wtih a sequence number.
+
+        The sequence number is used to order the actions when they are
+        sent to the switch.";
+
+        leaf sequence {
+            type uint32 {
+                range 1..max;
+            }
+        }
+
+        uses of-action;
+    }
+
+    grouping of-match {
+        description "An OpenFlow 1.0 OFMatch structure";
+
+        leaf in-port {
+            type uint16;
+        }
+        leaf dl-src {
+            type yang:mac-address;
+            bigdb:column-header "Src MAC";
+        }
+        leaf dl-dst {
+            type yang:mac-address;
+            bigdb:column-header "Dst MAC";
+        }
+        leaf dl-vlan {
+            type vlan-integer;
+        }
+        leaf dl-vlan-pcp {
+            type uint8 {
+                range 0..7;
+            }
+        }
+        leaf dl-type {
+            type ether-type;
+        }
+        leaf nw-tos {
+            type uint8 {
+                range 0..63;
+            }
+        }
+        leaf nw-proto {
+            type uint8;
+        }
+        leaf nw-src {
+            type cidr-address;
+        }
+        leaf nw-dst {
+            type cidr-address;
+        }
+        leaf tp-src {
+             type inet:port-number;
+        }
+        leaf tp-dst {
+             type inet:port-number;
+        }
+    }
+
+    grouping of-flow-mod {
+        description "A complete OpenFlow 1.0 FlowMod structure";
+
+        uses of-flow-mod-common;
+
+        leaf command {
+            type uint16;
+        }
+        leaf idle-timeout {
+            type uint16;
+        }
+        leaf hard-timeout {
+            type uint16;
+        }
+        leaf buffer-id {
+            type int32;
+        }
+        leaf out-port {
+            type int16;
+        }
+        leaf flags {
+            type uint16;
+        }
+    }
+
+    grouping of-flow-mod-common {
+        description "The base of FlowMod. This includes configuration data
+        that an application would send down to a switch, but not operational
+        data such as buffer IDs and timeouts.";
+
+        container match {
+            uses of-match;
+        }
+        leaf cookie {
+            type flow-cookie;
+        }
+        leaf priority {
+            type priority-type;
+        }
+        list action {
+            uses of-action;
+        }
+    }
+
+    grouping of-flow-mod-common-sequence {
+        description "The base of FlowMod. This includes configuration data
+        that an application would send down to a switch, but not operational
+        data such as buffer IDs and timeouts. This also includes a sequence
+        number in each action";
+
+        container match {
+            uses of-match;
+        }
+        leaf cookie {
+            type flow-cookie;
+        }
+        leaf priority {
+            type priority-type;
+        }
+        list action {
+            key "sequence";
+            uses of-action-sequence;
+        }
+    }
+
+    grouping of-table-statistics {
+        description "OpenFlow table statistics";
+        leaf active-count {
+            type of-counter32;
+        }
+        leaf lookup-count {
+            type of-counter64;
+        }
+        leaf matched-count {
+            type of-counter64;
+        }
+        leaf maximum-entries {
+            description "Approximate maximum number of entries this table can hold";
+            type uint32;
+        }
+
+        leaf-list match-fields {
+            type of-match-field;
+        }
+
+        leaf name {
+            type string {
+                length min..32;
+            }
+        }
+        leaf table-id {
+            type uint8;
+        }
+    }
+
+    grouping interface-port-pair {
+        description "An interface and port pair on an OpenFlow switch.
+
+        This includes both the name of the port and the OpenFlow port number";
+
+        leaf name {
+            description
+                "Name of the OpenFlow switch port.";
+            type string {
+                length min..16;
+                pattern "[0-9a-zA-Z][-./0-9a-zA-Z_]*";
+            }
+            /* inherited config value */
+            bigdb:column-header "IF Name";
+            bigdb:case-sensitive false;
+        }
+        leaf number {
+            description
+                "The port number starting from 1.";
+            mandatory true;
+            type uint16 { range "1..max"; }
+            config false;
+            bigdb:column-header "OF Port";
+        }
+    }
+
+    grouping of-interface {
+        description "A port on an OpenFlow switch";
+        uses interface-port-pair;
+        leaf hardware-address {
+            description
+                "Mac address for the interface.";
+            type mac-string;
+            config false;
+            bigdb:column-header "MAC Address";
+        }
+        leaf config-flags {
+            description
+                "Bitmap of OFPPC_* flags defined in OpenFlow specification.
+
+                 Flags to indicate behavior of the physical port.  These flags are
+                 used in ofp_port to describe the current configuration.  They are
+                 used in the ofp_port_mod message to configure behaviors of the port.";
+            type switch-port-flags;
+            config false;
+            bigdb:column-header "Config";
+        }
+        leaf state-flags {
+            description
+                "Bitmap of OFPPS_* flags defined in OpenFlow specification.
+
+                 Current state of the physical port.  These are not configurable from
+                 the controller.";
+            type switch-port-flags;
+            config false;
+            bigdb:column-header "State";
+        }
+        leaf current-features {
+            description
+                "Current features. Bitmaps of OFPPF_* described in OpenFlow specification.";
+            type switch-port-feature;
+            config false;
+            bigdb:column-header "Curr Features";
+        }
+        leaf supported-features {
+            description
+                "Features supported by the port.
+                 Bitmaps of OFPPF_* described in OpenFlow specification.";
+            type switch-port-feature;
+            config false;
+            bigdb:column-header "Supported Features";
+        }
+        leaf peer-features {
+            description
+                "Features advertised by peer.
+                 Bitmaps of OFPPF_* described in OpenFlow specification.";
+            type switch-port-feature;
+            config false;
+            bigdb:column-header "Peer Features";
+        }
+        leaf advertised-features {
+            description
+                "Features being advertised by the port.
+                 Bitmaps of OFPPF_* described in OpenFlow specification.";
+            type switch-port-feature;
+            config false;
+            bigdb:column-header "Adv. Features";
+        }
+    }
+
+    grouping of-interface-statistics {
+        description "OpenFlow inteface statistics";
+
+        container interface {
+            uses interface-port-pair;
+        }
+        leaf receive-packets {
+            type of-counter64;
+            bigdb:column-header "Rx Pkts";
+        }
+        leaf transmit-packets {
+            type of-counter64;
+            bigdb:column-header "Tx Pkts";
+        }
+        leaf receive-bytes {
+            type of-counter64;
+            bigdb:column-header "Rx Bytes";
+        }
+        leaf transmit-bytes {
+            type of-counter64;
+            bigdb:column-header "Tx Bytes";
+        }
+        leaf receive-dropped {
+            type of-counter64;
+            bigdb:column-header "Rx Drop";
+        }
+        leaf transmit-dropped {
+            type of-counter64;
+            bigdb:column-header "Tx Drop";
+        }
+        leaf receive-errors {
+            type of-counter64;
+            bigdb:column-header "Rx Errors";
+        }
+        leaf transmit-errors {
+            type of-counter64;
+            bigdb:column-header "Tx Errors";
+        }
+        leaf receive-frame-errors {
+            type of-counter64;
+            bigdb:column-header "Rx Frame Errors";
+        }
+        leaf receive-overrun-errors {
+            type of-counter64;
+            bigdb:column-header "Rx Overrun Errors";
+        }
+        leaf receive-crc-errors {
+            type of-counter64;
+            bigdb:column-header "Rx Crc Errors";
+        }
+        leaf collisions {
+            type of-counter64;
+            bigdb:column-header "Collisions";
+        }
+    }
+
+    grouping of-queue-statistics {
+        description "OpenFlow switch queue statistics";
+        container interface {
+            uses interface-port-pair;
+        }
+        leaf queue-id {
+            type uint32;
+        }
+        leaf transmit-bytes {
+            type yang:zero-based-counter64;
+        }
+        leaf transmit-packets {
+            type yang:zero-based-counter64;
+        }
+        leaf transmit-errors {
+            type yang:zero-based-counter64;
+        }
+    }
+
+    grouping of-aggregate-statistics {
+        description "OpenFlow aggregate statistics";
+        leaf packet-count {
+            type yang:zero-based-counter64;
+        }
+        leaf byte-count {
+            type yang:zero-based-counter64;
+        }
+        leaf flow-count {
+            type yang:zero-based-counter64;
+        }
+    }
+
+    grouping of-flow-statistics {
+        description "OpenFlow flow statistics";
+
+        leaf table-id {
+            type uint8;
+        }
+        container match {
+            uses of-match;
+        }
+        container duration {
+            description "Duration with both seconds and nanoseconds
+
+            This should be treated as <sec>.<nsec>";
+
+            leaf sec {
+                type uint32;
+            }
+            leaf nsec {
+                type uint32;
+            }
+        }
+        leaf priority {
+            type uint16;
+        }
+        leaf idle-timeout {
+            type uint16;
+        }
+        leaf hard-timeout {
+            type uint16;
+        }
+        leaf cookie {
+            type flow-cookie;
+        }
+        leaf packet-count {
+            type of-counter64;
+        }
+        leaf byte-count {
+            type of-counter64;
+        }
+        list action {
+            uses of-action;
+        }
+    }
+
+    grouping dpid-port-pair {
+        description "A Datapath ID along with the port number";
+        leaf switch-dpid {
+            type dpid-string;
+            description "Datapath ID string of the source switch";
+        }
+        leaf port {
+            type switch-port;
+        }
+    }
+
+    grouping switch-interface {
+        leaf switch-dpid {
+            type dpid-string;
+            description "Datapath ID string of the source switch";
+        }
+        container interface {
+            uses interface-port-pair;
+        }
+    }
+
+    grouping switch-port-link {
+        description "A link between two OpenFlow switches.
+
+        This only contains the port number";
+
+        container src {
+            description "The source switch and port.";
+            uses dpid-port-pair;
+        }
+        container dst {
+            description "The destination switch and port.";
+            uses dpid-port-pair;
+        }
+    }
+
+    grouping switch-link {
+        description "A link between two OpenFlow switches.
+
+        This also includes the interface name";
+
+        container src {
+            description "The source switch and port/interface.";
+            uses switch-interface;
+        }
+        container dst {
+            description "The destination switch and port/interface.";
+            uses switch-interface;
+        }
+    }
+
+    grouping switch-link-with-type {
+        description "A link along with the type of link";
+        uses switch-link;
+        leaf link-type {
+            type link-type;
+            description "Link type";
+        }
+        leaf link-direction {
+            description "Show whether the link is bidirectional or unidirectional";
+            type link-direction;
+        }
+    }
+}

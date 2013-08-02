@@ -1,0 +1,11 @@
+{
+  "test" : {
+    "policy" : [ {
+      "name" : "foo",
+      "rule" : [ {
+        "id" : "foo",
+        "sequence" : 100
+      } ]
+    } ]
+  }
+}

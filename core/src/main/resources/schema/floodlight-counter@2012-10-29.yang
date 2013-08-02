@@ -1,0 +1,89 @@
+module floodlight-counter {
+    namespace "urn:floodlight:core:yang";
+    prefix "floodlight-counter";
+
+    import bigdb {
+        prefix bigdb;
+        revision-date 2012-10-12;
+    }
+
+    import floodlight-types {
+        prefix "floodlight";
+        revision-date "2012-10-07";
+    }
+           
+    description "Model for the floodlight Counter";
+    
+    organization "www.openflowhub.org";
+
+    revision "2012-10-29" {
+        description 
+            "Initial revision.
+             Defines reusable grouping for counters that can be used by other
+             modules.";
+    }
+
+    grouping counter-grouping {
+        list counter {
+            description
+                "Set of counters (name and vlaue).
+
+                 Counters are organized in tree like structure. Each counter
+                 can have list of sub-categories, which contains a name together
+                 with a list of (sub) counter names. These (sub) counter names
+                 can be used to further discover and query the counter's sub counter
+                 values (until empty sub counter name list is empty).";
+            config false;
+            bigdb:cascade false;
+
+            key "name";
+            leaf name {
+                description
+                    "The name of the counter.";
+                type floodlight:identifier-string;
+            }
+
+            leaf value-type {
+                description
+                    "The data type of value of the counter.";
+                type enumeration {
+                    enum long;
+                    enum double;
+                }
+            }
+            leaf last-updated {
+                description
+                    "Last date and time this counter is updated.";
+                type floodlight:date-time-string;
+            }            
+            leaf long-value {
+                description
+                    "The value of counter as a 64 bits integer.";
+                type int64;
+            }
+
+            list sub-category {
+                description
+                    "List of sub categories of the counter.
+
+                     Counters are organized in tree like structure. Each counter
+                     can have list of sub-categories, which contains a name together
+                     with a list of (sub) counter names. These (sub) counter names
+                     can be used to further discover and query the counter's sub counter
+                     values (until empty sub counter name list is empty).";
+
+                key "name";
+                leaf name {
+                    description
+                        "The name of the sub category.";
+                    type floodlight:date-time-string;
+                }
+                leaf-list sub-counter-name {
+                    description 
+                        "List of sub counter names that can be used to further query their values.";
+                    type floodlight:identifier-string;
+                }
+            } 
+        }
+    }
+}

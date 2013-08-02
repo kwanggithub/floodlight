@@ -1,0 +1,90 @@
+module LogicalDataNodeTest {
+    namespace net.bigdb;
+    prefix "ldnt";
+
+    import bigdb {
+        prefix bigdb;
+    }
+
+    description "Basic test schema";
+
+    organization "BigDB Inc.";
+
+    container container-test {
+        leaf child1 {
+            bigdb:data-source ds1;
+            type int32;
+        }
+        leaf child2 {
+            bigdb:data-source ds2;
+            type int32;
+        }
+        leaf-list child3 {
+            bigdb:data-source ds2;
+            type string;
+        }
+        container child4 {
+            leaf child4.1 {
+                bigdb:data-source ds3;
+                type string;
+            }
+            leaf child4.2 {
+                bigdb:data-source ds1;
+                type int32;
+            }
+        }
+    }
+
+    list keyed-list-test {
+        key "child1 child2";
+        leaf child1 {
+            bigdb:data-source ds1;
+            type string;
+        }
+        leaf child2 {
+            bigdb:data-source ds1;
+            type int32;
+        }
+        leaf child3 {
+            bigdb:data-source ds2;
+            type string;
+        }
+        container child4 {
+            leaf child4.1 {
+                bigdb:data-source ds3;
+                type int32;
+            }
+            leaf child4.2 {
+                bigdb:data-source ds2;
+                type string;
+            }
+        }
+    }
+
+    list unkeyed-list-test {
+        bigdb:data-source ds1;
+        leaf child1 {
+            type string;
+        }
+        leaf child2 {
+            type int32;
+        }
+        container child3 {
+            leaf child3.1 {
+                type int32;
+            }
+        }
+    }
+
+    container default-value-test {
+        leaf child1 {
+            bigdb:data-source ds1;
+            type string;
+            default "foobar";
+        }
+        leaf child2 {
+            bigdb:data-source ds3;
+            type string;
+        }
+    }
+}

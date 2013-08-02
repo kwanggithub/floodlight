@@ -1,0 +1,45 @@
+module EmployeeTest {
+    namespace net.bigdb;
+    prefix "et";
+    
+    description "Employee test schema";
+    
+    organization "BigDB Inc.";
+
+    extension data-source {
+        argument data-source-name;
+    }
+    
+    list employee {
+    
+        key employee-id;
+        
+        leaf employee-id {
+            type string;
+        }
+        
+        leaf first-name {
+            type string;
+        }
+        
+        leaf last-name {
+            type string;
+        }
+        
+        leaf-list email-address {
+            type string;
+        }
+        
+        leaf im-status {
+            et:data-source "EmployeeIMState";
+            type string;
+            config false;
+        }
+        
+        leaf im-last-message-time {
+            et:data-source "EmployeeIMState";
+            type string;
+            config false;
+        }
+    }
+}

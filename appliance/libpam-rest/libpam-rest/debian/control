@@ -1,0 +1,14 @@
+Source: libpam-rest
+Section: admin
+Priority: extra
+Maintainer: Carl Roth <carl.roth@bigswitch.com>
+Build-Depends: debhelper (>= 7.0.50~), libpam-dev, libjson0-dev, libcurl-dev, autoconf, automake, libtool
+Standards-Version: 3.9.3
+Homepage: http://www.bigswitch.com
+
+Package: libpam-rest
+Version: __VERSION__
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libpam-runtime
+Description: PAM module for authenticating to a Floodlight controller
+ using its REST API authentication mechanism.

@@ -1,0 +1,12 @@
+{
+  "BigDecimal" : 3456234.23422346,
+  "BigInteger" : 345623423422346,
+  "Boolean" : true,
+  "Character" : "b",
+  "Double" : 3312313.24,
+  "Float" : 12313.2421875,
+  "Int" : 2345,
+  "Long" : 3333,
+  "Short" : 1234,
+  "String" : "Foobar"
+}

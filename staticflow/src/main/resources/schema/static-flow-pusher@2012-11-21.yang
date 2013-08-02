@@ -1,0 +1,53 @@
+module static-flow-pusher {
+
+    namespace "urn:static-flow-pusher:yang";
+    prefix "static-flow-pusher";
+    
+    import bigdb {
+        prefix bigdb;
+        revision-date 2012-10-12;
+    }
+    import ietf-yang-types {
+        prefix "yang";
+        revision-date "2010-09-24";
+    }
+    import floodlight-types {
+        prefix "floodlight-types";
+        revision-date "2012-10-07";
+    }
+    import ietf-inet-types {
+        prefix "inet";
+        revision-date "2010-09-24";
+    }
+    
+    description "Model for the static flow pusher";
+    
+    organization "www.openflowhub.org";
+    
+    revision "2012-11-21" {
+    	description "Initial revision.";
+    }
+    
+    container core {
+        list switch {
+            list static-flow-entry {
+                config true;
+                
+                key "name";
+                
+                leaf name {
+                    type floodlight-types:identifier-string;
+                }
+                
+                leaf active {
+                    type boolean;
+                    default "false";
+                }
+                
+                container flow-mod {
+                    uses floodlight-types:of-flow-mod-common-sequence;
+                }
+            }
+        }
+    }
+}

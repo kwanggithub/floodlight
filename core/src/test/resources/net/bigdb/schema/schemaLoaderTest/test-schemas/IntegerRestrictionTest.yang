@@ -1,0 +1,33 @@
+module IntegerRestrictionTest {
+    namespace net.bigdb;
+    prefix "mt";
+    
+    description "More common types";
+    
+    organization "Acme";
+    
+    typedef int1 {
+        type int32 {
+            range "1 .. 100 | 120 .. 150 | 200 .. 1000"; 
+        }
+    }
+    
+    typedef int2 {
+        type int1 {
+            range "min .. 90 | 140 .. 150 | 300 .. max";
+        }
+        default "141";
+    }
+            
+    
+    container integer-restriction-test {
+        description "Testing the integer restriction.";
+        
+        leaf leaf-node-test {
+            type int2 {
+                range 7..32;
+            }
+            default "10";
+        }
+    }
+}

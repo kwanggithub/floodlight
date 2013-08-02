@@ -1,0 +1,28 @@
+module Types {
+    namespace net.bigdb;
+    prefix "t";
+    
+    description "Common types";
+    
+    organization "Acme";
+    
+    typedef positive-integer {
+        description "A positive integer";
+        type int32 {
+            range 1..max;
+        }
+    }
+    
+    typedef short-string {
+        type string {
+            length 0..32;
+        }
+    }
+    
+    typedef ip-address {
+        description "A dotted decimal IP string";
+        type string {
+            pattern "([0-9]{1,3}\\.){3}[0-9]{1,3}";
+        }
+    }
+}

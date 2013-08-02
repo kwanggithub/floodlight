@@ -1,0 +1,16 @@
+{
+  "last-updated" : "2012-12-11T01:27:21.655Z",
+  "long-value" : 2,
+  "name" : "OFPacketIn",
+  "sub-category" : [ {
+    "name" : "L2",
+    "sub-counter-name" : [ "OFPacketIn__broadcast", "OFPacketIn__multicast" ]
+  }, {
+    "name" : "L3",
+    "sub-counter-name" : [ "OFPacketIn__L3_IPv4" ]
+  }, {
+    "name" : "L4",
+    "sub-counter-name" : [ "OFPacketIn__L4_UDP" ]
+  } ],
+  "value-type" : "long"
+}

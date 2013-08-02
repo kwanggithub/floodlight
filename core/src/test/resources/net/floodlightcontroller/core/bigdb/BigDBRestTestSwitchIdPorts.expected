@@ -1,0 +1,31 @@
+[ {
+  "advertised-features" : 0,
+  "config-flags" : 0,
+  "current-features" : 0,
+  "hardware-address" : "00:01:02:03:04:06",
+  "name" : "eth1",
+  "number" : 1,
+  "peer-features" : 0,
+  "state-flags" : 0,
+  "supported-features" : 0
+}, {
+  "advertised-features" : 0,
+  "config-flags" : 0,
+  "current-features" : 0,
+  "hardware-address" : "00:01:02:03:04:07",
+  "name" : "eth2",
+  "number" : 2,
+  "peer-features" : 0,
+  "state-flags" : 0,
+  "supported-features" : 0
+}, {
+  "advertised-features" : 0,
+  "config-flags" : 0,
+  "current-features" : 0,
+  "hardware-address" : "00:01:02:03:04:08",
+  "name" : "port1",
+  "number" : 3,
+  "peer-features" : 0,
+  "state-flags" : 0,
+  "supported-features" : 0
+} ]

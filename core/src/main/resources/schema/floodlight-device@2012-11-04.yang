@@ -1,0 +1,212 @@
+module floodlight-device {
+    namespace "urn:floodlight:core:yang";
+    prefix "floodlight-device";
+
+    import floodlight-types {
+        prefix "floodlight-types";
+        revision-date "2012-10-07";
+    }
+ 
+    import ietf-inet-types {
+        prefix "inet";
+        revision-date "2010-09-24";
+    }
+
+    import bigdb {
+        prefix bigdb;
+        revision-date 2012-10-12;
+    }
+               
+    description "Schema for floodlight device.";
+    
+    organization "www.openflowhub.org";
+
+    revision "2012-11-04" {
+        description 
+            "Initial revision.";
+    }
+    
+    grouping device-entity-grouping {
+        leaf dpid {
+            mandatory true;
+            description
+               "The data path id of the switch this device is attached to.";
+            type floodlight-types:dpid-string;
+            bigdb:column-header "Switch DPID";
+        }
+        
+        leaf interface-name {
+            mandatory true;
+            description
+                "The name of the interface that this device is attached to.";
+            type floodlight-types:identifier-string;
+            bigdb:column-header "IF Name";
+        }
+        leaf mac {
+            mandatory true;
+            config false;
+            type floodlight-types:mac-string;
+            description "MAC Addresses for this device.";
+            bigdb:column-header "MAC Address";
+        }
+        
+        leaf ip-address {
+            description
+                "IP addresses for this device. IP addresses can be empty
+                 string if they are not configured or assigned.";
+            config false;
+            type inet:ip-address;
+            bigdb:column-header "IP Address";
+        }
+        
+        leaf vlan {
+            config false;
+            type floodlight-types:vlan-integer;
+            bigdb:column-header "VLAN";
+        }        
+        leaf last-seen {
+            type floodlight-types:date-time-string;
+            bigdb:column-header "Last Seen";
+        }
+        
+        leaf active-since {
+            type floodlight-types:date-time-string;
+            bigdb:column-header "Active Since";
+        }
+    }
+    
+    grouping device-grouping {
+                    
+            leaf id {
+                description 
+                    "An opaque string ID to uniquely identify the device; 
+                     
+                     It is an opaque string generated
+                     by floodlight (possibly with some of the device attributes). Users 
+                     or applications should treat this as an opaque string and should
+                     not make assumptions how this id is generated.";
+                type floodlight-types:device-id-string;
+                bigdb:column-header "Device ID";
+            }
+
+            leaf alias {
+                description 
+                    "Alias for this device.
+                     
+                     A user assigned name to a device. It can be used to query and config the device.
+                     Aliases must be globally unique across all devices.";
+
+                type floodlight-types:alias-string;
+                bigdb:column-header "Alias";
+                bigdb:alias True;
+            }
+
+            leaf entity-class-name {
+                description
+                    "The name of the entity class.
+
+                     Entity class is a logic abstraction to classify or tag devices.
+                     Devices can be classified based on their attributes, e.g., mac
+                     address, vlan, etc.. This classification can be used to implement
+                     higher level concepts to more flexibly manage communications between
+                     devices.";
+                     
+                config false;
+                type floodlight-types:identifier-string;
+                bigdb:column-header "Address Space";
+            }
+            leaf mac {
+                mandatory true;
+                config false;
+                type floodlight-types:mac-string;
+                description "MAC Addresses for this device.";
+                bigdb:column-header "MAC Address";
+            }
+            
+            leaf-list ip-address {
+                description
+                    "IP addresses for this device. IP addresses can be empty
+                     string if they are not configured or assigned.";
+                config false;
+                type inet:ip-address;
+                bigdb:column-header "IP Address";
+            }
+            
+            leaf-list vlan {
+                config false;
+                description
+                    "vlan for the device.";
+                type floodlight-types:vlan-integer;
+                bigdb:column-header "VLAN";
+            }
+
+            leaf last-seen {
+                config false;
+                description
+                    "Date and time when this device was last seen by controller.";
+
+                type floodlight-types:date-time-string;
+                bigdb:column-header "Last Seen";
+            }
+
+            list attachment-point {
+                config false;
+                description 
+                    "Attachment points, one per open flow cluster for this device.
+
+                     A Device communicates with other devices through its attachment points
+                     to the network. Attachment points are learned from the actual packets
+                     from the devices and flowing on through the network.";
+                key "dpid interface-name";
+                leaf dpid {
+                    mandatory true;
+                    description
+                       "The data path id of the switch this device is attached to.";
+                    type floodlight-types:dpid-string;
+                    bigdb:column-header "Switch DPID";
+                }
+                
+                leaf interface-name {
+                    mandatory true;
+                    description
+                        "The name of the interface that this device is attached to.";
+                    type floodlight-types:identifier-string;
+                    bigdb:column-header "IF Name";
+                }
+  
+                leaf last-seen {
+                    type floodlight-types:date-time-string;
+                    bigdb:column-header "Last Seen";
+                }
+
+                /* status is a yang key word */
+                leaf error-status {
+                    description
+                        "Error status of this attachment point. Non-existence means no error."; 
+                    type floodlight-types:identifier-string;
+                }
+            }
+
+            list entity {
+                config false;
+                
+                bigdb:information-type "debug";
+                bigdb:cascade "false";
+                
+                description
+                    "List of entities that belong to this device. 
+                     
+                     This list is provided for debugging purposes and may be changed or 
+                     removed without notice. This list is not populated when querying
+                     the containing node (device) of this list. It will only be populated
+                     when the entity list is queried explicitly in the query URI.
+
+                     Entity records information having been used to learn and allocate the
+                     device.";
+                
+                uses device-entity-grouping;
+
+            }
+        }
+    }    
+}

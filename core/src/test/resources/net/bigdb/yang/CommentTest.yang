@@ -1,0 +1,11 @@
+module CommentTest {
+    /* Here's a multi-line comment.
+       Another line.
+    */
+    /* Embedded multi-line comment start /*  */
+    namespace "net.bigdb";
+    // Single line comment
+    prefix "ct";
+    //
+}
+// Final line comment (with no final CR/LF

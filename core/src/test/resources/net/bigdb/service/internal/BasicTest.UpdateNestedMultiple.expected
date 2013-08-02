@@ -1,0 +1,15 @@
+[ {
+  "child1" : "abc",
+  "child2" : {
+    "child21" : "foo",
+    "child22" : 50
+  },
+  "child3" : "medium"
+}, {
+  "child1" : "def",
+  "child2" : {
+    "child21" : "bar",
+    "child22" : 50
+  },
+  "child3" : "medium"
+} ]

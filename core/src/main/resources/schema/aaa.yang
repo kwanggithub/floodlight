@@ -1,0 +1,285 @@
+module aaa {
+    namespace "net.bigdb";
+    prefix "aaa";
+
+    import bigdb {
+       prefix bigdb;
+       revision-date 2012-10-12;
+    }
+
+    import ietf-inet-types {
+        prefix "inet";
+        revision-date "2010-09-24";
+    }
+
+    import ietf-yang-types {
+        prefix "yang";
+        revision-date "2010-09-24";
+    }
+    import floodlight-types {
+        prefix "floodlight-types";
+        revision-date "2012-10-07";
+    }
+
+    description "Extensions for aaa";
+
+    organization "www.bigswitch.com";
+
+
+    typedef session-auth-token {
+        description "A session cookie set by the server. 1-512 chars in URLsafe Base 64 encoding";
+        type string {
+            length "1..512";
+            pattern "[a-zA-Z0-9_-]*";
+        }
+    }
+
+    container core {
+            container aaa {
+                list local-user {
+                    key user-name;
+
+                    leaf user-name {
+                        type floodlight-types:identifier-string;
+                        description "User login name";
+                        bigdb:column-header "User name";
+                    }
+                    leaf password {
+                        type string;
+                        description "hashed password";
+                        bigdb:column-header "Hashed password";
+                    }
+                    leaf full-name {
+                        type string;
+                        description "Full user name";
+                        bigdb:column-header "Full name";
+                    }
+/*
+                    // TODO: this needs to be removed post beta.
+                    // We have to leave this here for now since to avoid
+                    // too much regression.
+                    leaf-list group {
+                        type floodlight-types:identifier-string;
+                        description "Group name";
+                        bigdb:column-header "Group";
+                    }
+*/
+                }
+                list group {
+                    description
+                        "Groups that can be used to assign permissions.";
+                    key name;
+                    leaf name {
+                        type floodlight-types:identifier-string;
+                        description "Name of the group that permissions can be assigned to.";
+                        bigdb:column-header "Group name";
+                    }
+
+                    leaf-list user {
+                        description
+                            "Users that are assigned to this group. A user can be assigned to
+                             more than one group.";
+                        // This is a reference to the local-user
+                        type floodlight-types:identifier-string;
+                    }
+                    leaf-list rbac-permission {
+                        description
+                            "Permissions that are assigned to this group. Permissions can be only
+                             assigned to groups, not users. One permission can be assigned to
+                             multiple groups and one group can have multiple permissions";
+                        // This is a reference to rbac-permission
+                        type floodlight-types:identifier-string;
+                        bigdb:column-header "Rbac Permission";
+                     }
+                }
+                // We need this list as generic permission to enable the cross references
+                // from group node. Otherwise the schema will be conceptually broken, e.g.,
+                // group node is referencing something that does not exist in the base schema.
+                // We need some kind of abstraction here. Based on current bigdb solution,
+                // this is solved by applications to define different "container" for its own
+                // permission definition.
+                // Applications can "extend" this permission structure by adding its own
+                // detailed definitions.
+                list rbac-permission {
+                    description
+                        "Permissions for access control.";
+                    key name;
+                    leaf name {
+                        type floodlight-types:identifier-string;
+                        description "Unique name for the permission as key for reference";
+                        bigdb:column-header "Rbac Permission";
+                    }
+                }
+
+                list session {
+                    config false;
+                    bigdb:data-source "aaa-data-source";
+                    key id;
+
+                    leaf id {
+                        type uint32;
+                        description "Monotonically increasing integer session id";
+                        bigdb:column-header "Session Identifier";
+                    }
+
+                    leaf auth-token {
+                        type session-auth-token;
+                        description "Server issued auth token (session cookie). NOTE: will never be populated / returned from the server ";
+                    }
+
+                    container user-info {
+                        description "Information about the logged in user of this session. ";
+
+                        leaf user-name {
+                            type floodlight-types:identifier-string;
+                            description "User login name";
+                        }
+
+                        leaf full-name {
+                            type string;
+                            description "Full user name";
+                        }
+
+                        leaf-list group {
+                            type floodlight-types:identifier-string;
+                            description "List of group names this user is associated with";
+                        }
+                    }
+
+                    leaf last-address {
+                        type inet:ip-address;
+                        description "source IP address of last request";
+                    }
+
+                    leaf created {
+                        type yang:date-and-time;
+                        description "Date and time when this session was created";
+                    }
+
+                    leaf last-touched {
+                        type yang:date-and-time;
+                        description "Date and time when this session was last used";
+                    }
+                }
+
+                list method {
+                    config false;
+                    bigdb:data-source "aaa-data-source";
+                    description "list of valid methods for authn/authz/acct";
+                    key name;
+                    leaf name {
+                        type string;
+                        description "method name";
+                    }
+                }
+
+                // TBD whether method names in config state are validated at def'n time
+
+                list authenticator {
+                    description "prioritized list of authentication methods";
+                    key priority;
+                    leaf priority {
+                        type uint32;
+                        description "priority of this authentication method";
+                    }
+                    leaf name {
+                        type string;
+                        description "authentication method name from 'methods'";
+                    }
+                }
+
+                list authorizer {
+                    description "prioritized list of authorization methods";
+                    key priority;
+                    leaf priority {
+                        type uint32;
+                        description "priority of this authorization method";
+                    }
+                    leaf name {
+                        type string;
+                        description "authorization method name from 'methods'";
+                    }
+                }
+
+                // TBD needs work, include commercial team for use cases
+                // - priority not needed, all accounting sources are equal
+                // - event types or accounting (logging) levels
+                list accounting {
+                    description "list of accounting storage methods";
+                    key name;
+                    leaf name {
+                        type string;
+                        description "accounting storage method from 'methods'";
+                    }
+                }
+
+                // generate an audit event as a side-effect...
+                // assume here that timestamp is generated internally
+                // by the controller;
+                // otherwise we can use the timestamp as the key
+                list audit-event {
+                   config false;
+                   bigdb:cascade "false";
+                   bigdb:data-source "aaa-data-source";
+                   key event-type;
+                   leaf event-type {
+                       type string;
+                       description "accounting record event type";
+                   }
+                   leaf session-cookie {
+                       type string;
+                       // See BSC-3569
+                       description "HACK HACK HACK session cookie, also part of the HTTP request";
+                   }
+                   list attributes {
+                       key attribute-key;
+                       leaf attribute-key {
+                           type string;
+                           description "accounting attribute key";
+                       }
+                       leaf attribute-value {
+                           type string;
+                           description "accounting attribute value";
+                       }
+                   }
+                }
+
+                // a pseudo container providing a password hashing service.
+                // query for a list entry with key password='clearPassword' to
+                // obtain the hashed info.
+                list hash-password {
+                   config false;
+                   bigdb:cascade "false";
+                   bigdb:data-source "aaa-data-source";
+                   key password;
+                   leaf password {
+                        type string;
+                        description "clear text password to be hashed";
+                   }
+                   leaf hashed-password {
+                        type string;
+                        description "hashed password";
+                   }
+                }
+
+                // 'replace only' pseudo list allowing to change passwords
+                container change-password-local-user {
+                    bigdb:cascade "false";
+                    bigdb:data-source "aaa-data-source";
+                    config false;
+                    leaf user-name {
+                        type floodlight-types:identifier-string;
+                        description "user login name";
+                    }
+                    leaf old-password {
+                        type string;
+                        description "clear-text old password";
+                    }
+                    leaf new-password {
+                        type string;
+                        description "clear-text new password";
+                    }
+                }
+            }
+    }
+}

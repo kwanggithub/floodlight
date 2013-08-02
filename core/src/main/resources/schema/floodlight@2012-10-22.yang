@@ -1,0 +1,382 @@
+module floodlight {
+    namespace "urn:floodlight:yang";
+    prefix "floodlight";
+
+    import bigdb {
+        prefix bigdb;
+        revision-date 2012-10-12;
+    }
+    
+    import floodlight-types {
+        prefix "floodlight-types";
+        revision-date "2012-10-07";
+    }
+    import ietf-inet-types {
+        prefix "inet";
+        revision-date "2010-09-24";
+    }
+
+    import floodlight-counter {
+        prefix "floodlight-counter";
+        revision-date "2012-10-29";
+    }
+
+    import floodlight-device {
+        prefix "floodlight-device";
+        revision-date "2012-11-04";
+    }
+           
+    description "Model for the floodlight OpenFlow controller";
+    
+    organization "www.openflowhub.org";
+    
+    revision "2012-10-10" {
+        description "Initial revision.";
+    }
+
+    container applications {
+        description
+            "Top level node to host schema definitions for floodlight applications.
+
+             Floodlight REST API supports extensions for applications based on
+             the base floodlight controller. Schema definitions for these
+             applications should be defined under this node. Each application
+             should make its own container node for all its schema definitions.";
+    }
+
+    container core {
+        description
+            "The core data and Rest API for floodlight controller.
+            
+            It includes runtime information about the controller node, switches,
+            and devices managed by this controller node.";
+            
+        container controller {
+            config false;
+            bigdb:data-source "controller-data-source";
+            description 
+                "This node contains runtime information for this controller. 
+                
+                 The runtime information includes service provider information, 
+                 memory, heath and up-time, etc..";
+            list summary {
+                description 
+                    "Summary of providers.";
+                leaf info-short-description {
+                    mandatory true;
+                    description " A short description of the information as a name.";
+                    type string;
+                }
+                leaf info {
+                    mandatory true;
+                    description 
+                        "The information of the service provider.";
+                    type int32;
+                }
+            }
+            container health {
+                description 
+                    "Health information of the controller.";
+                leaf healthy {
+                    mandatory true;
+                    type boolean;
+                }
+            }
+            list memory {
+                key "memory-type";
+                leaf memory-type {
+                    mandatory true;
+                    type string {
+                        length "1 .. 128";
+                    }
+                }
+                leaf amount {
+                    mandatory true;
+                    type int64;
+                }
+            }
+            leaf up-time {
+                description 
+                    "Uptime of this controller.";
+                type int64;
+            }
+
+            leaf role {
+                description "The role of this controller.";
+                type floodlight-types:controller-role;
+            }
+            
+            uses floodlight-counter:counter-grouping;
+        }
+        list switch {
+            bigdb:data-source "controller-data-source";
+            description 
+                "A list of logical OpenFlow capable switches. 
+                
+                A switch can be a real time switch connected to the controller, or 
+                a switch in controller's database. A switch is identified by dpid or 
+                alias (if it has a alias). Query for switch without dpid specified will
+                return all switches. When being queried, controller returns all switches,
+                both user configured switches in controller's data storage and real time
+                connected switches. Controller also aggregates user configured data and
+                operational data into the same row according to the dpid.
+
+                Switch is one of the key and basic type of elements for floodlight
+                controller. It provides the basic element to construct network topology,
+                compute packet forwarding routes, as well as to provide other components
+                or applications switch and port information, e.g., managing devices in
+                the network.";
+                 
+            key "dpid";
+            
+            leaf dpid {
+                mandatory true;
+                type floodlight-types:dpid-string;
+                description 
+                    "Datapath ID of the switch. Can be used as a key for querying or 
+                     configuring switch and its attributes.";
+                
+                config true;
+                bigdb:column-header "Switch DPID";
+                bigdb:case-sensitive false;
+            }
+            
+            leaf connected {
+                config false;
+                type boolean;
+                default "false";
+            }
+            
+            leaf connected-since {
+                type floodlight-types:date-time-string;
+                description "Switch connect time";
+                config false;
+                bigdb:column-header "Connected Since";
+            }
+            
+            uses floodlight-types:switch-attribute-groupings;
+            
+            container inet-address {
+                config false;
+                uses floodlight-types:inet-address-grouping;
+            }
+            
+            leaf alias {
+                description 
+                    "Alias for the switch.
+
+                     Alias is a user configured data for the switch and can be used
+                     as a reference when querying or configuring the switch. Alias
+                     must be globally unique.";
+                type floodlight-types:alias-string;
+                config true;
+                bigdb:alias True;
+                bigdb:column-header "Alias";
+            }
+            
+            leaf buffers {
+                description
+                    "Max packets can be buffered at the switch.";
+                type uint32;
+                config false;
+            }
+            
+            leaf tables {
+                description
+                    "Number of tables supported by the data path in the switch.";
+                type uint16;
+                config false;
+            }
+
+            leaf capabilities {
+                description
+                    "Bitmap of supported capabilities defined in openflow specification.";
+                type floodlight-types:switch-capabilities;
+                config false;
+            }
+
+            leaf core-switch {
+                type boolean;
+                config true;
+                default false;
+                bigdb:column-header "Core Switch";
+            }
+            
+            uses floodlight-counter:counter-grouping;
+            
+            list interface {
+                description
+                    "List of interface (ports) for the switch.";
+                key "name";
+                uses floodlight-types:of-interface;
+                uses floodlight-counter:counter-grouping;
+            }
+            
+            container stats {
+                description
+                    'Runtime statistics of the switch.
+
+                     The statistics are defined in openflow 1.0 specification.
+
+                     These statistics are queried from the openflow switch.
+                     By default querying switch does not return data under this
+                     node. This node needs to be queried with explicitly adding
+                     the node name in the query URI.';
+
+                config false;
+                bigdb:cascade false;
+                
+                list flow {
+                    uses floodlight-types:of-flow-statistics;
+                }
+                container aggregate {
+                    uses floodlight-types:of-aggregate-statistics;
+                }
+                container desc {
+                    uses floodlight-types:of-description-data;
+                }
+                list table {
+                    uses floodlight-types:of-table-statistics;
+                }
+                list interface {
+                    uses floodlight-types:of-interface-statistics;
+                }
+                list queue {
+                    uses floodlight-types:of-queue-statistics;
+                }
+            }
+        }
+        
+        list device-oracle {
+            
+            description
+                'Virtual node to help manage device-id.
+                
+                 Floodlight uses a special algorithm to create persistent
+                 device-id to identify a specific device. This device id
+                 may be generated based on values of specific fields (attributes) of 
+                 the device or use some other mechanism. Users of device API
+                 should not make assumptions how the device-id is generated.
+                 Instead, rest API users use this node to query the device-id
+                 by providing required information. An error will be returned
+                 with message indicating what is wrong if information provided
+                 is not enough or correct. API users also can query other information
+                 defined in this node through the device-id.
+                 
+                 No assumption should be made how this list is managed inside 
+                 controller node.';
+
+            bigdb:data-source "controller-data-source";
+            bigdb:cascade "false";
+
+            config false;                         
+            leaf id {
+                description 
+                    "An opaque string ID to uniquely identify the device; 
+                     
+                     It is an opaque string generated
+                     by floodlight (possibly with some of the device attributes). Users 
+                     or applications should treat this as an opaque string and should
+                     not make assumptions how this id is generated.";
+
+                type floodlight-types:device-id-string;
+            }
+            leaf entity-class-name {
+                description
+                    "The name of the entity class.
+
+                     Entity class is a logic abstraction to classify or tag devices.
+                     Devices can be classified based on their attributes, e.g., mac
+                     address, vlan, etc.. This classification can be used to implement
+                     higher level concepts to more flexibly manage communications between
+                     devices.";
+
+                type floodlight-types:identifier-string;
+            }
+            leaf mac {
+                mandatory true;
+                type floodlight-types:mac-string;
+                description "MAC Addresses for this device.";
+            }
+            
+            leaf vlan {
+                description
+                    "vlan for the device.";
+                type floodlight-types:vlan-integer;
+            }
+
+            leaf switch-dpid {
+                description
+                   "The data path id of the switch this device is attached to.";
+                type floodlight-types:dpid-string;
+            }
+
+            leaf switch-port-number {
+                description
+                    "The switch port number needed for the device key.";
+                type uint16 { range "1..max"; }
+            }
+
+            leaf ip-address {
+                description
+                    "IP addresses for this device. IP addresses can be empty
+                     string if they are not configured or assigned.";
+                type inet:ip-address;
+            }
+        }
+        
+        list device {
+            description
+                "List of devices attached to this controller node.
+                
+                 A device is identified by its device-id. The device-id is an opaque 
+                 string used to identify a device. device-id is generated by controller
+                 with values of specific fields in the device based on the type of
+                 device. Users of rest API should not make assumptions how this device-id
+                 is generated. A rest API is provided for users to query device-id with
+                 specific device field values.
+                 
+                 A device is considered as a communication end point in floodlight controller
+                 and is used to match against and apply policies defined by other components or
+                 applications. A device contains one or more attachment points. Attachment points
+                 are switch dpid and port tuples indicating where the specific device is learned
+                 from, as well as being used for flow forwarding purposes.
+
+                 Controller can discover and identify devices within the network through live
+                 traffic from the devices. This learning capability can help controller better
+                 handle the device mobility.";
+                 
+            bigdb:data-source "controller-data-source";
+            key "id";
+            uses floodlight-device:device-grouping;
+        }
+        
+        list floodlight-module {
+            description
+                "Service Modules in this controller node.
+                
+                 This node contains all modules, loaded or not loaded.";
+            config false;
+            bigdb:data-source "controller-data-source";
+            key "module-name";
+            leaf module-name {
+                description
+                    "The name of the module.";
+                type string;
+            }
+            leaf-list services {
+                description 
+                    "List of names of the services that this module provides.";
+                type string;
+            }
+            leaf-list dependencies {
+                description
+                    "Modules that this module depends on.";
+                type string;
+            }
+            leaf loaded {
+                type boolean;
+            }
+        }
+    }
+}

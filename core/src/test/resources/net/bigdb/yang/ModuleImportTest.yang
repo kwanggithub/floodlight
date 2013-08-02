@@ -1,0 +1,11 @@
+module ModuleImportTest {
+    namespace net.bigdb;
+    prefix "mit";
+    import BaseTypes {
+        prefix a;
+    }
+    import MoreTypes {
+        prefix b;
+        revision-date 2012-07-12;
+    }
+}

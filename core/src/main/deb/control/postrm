@@ -1,0 +1,40 @@
+#!/bin/sh -e
+
+NAME=floodlight
+KEYSTORE=/etc/floodlight/auth_credentials.jceks
+KEYSTOREPASS=/etc/floodlight/conf.d/05-keystorepass.properties
+
+remove() {
+    if [ -x /usr/sbin/remove-shell ]; then
+        remove-shell /usr/bin/floodlight-cli
+        remove-shell /usr/bin/floodlight-login
+    fi
+}
+
+case "$1" in
+    purge)
+        remove
+        deluser --quiet --system $NAME || true
+        delgroup --quiet --system $NAME || true
+        rm -f $KEYSTORE
+        rm -f $KEYSTOREPASS
+        rm -rf /var/lib/floodlight/SyncDB
+        rm -rf /var/lib/floodlight/current_role
+    ;;
+
+    remove|disappear)
+        remove
+    ;;
+
+    upgrade|failed-upgrade|abort-install|abort-upgrade)
+    ;;
+
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0

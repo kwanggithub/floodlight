@@ -1,0 +1,7 @@
+[ {
+  "NumberField" : 1234,
+  "StringField" : "Foo1"
+}, {
+  "NumberField" : 2345,
+  "StringField" : "Foo2"
+} ]

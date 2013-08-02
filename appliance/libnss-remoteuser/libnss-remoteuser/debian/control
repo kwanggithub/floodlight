@@ -1,0 +1,14 @@
+Source: libnss-remoteuser
+Section: admin
+Priority: extra
+Maintainer: Carl Roth <carl.roth@bigswitch.com>
+Build-Depends: debhelper (>= 7), dpkg-dev (>= 1.15.7~)
+Standards-Version: 3.9.3
+
+Package: libnss-remoteuser
+Version: __VERSION__
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: ${alternatelibs:Suggests}
+Description: nss module to map unrecognized, external user names
+ to a single local (unprivileged) userid.

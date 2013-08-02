@@ -1,0 +1,77 @@
+{
+  "modules" : {
+    "Simple" : {
+      "prefix" : "s",
+      "typedefs" : {
+        "positive-integer" : {
+          "name" : "positive-integer",
+          "module" : {
+            "name" : "Simple"
+          },
+          "nodeType" : "LEAF",
+          "description" : "A positive integer",
+          "typeSchemaNode" : {
+            "name" : "positive-integer",
+            "module" : {
+              "name" : "Simple"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "INTEGER",
+            "typeValidator" : [ {
+              "type" : "RANGE_VALIDATOR",
+              "ranges" : [ {
+                "start" : 1,
+                "end" : 32767
+              } ]
+            } ]
+          },
+          "leafType" : "INTEGER"
+        }
+      },
+      "id" : {
+        "name" : "Simple"
+      }
+    }
+  },
+  "schemaRoot" : {
+    "nodeType" : "CONTAINER",
+    "attributes" : {
+      "Config" : "true"
+    },
+    "childNodes" : {
+      "schemas" : {
+        "name" : "schemas",
+        "module" : {
+          "name" : "Simple"
+        },
+        "nodeType" : "CONTAINER",
+        "childNodes" : {
+          "test" : {
+            "name" : "test",
+            "module" : {
+              "name" : "Simple"
+            },
+            "nodeType" : "LEAF",
+            "mandatory" : false,
+            "typeSchemaNode" : {
+              "name" : "positive-integer",
+              "module" : {
+                "name" : "Simple"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "INTEGER",
+              "typeValidator" : [ {
+                "type" : "RANGE_VALIDATOR",
+                "ranges" : [ {
+                  "start" : 1,
+                  "end" : 32767
+                } ]
+              } ]
+            },
+            "leafType" : "INTEGER"
+          }
+        }
+      }
+    }
+  }
+}

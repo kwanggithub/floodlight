@@ -1,0 +1,22 @@
+Package: floodlight-appliance
+Version: [[version]]
+Section: net
+Priority: low
+Maintainer: rob.adams@bigswitch.com
+Architecture: all
+Depends: floodlight-core,
+ snmpd,
+ ntp,
+ rsyslog,
+ ssl-cert,
+ nginx,
+ openssh-server,
+ libpam-rest (>= 2.0~SNAPSHOT),
+ libnss-remoteuser (>= 2.0~SNAPSHOT),
+ libpam-runtime (>= 1.0.1-6)
+Description: Floodlight controller appliance
+ .
+ Installs files necessary for an appliance experience for Floodlight.
+ This includes a first-time-setup script that sets up networking and
+ clustering, and sets up the Floodlight CLI as the primary interface
+ to the appliance.

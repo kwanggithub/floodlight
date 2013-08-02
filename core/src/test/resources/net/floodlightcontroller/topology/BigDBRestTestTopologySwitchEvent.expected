@@ -1,0 +1,29 @@
+[ {
+  "action" : "SWITCH_CONNECTED",
+  "date" : "2012-12-11T01:28:03.656Z",
+  "ip-address" : "1.1.1.1",
+  "port" : 5678,
+  "reason" : "Switch connected",
+  "switch-dpid" : "00:00:00:00:00:00:00:01"
+}, {
+  "action" : "SWITCH_CONNECTED",
+  "date" : "2012-12-11T01:28:03.658Z",
+  "ip-address" : "0.0.0.0",
+  "port" : 0,
+  "reason" : "Switch connected",
+  "switch-dpid" : "00:00:00:00:00:00:00:02"
+}, {
+  "action" : "SWITCH_CONNECTED",
+  "date" : "2012-12-11T01:28:03.661Z",
+  "ip-address" : "0.0.0.0",
+  "port" : 0,
+  "reason" : "Switch connected",
+  "switch-dpid" : "00:00:00:00:00:00:00:03"
+}, {
+  "action" : "SWITCH_CONNECTED",
+  "date" : "2012-12-11T01:28:03.665Z",
+  "ip-address" : "0.0.0.0",
+  "port" : 0,
+  "reason" : "Switch connected",
+  "switch-dpid" : "00:00:00:00:00:00:00:04"
+} ]

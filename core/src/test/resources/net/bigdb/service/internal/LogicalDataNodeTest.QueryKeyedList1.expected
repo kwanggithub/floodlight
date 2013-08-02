@@ -1,0 +1,33 @@
+[ {
+  "child1" : "bar",
+  "child2" : 20,
+  "child3" : "abc",
+  "child4" : {
+    "child4.1" : 25,
+    "child4.2" : "boo"
+  }
+}, {
+  "child1" : "bar",
+  "child2" : 50,
+  "child4" : {
+    "child4.2" : "boo"
+  }
+}, {
+  "child1" : "foo",
+  "child2" : 1,
+  "child3" : "test1"
+}, {
+  "child1" : "foo",
+  "child2" : 3,
+  "child4" : {
+    "child4.1" : 100
+  }
+}, {
+  "child1" : "foo",
+  "child2" : 100,
+  "child3" : "def",
+  "child4" : {
+    "child4.1" : 125,
+    "child4.2" : "foobar"
+  }
+} ]

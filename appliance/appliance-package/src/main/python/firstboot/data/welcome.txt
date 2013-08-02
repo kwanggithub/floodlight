@@ -1,0 +1,5 @@
+This product is governed by an End User License Agreement (EULA).
+You must accept this EULA to continue using this product.
+
+You can view this EULA by typing 'View', or from our website at:
+http://www.bigswitch.com/future/eula/link/here.vrml

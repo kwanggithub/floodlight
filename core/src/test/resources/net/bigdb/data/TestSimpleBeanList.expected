@@ -1,0 +1,13 @@
+[ {
+  "name" : "Foo1",
+  "namespace" : "Basic1",
+  "value" : "Dummy1"
+}, {
+  "name" : "Foo2",
+  "namespace" : "Basic2",
+  "value" : "Dummy2"
+}, {
+  "name" : "Foo3",
+  "namespace" : "Basic3",
+  "value" : "Dummy3"
+} ]

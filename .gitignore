@@ -1,0 +1,9 @@
+*~
+.classpath
+.project
+.settings/
+.settings
+target
+*.swp
+*.launch
+/thrift

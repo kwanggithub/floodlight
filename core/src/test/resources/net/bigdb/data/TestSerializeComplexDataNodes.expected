@@ -1,0 +1,7 @@
+{
+  "List" : [ {
+    "Foo" : "Bar",
+    "IntList" : [ 1, 2 ]
+  } ],
+  "Test" : "TestValue"
+}

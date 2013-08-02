@@ -1,0 +1,39 @@
+treespaces:
+  - name: controller
+    data_sources:
+      - name: config
+        config: true
+        implementation_class: net.bigdb.data.memory.MemoryDataSource
+      - name: node-local-config
+        config: true
+        implementation_class: net.bigdb.data.memory.MemoryDataSource
+treespaces:
+  - name: controller
+    data_sources:
+        - name: config
+          config: true
+          implementation_class: net.bigdb.data.memory.MemoryDataSource
+    data_source_mappings:
+      - data_source: config
+        predicate: Config
+      - data_source: "$data-source"
+        predicate: "!Config"
+#   Need to figure out where to put the schema files for production.
+#   May use module properties.
+    module_search_paths:
+      - path: src/main/resources/schema
+        recursive: true
+    modules:
+      - name: floodlight
+        revision: 2012-10-22
+      - name: topology
+      - name: aaa
+      - name: os
+        revision: 2013-06-12
+      - name: cluster
+        revision: 2013-06-12
+      - name: tag
+      - name: device-security
+        revision: 2013-07-11
+
+

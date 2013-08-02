@@ -1,0 +1,27 @@
+[
+    {
+        "step": 1,
+        "description": "Verifying package checksum",
+        "action": "01-checksum.py"
+    },
+    {
+        "step": 2,
+        "description": "Verifying connectivity to other nodes via ping",
+        "action": "02-pingnodes.py"
+    },
+    {
+        "step": 3,
+        "description": "Checking minimum system requirements",
+        "action": "03-check-vm.sh"
+    },
+    {
+        "step": 4,
+        "description": "Copying configuration",
+        "action": "04-copyconfig.sh"
+    },
+    {
+        "step": 5,
+        "description": "Creating new filesystem",
+        "action": "05-filesystem.sh"
+    }
+]

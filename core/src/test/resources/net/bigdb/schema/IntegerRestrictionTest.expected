@@ -1,0 +1,116 @@
+{
+  "modules" : {
+    "IntegerRestrictionTest" : {
+      "prefix" : "mt",
+      "typedefs" : {
+        "int1" : {
+          "name" : "int1",
+          "module" : {
+            "name" : "IntegerRestrictionTest"
+          },
+          "nodeType" : "LEAF",
+          "typeSchemaNode" : {
+            "name" : "int1",
+            "module" : {
+              "name" : "IntegerRestrictionTest"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "INTEGER",
+            "typeValidator" : [ {
+              "type" : "RANGE_VALIDATOR",
+              "ranges" : [ {
+                "start" : 1,
+                "end" : 100
+              }, {
+                "start" : 120,
+                "end" : 150
+              }, {
+                "start" : 200,
+                "end" : 1000
+              } ]
+            } ]
+          },
+          "leafType" : "INTEGER"
+        },
+        "int2" : {
+          "name" : "int2",
+          "module" : {
+            "name" : "IntegerRestrictionTest"
+          },
+          "nodeType" : "LEAF",
+          "typeSchemaNode" : {
+            "name" : "int1",
+            "module" : {
+              "name" : "IntegerRestrictionTest"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "INTEGER",
+            "defaultValueString" : "141",
+            "typeValidator" : [ {
+              "type" : "RANGE_VALIDATOR",
+              "ranges" : [ {
+                "start" : 1,
+                "end" : 90
+              }, {
+                "start" : 140,
+                "end" : 150
+              }, {
+                "start" : 300,
+                "end" : 1000
+              } ]
+            } ]
+          },
+          "defaultValue" : 141,
+          "leafType" : "INTEGER"
+        }
+      },
+      "id" : {
+        "name" : "IntegerRestrictionTest"
+      }
+    }
+  },
+  "schemaRoot" : {
+    "nodeType" : "CONTAINER",
+    "attributes" : {
+      "Config" : "true"
+    },
+    "childNodes" : {
+      "integer-restriction-test" : {
+        "name" : "integer-restriction-test",
+        "module" : {
+          "name" : "IntegerRestrictionTest"
+        },
+        "nodeType" : "CONTAINER",
+        "description" : "Testing the integer restriction.",
+        "childNodes" : {
+          "leaf-node-test" : {
+            "name" : "leaf-node-test",
+            "module" : {
+              "name" : "IntegerRestrictionTest"
+            },
+            "nodeType" : "LEAF",
+            "mandatory" : false,
+            "typeSchemaNode" : {
+              "name" : "int1",
+              "module" : {
+                "name" : "IntegerRestrictionTest"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "INTEGER",
+              "defaultValueString" : "10",
+              "typeValidator" : [ {
+                "type" : "RANGE_VALIDATOR",
+                "ranges" : [ {
+                  "start" : 7,
+                  "end" : 32
+                } ]
+              } ]
+            },
+            "defaultValue" : 10,
+            "leafType" : "INTEGER"
+          }
+        }
+      }
+    }
+  }
+}

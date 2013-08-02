@@ -1,0 +1,34 @@
+module GroupingTestModule {
+    namespace net.bigdb;
+    prefix "group-test";
+    
+    import GroupingDefModule {
+        prefix "grouping-definition";
+    }
+    description "Test grouping";
+    
+    organization "Acme";
+    
+    // grouping defined in the same module
+    grouping queue-resource {
+        description "The grouping for a queue resource.";
+        leaf resource-id {
+            type string;
+        }
+        leaf id {
+            type uint64;
+        }
+    }
+
+    container controller {
+        list port {
+            key "resource-id";
+            description "The list contains all port resources.";
+            uses grouping-definition:port-resource;
+        }
+        list queue {
+            key "resource-id";
+            uses queue-resource;
+        }
+    }
+}

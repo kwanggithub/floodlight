@@ -1,0 +1,11 @@
+build-vm.sh
+chroot
+repartition-vm.sh
+upgrade/scripts/01-checksum.py
+upgrade/scripts/02-pingnodes.py
+upgrade/scripts/03-check-vm.sh
+upgrade/scripts/05-filesystem.sh
+upgrade/scripts/04-copyconfig.sh
+upgrade/upgrade-controller.py
+upgrade/check-vm
+vmbuilder-hook.py

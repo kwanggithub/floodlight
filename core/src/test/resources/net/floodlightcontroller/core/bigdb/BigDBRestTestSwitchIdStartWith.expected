@@ -1,0 +1,56 @@
+[ {
+  "attributes" : {
+    "description-data" : {
+      "datapath-description" : "None",
+      "hardware-description" : "Indigo",
+      "manufacturer-description" : "Big Switch Networks, Inc",
+      "serial-number" : "626967737769746368",
+      "software-description" : "Version 2.0"
+    },
+    "fast-wildcards" : 4194303,
+    "supports-nx-role" : false,
+    "supports-ofpp-flood" : true,
+    "supports-ofpp-table" : true
+  },
+  "buffers" : 256,
+  "capabilities" : 135,
+  "connected" : true,
+  "connected-since" : "2012-12-11T01:27:21.655Z",
+  "dpid" : "00:00:00:00:00:00:00:32",
+  "inet-address" : {
+    "inet-port" : 7847,
+    "ip" : "1.1.1.50"
+  },
+  "interface" : [ {
+    "advertised-features" : 0,
+    "config-flags" : 0,
+    "current-features" : 0,
+    "hardware-address" : "00:01:02:03:04:06",
+    "name" : "eth1",
+    "number" : 1,
+    "peer-features" : 0,
+    "state-flags" : 0,
+    "supported-features" : 0
+  }, {
+    "advertised-features" : 0,
+    "config-flags" : 0,
+    "current-features" : 0,
+    "hardware-address" : "00:01:02:03:04:07",
+    "name" : "eth2",
+    "number" : 2,
+    "peer-features" : 0,
+    "state-flags" : 0,
+    "supported-features" : 0
+  }, {
+    "advertised-features" : 0,
+    "config-flags" : 0,
+    "current-features" : 0,
+    "hardware-address" : "00:01:02:03:04:08",
+    "name" : "port1",
+    "number" : 3,
+    "peer-features" : 0,
+    "state-flags" : 0,
+    "supported-features" : 0
+  } ],
+  "tables" : 0
+} ]

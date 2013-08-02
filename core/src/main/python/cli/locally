@@ -1,0 +1,50 @@
+#!/usr/bin/python
+
+import httplib as client
+from optparse import OptionParser
+import json
+import sys
+
+
+parser = OptionParser()
+parser.add_option("-H", "--host", dest="host",
+        help="host and port connect to [%default]", default="localhost:8082", metavar="HOST")
+parser.add_option("-u", "--user", dest="user", default="admin", help="user to authenticate as [%default]")
+parser.add_option("-p", "--pass", dest="password", default="admin", help="password to authenticate with [%default]")
+parser.add_option("-d", "--debug", dest="debug", default=False, help="debug")
+
+(options, args) = parser.parse_args()
+
+trampoline_file = '/tmp/bigcli'
+trampoline = open(trampoline_file, 'w')
+
+connection = client.HTTPConnection(options.host)
+if options.debug:
+    connection.set_debuglevel(1)
+
+def authenticate():
+    headers = {'Content-type': 'application/json'}
+    req = {'user': options.user, 'password' : options.password }
+
+    connection.request('POST', '/auth/login', json.dumps(req), headers)
+    response = connection.getresponse()
+
+    # likely needs to be expanded to better manage errors
+    json_data = json.loads(response.read().decode())
+    if json_data.get('session_cookie'):
+        print >> trampoline, 'export BSC_SESSION_COOKIE="%s"' % json_data['session_cookie']
+
+    if response.status != 200:
+        print >> sys.stderr, 'Failed:', response.status
+        sys.exit(1)
+
+for arg in args:
+    print arg
+
+authenticate()
+print >> trampoline, 'export BIGCLI_STARTING_MODE=config'
+print >> trampoline, 'export BIGCLI_PRESERVE_SESSION=True'
+print >> trampoline, 'export BIGCLI_SUPPRESS_AUDIT=True'
+print >> trampoline, 'export TEST_USER=/tmp'
+
+print trampoline_file

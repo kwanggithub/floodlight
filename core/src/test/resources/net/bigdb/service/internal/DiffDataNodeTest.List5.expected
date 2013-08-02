@@ -1,0 +1,11 @@
+{
+  "bar|20" : null,
+  "foo|1" : {
+    "child3" : "xyz"
+  },
+  "test|100" : {
+    "child1" : "test",
+    "child2" : 100,
+    "child3" : "abcd"
+  }
+}

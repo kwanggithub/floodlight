@@ -1,0 +1,6 @@
+#
+*.o
+*.lo
+test_pam_rest.pam.conf
+*.la
+test_pam_rest

@@ -1,0 +1,4 @@
+1   RELEASE
+2   empty
+
+Press Space within 3 seconds to interrupt automatic boot

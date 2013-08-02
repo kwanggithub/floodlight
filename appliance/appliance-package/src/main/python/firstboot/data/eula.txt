@@ -1,0 +1,262 @@
+BIG SWITCH NETWORKS, INC.
+SOFTWARE LICENSE AGREEMENT
+
+PLEASE READ THE FOLLOWING TERMS AND CONDITIONS CAREFULLY BEFORE
+DOWNLOADING, INSTALLING OR USING THE SOFTWARE OR ANY ACCOMPANYING
+DOCUMENTATION (COLLECTIVELY, THE “SOFTWARE”).
+
+THE TERMS AND CONDITIONS OF THIS SOFTWARE LICENSE AGREEMENT
+(“AGREEMENT”) GOVERN USE OF THE SOFTWARE UNLESS YOU AND BIG SWITCH
+NETWORKS, INC. (“BSN”) HAVE EXECUTED A SEPARATE WRITTEN AGREEMENT
+GOVERNING USE OF THE SOFTWARE.
+
+BSN is willing to license the Software to you only upon the condition
+that you accept all the terms contained in this Agreement.  If you
+download, install or use the Software or any device that contains the
+Software, then you have indicated that you understand this Agreement
+and accept all of its terms.  If you are accepting the terms of this
+Agreement on behalf of a company or other legal entity, you represent
+and warrant that you have the authority to bind that company or other
+legal entity to the terms of this Agreement, and, in such event, “you”
+and “your” will refer to that company or other legal entity.  If you
+do not accept all the terms of this Agreement, then BSN is unwilling
+to license the Software to you, and you must return the Software (and
+if the Software has been made available to you as part of another
+product, you must return the entire product) for a full refund, if you
+have paid for the license to the Software, or, if BSN has made the
+Software available to you without charge, you must destroy all copies
+of the Software.  Your right to return the Software for a refund
+expires 30 days after the date of purchase.
+
+1.  Grant of License.  Conditioned upon your compliance with the terms
+and conditions of this Agreement, BSN grants you a non-exclusive and
+non-transferable license to load, install, and run the executable form
+of the Software solely for internal business purposes and subject
+further to the following restrictions:
+
+    (a) If the Software has been provided as part of a device that
+    contains the Software, you may use the software only on that
+    device; otherwise, you may use the Software only on as many
+    computers, devices or in such configurations to which you are
+    entitled, as specified in the applicable ordering document, or, if
+    not specified in such ordering document, on a single computer or
+    device; and
+    (b) You may use Software only for the number of issued and
+    outstanding IP addresses, central processing unit performance,
+    number of ports, and any other restrictions set forth in BSN’s
+    published documentation for the Software.
+
+You may make a single copy of the Software for backup purposes;
+provided that you reproduce on it all copyright and other proprietary
+notices that are on the original copy of the Software.  BSN reserves
+all rights in the Software not expressly granted to you in this
+Agreement.
+
+2.  Restrictions.  Except as expressly specified in this Agreement,
+you may not: (a) copy (except in the course of loading or installing),
+modify, translate, merge or create derivative works of the Software,
+including but not limited to adding new features or otherwise making
+adaptations that alter the functioning of the Software; (b) disable or
+circumvent any licensing control feature in the Software; (c)
+transfer, sublicense, lease, lend, rent or otherwise distribute the
+Software to any third party; (d) make the functionality of the
+Software available to multiple users through any means, including but
+not limited to by uploading the Software to a network or file-sharing
+service or through any hosting, application services provider, service
+bureau, software-as-a-service (SaaS) or any other type of services;
+(e) disclose the results of any benchmarking of the Software to third
+parties; (f) use the Software to develop or enhance any product that
+competes, directly or indirectly, with the Software; or (g) use the
+Software in a manner that would violate any law applicable to you.
+You acknowledge and agree that portions of the Software, including but
+not limited to the source code and the specific design and structure
+of individual modules or programs, constitute or contain trade secrets
+of BSN and its licensors.  Accordingly, you agree not to disassemble,
+decompile or reverse engineer the Software, or otherwise attempt to
+access or determine its underlying source code, interface techniques
+or algorithms, in whole or in part, or permit or authorize a third
+party to do so, except to the extent such activities are expressly
+permitted by law notwithstanding this prohibition.
+
+3.  Ownership.  The Software, including all copies thereof, is
+licensed, not sold.  If BSN provides a copy of the Software to you on
+tangible media, you own the media on which the Software is recorded,
+but BSN retains ownership of the copy of the Software, including all
+intellectual property rights therein. The Software is protected by
+United States copyright law and international treaties.  You will not
+delete or in any manner alter the copyright, trademark, and other
+proprietary rights notices or markings appearing on the Software as
+delivered to you.
+
+4.  Open Source Software.  The Software is distributed with certain
+independent software that is licensed under an open source license
+(such software, “Open Source Software”).  The Open Source Software is
+identified in BSN’s published documentation for the Software.  To the
+extent that any of the terms and conditions of this Agreement that
+govern your use of the Software conflict with, or are in addition to,
+the terms of any such open source license, the conflicting or
+additional terms will not apply to the corresponding Open Source
+Software.
+
+5.  Term.  The license granted under this Agreement remains in effect
+for the period stated in the applicable ordering documentation, unless
+earlier terminated in accordance with this Agreement.  You may
+terminate the license at any time by destroying all copies of the
+Software in your possession or control.  The license granted under
+this Agreement will automatically terminate, with or without notice
+from BSN, if you breach any term of this Agreement.  Upon termination,
+you must at BSN’s option either promptly destroy or return to BSN all
+copies of the Software in your possession or control.
+
+6.  Limited Warranty.  BSN warrants that, for ninety (90) days
+following the date of delivery, the Software will perform in all
+material respects in accordance with its published documentation.  As
+your sole and exclusive remedy and BSN’s entire liability for any
+breach of this limited warranty, BSN will at its option and expense
+promptly correct or replace the Software so that it conforms to this
+limited warranty.  The limited warranty set forth herein: (a) does not
+apply to the extent that BSN provides you with the Software (or
+portions of the Software) for beta, evaluation, testing or
+demonstration purposes; and (b) is void if the Software or any
+accompanying equipment or hardware purchased from BSN or an authorized
+BSN reseller on or in connection with which the Software is used: (i)
+has been altered, except by BSN, (ii) has not been installed,
+operated, repaired or maintained in accordance with instructions
+supplied by BSN in the accompanying documentation or (iii) has been
+subjected to unreasonable physical, thermal or electrical stress,
+misuse, negligence or accident.
+
+7.  DISCLAIMER.  BSN does not warrant that the Software will meet your
+requirements, that the operation of the Software will be error-free
+or uninterrupted, or that all Software errors will be corrected.  THE
+LIMITED WARRANTY SET FORTH IN SECTION 6 IS IN LIEU OF AND BSN
+EXPRESSLY DISCLAIMS ALL OTHER WARRANTIES, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO ANY IMPLIED WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT,
+AND ANY WARRANTIES ARISING OUT OF COURSE OF DEALING OR USAGE OF TRADE.
+NO ADVICE OR INFORMATION, WHETHER ORAL OR WRITTEN, OBTAINED FROM BSN
+OR ELSEWHERE WILL CREATE ANY WARRANTY OR CONDITION NOT EXPRESSLY
+STATED IN THIS AGREEMENT.  THE SOFTWARE IS NOT DESIGNED OR INTENDED
+FOR USE IN HAZARDOUS ENVIRONMENTS REQUIRING FAIL-SAFE PERFORMANCE
+WHERE THE FAILURE OF THE SOFTWARE COULD LEAD TO DEATH, PERSONAL INJURY
+OR SIGNIFICANT PHYSICAL OR ENVIRONMENTAL DAMAGE.  USE OF THE SOFTWARE
+IN SUCH HIGH RISK ACTIVITIES IS NOT AUTHORIZED.
+
+8.  Limitation of Liability.  BSN’S TOTAL LIABILITY TO YOU FROM ALL
+CAUSES OF ACTION AND UNDER ALL THEORIES OF LIABILITY WILL BE LIMITED
+TO THE AMOUNTS PAID TO BSN BY YOU FOR THE SOFTWARE OR, IN THE EVENT
+THAT BSN HAS MADE THE SOFTWARE AVAILABLE TO YOU WITHOUT CHARGE, BSN’S
+TOTAL LIABILITY WILL BE LIMITED TO USD$500.  IN NO EVENT WILL BSN BE
+LIABLE FOR ANY SPECIAL, INCIDENTAL, EXEMPLARY, PUNITIVE OR
+CONSEQUENTIAL DAMAGES (INCLUDING LOSS OF DATA, BUSINESS, PROFITS OR
+USE) OR FOR THE COST OF PROCURING SUBSTITUTE PRODUCTS ARISING OUT OF
+OR IN CONNECTION WITH THIS AGREEMENT OR THE USE OR PERFORMANCE OF THE
+SOFTWARE, WHETHER SUCH LIABILITY ARISES FROM ANY CLAIM BASED UPON
+CONTRACT, WARRANTY, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY OR
+OTHERWISE, AND WHETHER OR NOT BSN HAS BEEN ADVISED OF THE POSSIBILITY
+OF SUCH LOSS OR DAMAGE.  THE FOREGOING LIMITATIONS WILL SURVIVE AND
+APPLY EVEN IF ANY LIMITED REMEDY SPECIFIED IN THIS AGREEMENT IS FOUND
+TO HAVE FAILED OF ITS ESSENTIAL PURPOSE.
+
+9.  U.S. Government End Users.  The Software and BSN’s published
+documentation therefor are “commercial items” as that term is defined
+in FAR 2.101, consisting of “commercial computer software” and
+“commercial computer software documentation,” respectively, as such
+terms are used in FAR 12.212 and DFARS 227.7202.  If the Software and
+Documentation are being acquired by or on behalf of the
+U.S. Government, then, as provided in FAR 12.212 and DFARS 227.7202-1
+through 227.7202-4, as applicable, the U.S. Government’s rights in the
+Software and BSN’s published documentation therefor will be only those
+specified in this Agreement.
+
+10. Export Law.  You agree to comply fully with all U.S. export laws
+and regulations to ensure that neither the Software nor any technical
+data related thereto nor any direct product thereof are exported or
+re-exported directly or indirectly in violation of, or used for any
+purposes prohibited by, such laws and regulations.
+
+11. Audit.  You hereby grant BSN (or its agent) the right to perform
+an audit of your use of the Software (including all records reasonably
+related to your use of the Software) to verify your compliance with
+the terms of this Agreement.  You agree to cooperate with BSN in any
+such audit.  BSN will provide you with reasonable prior written notice
+of its intention to conduct such an audit and any such audit will be
+conducted during normal business hours and in such a manner as to
+minimize interference with your normal business operations.
+
+12. Confidentiality.
+
+    A.  The Software constitutes confidential and proprietary
+    information belonging to BSN or BSN’s suppliers.  As a result of
+    this Agreement, Licensee may receive other confidential or
+    proprietary information (collectively, “Proprietary Information”)
+    belonging to BSN.  Proprietary Information may include, but is not
+    limited to, software programs, the concepts contained in such
+    programs, documentation, test results and business or technical
+    plans.  The following information shall not constitute Proprietary
+    Information: any information that: (i) was previously known to
+    Licensee free of any obligation to keep it confidential; (ii) is
+    or has become publicly known, through no wrongful act of Licensee;
+    (iii) was rightfully received by Licensee from a third party who
+    is under no obligation of confidence to BSN; or (iv) was
+    independently developed by Licensee without use of Proprietary
+    Information that has been disclosed by BSN pursuant to this
+    Agreement.  Except to the extent authorized in this Agreement or
+    by BSN in writing, Licensee agrees: (a) not to make any other use
+    of the Proprietary Information, (b) not to duplicate the
+    Proprietary Information, (c) not to make the Proprietary
+    Information available to any third party in any form, and (d) to
+    safeguard the Proprietary Information to the same extent that
+    Licensee protects its own confidential or proprietary information
+    of similar importance.  Licensee may disclose relevant aspects of
+    the Software to its employees and contractors if necessary to
+    Licensee’s evaluation, provided that the Software is not used,
+    disclosed, or distributed by such employees or contractors in
+    violation of this Agreement.  Results of tests of such Software
+    run by Licensee may be disclosed to third parties only with BSN's
+    prior written consent.
+
+    B.  Any and all Feedback shall be treated by Licensee as
+    Proprietary Information of BSN in accordance with subsection (A)
+    above, except to the extent that Licensee obtains BSN’s prior
+    written consent to disclose it.
+
+    C.  Any press release or publication regarding this Agreement is
+    subject to prior approval of the parties, provided, however, that
+    BSN may list in its relevant marketing materials that Company is
+    or was a licensee of Big Switch's Products without requiring
+    Company’s prior approval.
+
+13. General.  This Agreement will be governed by and construed in
+accordance with the laws of the State of California, without regard to
+or application of conflict of laws rules or principles.  The United
+Nations Convention on Contracts for the International Sale of Goods
+will not apply.  You may not assign or transfer this Agreement or any
+rights granted hereunder, by operation of law or otherwise, without
+BSN’s prior written consent, and any attempt by you to do so, without
+such consent, will be void.  Except as expressly set forth in this
+Agreement, the exercise by either party of any of its remedies under
+this Agreement will be without prejudice to its other remedies under
+this Agreement or otherwise.  All notices or approvals required or
+permitted under this Agreement will be in writing and delivered by
+confirmed facsimile transmission, by overnight delivery service, or by
+certified mail, and in each instance will be deemed given upon
+receipt.  All notices or approvals will be sent to the addresses set
+forth in the applicable ordering document or invoice or to such other
+address as may be specified by either party to the other in accordance
+with this section.  The failure by either party to enforce any
+provision of this Agreement will not constitute a waiver of future
+enforcement of that or any other provision.  Any waiver, modification
+or amendment of any provision of this Agreement will be effective only
+if in writing and signed by authorized representatives of both
+parties.  If any provision of this Agreement is held to be
+unenforceable or invalid, that provision will be enforced to the
+maximum extent possible, and the other provisions will remain in full
+force and effect.  This Agreement is the complete and exclusive
+understanding and agreement between the parties regarding its subject
+matter, and supersedes all proposals, understandings or communications
+between the parties, oral or written, regarding its subject matter,
+unless you and BSN have executed a separate agreement.  Any terms or
+conditions contained in your purchase order or other ordering document
+that are inconsistent with or in addition to the terms and conditions
+of this Agreement are hereby rejected by BSN and will be deemed null.

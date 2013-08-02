@@ -1,0 +1,7 @@
+[ {
+  "counter" : 4,
+  "name" : "foo"
+}, {
+  "counter" : 14,
+  "name" : "bar"
+} ]

@@ -1,0 +1,324 @@
+module topology {
+    namespace "urn:topology:yang";
+    prefix "topology";
+    
+    import bigdb {
+        prefix bigdb;
+        revision-date 2012-10-12;
+    }
+    import floodlight-types {
+        prefix "floodlight-types";
+        revision-date "2012-10-07";
+    }
+    import ietf-inet-types {
+        prefix "inet";
+        revision-date "2010-09-24";
+    }
+    
+    description "Model for the topology manager";
+    
+    organization "www.openflowhub.org";
+
+    container core {
+        list switch {
+            description 
+                "A list of logical OpenFlow capable switches. 
+                
+                A switch can be a real time switch connected to the controller, or 
+                a switch in controller's database. A switch is identified by dpid or 
+                alias (if it has a alias). Query for switch without dpid specified will
+                return all switches.";
+
+            leaf tunnel-termination {
+                config true;
+                description 
+                    "Configure tunnel attributes for this switch.
+                     
+                     Tunnel termination, can be enabled, disabled or default.
+                     A value of default means that the behavior will depends 
+                     on types of switches. If the value is enabled and the switch
+                     supports tunneling, tunnels may be created on this switch. 
+                     Otherwise tunnels cannot be created on this switch. if not exist means unset.";
+
+                type enumeration {
+                    enum enabled;
+                    enum disabled;
+                }
+            }
+        }
+    }
+
+    container topology {
+        bigdb:data-source "controller-data-source";
+        description "This contains information about links discovered";
+
+        container config {
+            leaf auto-port-fast {
+                type boolean;
+                description "Attempt to automatically identify ports that can be
+                     treated as 'fast' ports for topology discovery.";
+            }
+        }
+
+        container debug {
+            config false;
+            list link {
+                description "All the links discovered by the controller";
+                uses floodlight-types:switch-link-with-type;
+            }
+            
+            list enabled-interface {
+                leaf switch-dpid {
+                    type floodlight-types:dpid-string;
+                    description "Datapath ID of the switch";
+                }
+                container interface {
+                    uses floodlight-types:interface-port-pair;
+                    description "The switch interface";
+                }
+            }
+            container allowed-port {
+                list unicast {
+                    key "src-id dst-id";
+                    leaf src-id {
+                        type int64;
+                            description "Higher level topology source node ID";
+                    }
+                    leaf dst-id {
+                        type int64;
+                        description "Higher level topology destination node ID";
+                    }
+                    list port {
+                        uses floodlight-types:dpid-port-pair;
+                        description "Switch ports that are allowed for traffic
+
+                        This defines the set of switch ports over which traffic
+                        between the two nodes in the higher level topology can
+                        be sent";
+                    }
+                }
+                list broadcast {
+                    key "src-id dst-id";
+                    leaf src-id {
+                        type int64;
+                         description "Higher level topology source node ID";
+                    }
+                    leaf dst-id {
+                        type int64;
+                         description "Higher level topology destination node ID";
+                    }
+                    container port {
+                        uses floodlight-types:dpid-port-pair;
+                        description "Switch port on which incoming broadcast packets will be accepted";
+                    }
+                }
+                list external {
+                    key "switch-dpid port";
+                    uses floodlight-types:dpid-port-pair;
+                    leaf-list id {
+                        type int64;
+                    }
+                }
+            }
+            container higher-topology {
+                container domain {
+                    list openflow {
+                        key "id";
+                        leaf id {
+                            type int64;
+                            description "Openflow domain ID";
+                        }
+                        container cluster {
+                            leaf switch-dpid {
+                                type floodlight-types:dpid-string;
+                            }
+                            list node-link {
+                                key "switch-dpid";
+                                leaf switch-dpid {
+                                    type floodlight-types:dpid-string;
+                                    description "Datapath ID of the switch";
+                                }
+                                list link {
+                                    uses floodlight-types:switch-port-link;
+                                }
+                            }
+                        }
+                    }
+                    list broadcast {
+                        key "id";
+                        leaf id {
+                            type int64;
+                            description "Broadcast domain ID";
+                        }
+                        container broadcast-domain {
+                            leaf id {
+                                type int64;
+                                description "Broadcast domain ID";
+                            }
+                            list node {
+                                uses floodlight-types:dpid-port-pair;
+                                description "List of switch ports in the broadcast domain";
+                            }
+                        }
+                    }
+                }
+                list neighbor {
+                    key "id";
+                    leaf id {
+                        type int64;
+                        description "Higher level topology node ID";
+                    }
+                    leaf-list neighbor-id {
+                        type int64;
+                        description "List of neighboring nodes in the higher level topology";
+                    }
+                }
+                list next-hop {
+                    key "src-id";
+                    leaf src-id {
+                        type int64;
+                        description "Higher level topology source node ID";
+                    }
+                    list dst-next-hop {
+                        key "dst-id";
+                        leaf dst-id {
+                            type int64;
+                             description "Higher level topology destination node ID";
+                        }
+                        leaf next-hop-id {
+                            type int64;
+                            description "Next hop node ID in the higher level topology";
+                        }
+                    }
+                }
+                list layer-two-domain {
+                    key "cluster-id";
+                    leaf cluster-id {
+                        type floodlight-types:dpid-string;
+                        description "Openflow domain ID";
+                    }
+                    leaf layer-two-domain-id {
+                        type floodlight-types:dpid-string;
+                        description "Layer2 Domain ID";
+                    }
+                }
+            }
+        }
+        
+        list link {
+            config false;
+            description "A list of all the Openflow links between switches.
+            
+            This will only list links between two OpenFlow switches
+            that are connected to the same controller cluster and are
+            connected directly to each other either through a physical
+            link or a tunnel.  A link is classified as an Openflow link
+            if the LLDP packets sent from one switch port of the link
+            is received on the other switch-port of the link.";
+            
+            uses floodlight-types:switch-link-with-type;
+        }
+        
+        list switch-cluster {
+            config false;
+            leaf-list member {
+                type floodlight-types:dpid-string;
+                description "The list of switch DPIDs that are in the cluster.
+
+                An Openflow cluster is a collection of switches that have
+                a path consisting of only Openflow links between them.";
+            }
+        }
+        
+        list external-interface {
+            config false;
+            description "Interfaces that connect to non-Openflow switches.
+
+            In order to discover that an interface is connected to non-Openflow
+            switches, there must be at least two interfaces connected to the
+            same non-Openflow broadcast domain.";
+            uses floodlight-types:switch-interface;
+        }
+        
+        // TODO - move this out of topology
+        container event-history {
+            config false;
+            list switch {
+                leaf action {
+                    type string;
+                }
+                leaf date {
+                    type floodlight-types:date-time-string;
+                }
+                leaf reason {
+                    type string;
+                }
+                leaf switch-dpid {
+                    type floodlight-types:dpid-string;
+                    description "Datapath ID of the switch";
+                }
+                leaf ip-address {
+                    type inet:ip-address;
+                    description "IP Address";
+                }
+                leaf port {
+                    description "TCP Port";
+                    type uint32;
+                }
+            }
+            
+            list link {
+                leaf action {
+                    type string;
+                }
+                leaf date {
+                    type floodlight-types:date-time-string;
+                    description "Date and time of when the event was recorded";
+                }
+                leaf link-type {
+                    type floodlight-types:link-type;
+                    description "Link type";
+                }
+                leaf reason {
+                    type string;
+                }
+                leaf src-switch-dpid {
+                    type floodlight-types:dpid-string;
+                    description "Datapath ID of the source switch";
+                }
+                leaf src-switch-port {
+                    type floodlight-types:switch-port;
+                    description "Source switch port number";
+                }
+                leaf src-switch-port-state {
+                    type uint16;
+                    description "Status of source switch port";
+                }
+                leaf dst-switch-dpid {
+                    type floodlight-types:dpid-string;
+                    description "Datapath ID of the destination switch";
+                }
+                leaf dst-switch-port {
+                    type floodlight-types:switch-port;
+                     description "Destination switch port number";
+                }
+                leaf dst-switch-port-state {
+                    type uint16;
+                    description "Status of destination switch port";
+                }
+            }
+        }
+        
+        list external-broadcast-interface {
+            config false;
+            leaf switch-dpid {
+                type floodlight-types:dpid-string;
+                description "Datapath ID of the switch";
+            }
+            list interface {
+                description "The switch interface";
+                uses floodlight-types:switch-interface;
+            }
+        }
+    }
+}

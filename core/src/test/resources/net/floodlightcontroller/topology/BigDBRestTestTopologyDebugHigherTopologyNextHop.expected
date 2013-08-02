@@ -1,0 +1,16 @@
+[ {
+  "dst-next-hop" : [ {
+    "dst-id" : 1,
+    "next-hop-id" : 2
+  }, {
+    "dst-id" : 3,
+    "next-hop-id" : 4
+  } ],
+  "src-id" : 5
+}, {
+  "dst-next-hop" : [ {
+    "dst-id" : 6,
+    "next-hop-id" : 7
+  } ],
+  "src-id" : 8
+} ]

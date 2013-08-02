@@ -1,0 +1,67 @@
+#!/bin/sh -e
+
+NAME=admin
+GROUP=admusrs
+CONFIG_CACHE=/etc/floodlight/osconfigCache.json
+
+pam-auth-update --package pam_rest
+
+case "$1" in
+    configure)
+	if [ -x /usr/sbin/add-shell ]; then
+            add-shell /usr/bin/floodlight-firstboot
+	fi
+
+        addgroup --quiet $GROUP || true
+        adduser --quiet --disabled-password --gecos "" --shell \
+	    /usr/bin/floodlight-firstboot --ingroup $GROUP $NAME || true
+        passwd -l admin || true
+        # passwd -l ubuntu || true
+
+        # Ensure sudoers file contains includedir.  It can be missing
+        # on images generated via vmbuilder
+        grep -q includedir /etc/sudoers \
+	    || echo '#includedir /etc/sudoers.d' >> /etc/sudoers
+
+        # Enable remote users
+        if grep -q remoteuser /etc/nsswitch.conf; then
+            :
+        else
+            sed '/^passwd:/ s/$/ remoteuser/' /etc/nsswitch.conf \
+		> /etc/nsswitch.conf.new
+            mv /etc/nsswitch.conf.new /etc/nsswitch.conf
+        fi
+
+        # Configure nginx
+        adduser --quiet www-data ssl-cert
+        if [ ! -f /etc/ssl/certs/ssl-cert-snakeoil.pem ]; then
+            make-ssl-cert generate-default-snakeoil --force-overwrite
+            invoke-rc.d nginx restart
+        fi
+        rm -f /etc/nginx/sites-enabled/default
+
+	# Fix sudoers permission
+	chmod 440 /etc/sudoers.d/os-config
+
+	# Initialize system configuration to default
+	if [ ! -f $CONFIG_CACHE ]; then
+	    /usr/sbin/floodlight-osconfigwrapper dummycp dummymain \
+		--basePath / \
+	        --cachePath $CONFIG_CACHE \
+		--provider org.sdnplatform.os.linux.ubuntu.UbuntuPlatformProvider \
+		--default
+	fi
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0

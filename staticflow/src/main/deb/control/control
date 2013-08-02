@@ -1,0 +1,8 @@
+Package: floodlight-staticflow
+Version: [[version]]
+Section: net
+Priority: low
+Maintainer: rob.adams@bigswitch.com
+Architecture: all
+Depends: floodlight-core
+Description: Static flow pusher floodlight module

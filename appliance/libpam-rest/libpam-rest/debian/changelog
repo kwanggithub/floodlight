@@ -1,0 +1,5 @@
+libpam-rest (__VERSION__) UNRELEASED; urgency=low
+
+  * Initial release.
+
+ -- Carl Roth <carl.roth@bigswitch.com>  Mon, 14 Jan 2013 18:40:55 -0800

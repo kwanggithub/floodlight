@@ -1,0 +1,60 @@
+{
+  "name" : "TypedefTest",
+  "typedefs" : [ {
+    "name" : "date-time-string",
+    "type" : {
+      "name" : "string",
+      "stringRestrictions" : {
+        "lengthStatement" : {
+          "lengthParts" : [ {
+            "start" : "min",
+            "end" : 64
+          } ]
+        },
+        "patternStatements" : [ {
+          "pattern" : "[0-9]+"
+        } ]
+      }
+    },
+    "description" : "Date string"
+  }, {
+    "name" : "vlan-integer",
+    "type" : {
+      "name" : "integer",
+      "numericalRestrictions" : {
+        "rangeStatement" : {
+          "rangeParts" : [ {
+            "start" : 0,
+            "end" : 4096
+          } ]
+        }
+      }
+    },
+    "description" : "VLAN tag"
+  }, {
+    "name" : "range-test",
+    "type" : {
+      "name" : "integer",
+      "numericalRestrictions" : {
+        "rangeStatement" : {
+          "description" : "Overly complicated range",
+          "rangeParts" : [ {
+            "start" : 0,
+            "end" : 31
+          }, {
+            "start" : 35,
+            "end" : 35
+          }, {
+            "start" : 44,
+            "end" : 60
+          }, {
+            "start" : 100,
+            "end" : "max"
+          } ]
+        }
+      }
+    }
+  } ],
+  "namespace" : "net.bigdb",
+  "prefix" : "tt"
+}

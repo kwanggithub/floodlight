@@ -1,0 +1,9 @@
+Origin: floodlight
+Label: floodlight
+Codename: precise
+Architectures: amd64 i386
+Components: main
+Description: Apt repository for Floodlight build
+# DebOverride: override.precise
+# DscOverride: override.precise
+# SignWith: <key-id>

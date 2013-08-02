@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+if [ "$1" = remove ]; then
+    pam-auth-update --package --remove pam_rest
+
+    # Disable remote users
+    if grep -q remoteuser /etc/nsswitch.conf; then
+        sed '/passwd:/ s/ remoteuser//' /etc/nsswitch.conf > /etc/nsswitch.conf.new
+        mv /etc/nsswitch.conf.new /etc/nsswitch.conf
+    fi
+fi

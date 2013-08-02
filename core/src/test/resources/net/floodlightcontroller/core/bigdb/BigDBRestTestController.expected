@@ -1,0 +1,21 @@
+{
+  "health" : {
+    "healthy" : true
+  },
+  "memory" : [ {
+    "amount" : 20000000,
+    "memory-type" : "free"
+  }, {
+    "amount" : 1000000000,
+    "memory-type" : "total"
+  } ],
+  "role" : "master",
+  "summary" : [ {
+    "info" : 5,
+    "info-short-description" : "test-summary-2"
+  }, {
+    "info" : 2,
+    "info-short-description" : "test-summary-1"
+  } ],
+  "up-time" : 1000000
+}

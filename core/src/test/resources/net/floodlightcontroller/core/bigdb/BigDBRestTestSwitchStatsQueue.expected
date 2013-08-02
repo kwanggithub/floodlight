@@ -1,0 +1,19 @@
+[ {
+  "interface" : {
+    "name" : "eth1",
+    "number" : 1
+  },
+  "queue-id" : 2,
+  "transmit-bytes" : 0,
+  "transmit-errors" : 0,
+  "transmit-packets" : 0
+}, {
+  "interface" : {
+    "name" : "eth2",
+    "number" : 2
+  },
+  "queue-id" : 2,
+  "transmit-bytes" : 0,
+  "transmit-errors" : 0,
+  "transmit-packets" : 0
+} ]

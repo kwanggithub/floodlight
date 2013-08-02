@@ -1,0 +1,9 @@
+{
+  "Integer" : 3453565,
+  "List" : [ "Test1", "Test2" ],
+  "TestBean" : {
+    "name" : "Foo",
+    "namespace" : "Basic",
+    "value" : "Bar"
+  }
+}

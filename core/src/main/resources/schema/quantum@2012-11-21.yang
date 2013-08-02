@@ -1,0 +1,87 @@
+module quantum {
+    namespace "urn:quantum:yang";
+    prefix "quantum";
+
+    import bigdb {
+        prefix bigdb;
+        revision-date 2012-10-12;
+    }
+    
+    import floodlight-types {
+        prefix "floodlight-types";
+        revision-date "2012-10-07";
+    }
+    
+    import ietf-inet-types {
+        prefix "inet";
+        revision-date "2010-09-24";
+    }
+    
+    description "Model for the floodlight OpenFlow controller";
+    
+    organization "www.openflowhub.org";
+    
+    revision "2012-11-20" {
+        description "Initial revision.";
+    }
+    
+    container quantum {
+        config true;
+        list tenant {
+            key "name";
+            description "A OpenStack tenant and all networks it contains";
+        
+            leaf name {
+                type string;
+            }
+            list network {
+                key "id";
+                leaf id {
+                    type string;
+                }
+                leaf name {
+                    type string;
+                }
+                leaf gateway {
+                    type inet:ipv4-address;
+                }
+                leaf state {
+                    type string;
+                }
+                list port {
+                    key "id";
+                    leaf id {
+                        type string;
+                    }
+                    leaf state {
+                        // TODO - make this an enum
+                        type string;
+                    }
+                    container attachment {
+                        leaf mac {
+                            type floodlight-types:mac-string;
+                        }
+                        leaf id {
+                            type string;
+                        }
+                    }
+                }
+                list subnet {
+                    key "id";
+                    leaf id {
+                        type string;
+                    }
+                    leaf cidr {
+                        type floodlight-types:cidr-address;
+                    }
+                    leaf gateway {
+                        type inet:ipv4-address;
+                    }
+                    leaf state {
+                        type string;
+                    }
+                }
+            }
+        }
+    }
+}

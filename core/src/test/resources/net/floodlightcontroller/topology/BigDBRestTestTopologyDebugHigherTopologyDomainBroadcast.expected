@@ -1,0 +1,25 @@
+[ {
+  "broadcast-domain" : {
+    "id" : 3,
+    "node" : [ {
+      "port" : 1,
+      "switch-dpid" : "00:00:00:00:00:00:00:04"
+    }, {
+      "port" : 1,
+      "switch-dpid" : "00:00:00:00:00:00:00:03"
+    } ]
+  },
+  "id" : 1
+}, {
+  "broadcast-domain" : {
+    "id" : 3,
+    "node" : [ {
+      "port" : 1,
+      "switch-dpid" : "00:00:00:00:00:00:00:05"
+    }, {
+      "port" : 1,
+      "switch-dpid" : "00:00:00:00:00:00:00:06"
+    } ]
+  },
+  "id" : 2
+} ]

@@ -1,0 +1,139 @@
+module tagmanager {
+    namespace "urn:bigfloodlight:yang";
+    prefix "tagmanager";
+
+    import bigdb {
+        prefix bigdb;
+        revision-date 2012-10-12;
+    }
+    import ietf-yang-types {
+        prefix "yang";
+        revision-date "2010-09-24";
+    }
+    import floodlight-types {
+        prefix "floodlight-types";
+        revision-date "2012-10-07";
+    }
+
+    description "Tag manager module, responsible for maintaining tags and their 
+                 mappings to device attributes";
+    organization "www.bigswitch.com";
+
+    grouping tag {
+        description
+            "Tag is a meta information that can be assigned to a device 
+             attribute. This meta information serves as a handle to a collection 
+             of devices that have something in common, for example, they are all 
+             web-servers, belong to the same tenant. This meta-information is 
+             established through the step of defining a tag and mapping it 
+             with a combination of device attributes namely mac-address, vlan, 
+             switch and switch-interface. The advantage of referring to a 
+             collection of devices through such a tag is that, the tag can be 
+             referred to in the BVS membership interface-rules and it will then 
+             apply to all the devices that have one or more attributes mapped to
+             that tag. This grouping provides definition of tags, tags are 
+             composed of name-space, name and tag-value. The name-space creates 
+             an instance of scope within which multiple tag-names reside. And 
+             each of these tag-names can have a value. So, definition of a tag 
+             is an instance of tag with a value assigned to it.";
+        leaf name-space {
+            description "The namespace of the tag";
+            mandatory true;
+            type string {
+                length "1..64";
+            }
+        }
+        leaf name {
+            description "The name of the tag";
+            mandatory true;
+            type string {
+                length "1..64";
+            }
+        }
+        leaf tag-value {
+            description "The value of the tag";
+            mandatory true;
+            type string {
+                length "1..64";
+            }
+        }
+        leaf persist {
+            description "For any cli configured tag, include in running-config";
+            type boolean;
+            default "true";
+        }
+    }
+
+    grouping tag-mapping {
+        description
+            "tag-mapping is a composition of device attributes that can be used 
+             to refer to a device partially. The device attributes that make up 
+             tag-mapping are device's mac-addresses, vlans on which the device 
+             shows up in the network and the physical location of the device
+             in the network specified by switch and switch-interface. An 
+             instance of tag-mapping can have a combination of these attributes 
+             set and its not necessary to set all of them. Devices that match a 
+             given tag-mapping are the devices that have those attributes value 
+             set to the value of the attributes specified in the tag-mapping. 
+            "; 
+        leaf mac {
+            description "The MAC address. An empty string means ignore.";
+            type floodlight-types:mac-string;
+            bigdb:allow-empty-string true;
+        }
+        leaf vlan {
+            // TODO - see if we can get empty to be untagged
+            // so that we can use floodlight-types:vlan-integer;
+            description "The VLAN number, 4095 is untagged, 0 means ignore";
+            type int32 {
+                range "0..4095";
+            }
+        }
+        leaf dpid {
+            description "The switch DPID. An empty string means ignore.";
+            type floodlight-types:dpid-string;
+            bigdb:allow-empty-string true;
+        }
+        leaf interface-name {
+            description "The interface name. An empty string means ignore.";
+            type string;
+            bigdb:allow-empty-string true;
+        }
+    }
+
+    container tag-manager {
+        description
+            "This container tag-manager contains all the tags and their 
+             mappings. This composition of tags and all tag-mapping instances 
+             that are associated with that tag are encapsulated in the tag-entity 
+             list.
+            "; 
+        list tag-entity {
+            key "name-space name tag-value";
+            uses tag;
+            list mapping {
+                key "mac vlan dpid interface-name";
+                uses tag-mapping;
+            }
+        }
+    }
+
+    container core {
+        list device {
+            list tag {
+                description
+                    "This list of tags under each device is the operational 
+                     state that reflects all the tags that each device got mapped 
+                     to, as a result of matching at least one of the tag-mappings 
+                     associated with a given tag. This information helps users
+                     understand the why a device has been classified to be
+                     a part of BVS, when BVS membership interface-rules are 
+                     specified in terms of tags.
+                    ";  
+                config false;
+                // FIXME: Should this be cascade = false?
+                uses tagmanager:tag;
+            }
+        }
+    }
+}

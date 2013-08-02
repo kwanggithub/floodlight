@@ -1,0 +1,84 @@
+{
+  "modules" : {
+    "Simple@2012-08-01" : {
+      "prefix" : "s",
+      "typedefs" : {
+        "positive-integer" : {
+          "name" : "positive-integer",
+          "module" : {
+            "name" : "Simple",
+            "revision" : "2012-08-01"
+          },
+          "nodeType" : "LEAF",
+          "description" : "A positive integer",
+          "typeSchemaNode" : {
+            "name" : "positive-integer",
+            "module" : {
+              "name" : "Simple",
+              "revision" : "2012-08-01"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "INTEGER",
+            "typeValidator" : [ {
+              "type" : "RANGE_VALIDATOR",
+              "ranges" : [ {
+                "start" : 1,
+                "end" : 32767
+              } ]
+            } ]
+          },
+          "leafType" : "INTEGER"
+        }
+      },
+      "id" : {
+        "name" : "Simple",
+        "revision" : "2012-08-01"
+      }
+    }
+  },
+  "schemaRoot" : {
+    "nodeType" : "CONTAINER",
+    "attributes" : {
+      "Config" : "true"
+    },
+    "childNodes" : {
+      "schemas" : {
+        "name" : "schemas",
+        "module" : {
+          "name" : "Simple",
+          "revision" : "2012-08-01"
+        },
+        "nodeType" : "CONTAINER",
+        "childNodes" : {
+          "test-revision" : {
+            "name" : "test-revision",
+            "module" : {
+              "name" : "Simple",
+              "revision" : "2012-08-01"
+            },
+            "nodeType" : "LEAF",
+            "mandatory" : false,
+            "description" : "Older revision",
+            "typeSchemaNode" : {
+              "name" : "positive-integer",
+              "module" : {
+                "name" : "Simple",
+                "revision" : "2012-08-01"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "INTEGER",
+              "typeValidator" : [ {
+                "type" : "RANGE_VALIDATOR",
+                "ranges" : [ {
+                  "start" : 1,
+                  "end" : 32767
+                } ]
+              } ]
+            },
+            "leafType" : "INTEGER"
+          }
+        }
+      }
+    }
+  }
+}

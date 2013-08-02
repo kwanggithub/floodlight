@@ -1,0 +1,86 @@
+[ {
+  "dst" : {
+    "interface" : {
+      "name" : "eth1",
+      "number" : 1
+    },
+    "switch-dpid" : "00:00:00:00:00:00:00:02"
+  },
+  "link-direction" : "bidirectional",
+  "link-type" : "internal",
+  "src" : {
+    "interface" : {
+      "name" : "eth1",
+      "number" : 1
+    },
+    "switch-dpid" : "00:00:00:00:00:00:00:01"
+  }
+}, {
+  "dst" : {
+    "interface" : {
+      "name" : "eth2",
+      "number" : 2
+    },
+    "switch-dpid" : "00:00:00:00:00:00:00:03"
+  },
+  "link-direction" : "bidirectional",
+  "link-type" : "internal",
+  "src" : {
+    "interface" : {
+      "name" : "eth2",
+      "number" : 2
+    },
+    "switch-dpid" : "00:00:00:00:00:00:00:02"
+  }
+}, {
+  "dst" : {
+    "interface" : {
+      "name" : "eth4",
+      "number" : 4
+    },
+    "switch-dpid" : "00:00:00:00:00:00:00:03"
+  },
+  "link-direction" : "bidirectional",
+  "link-type" : "internal",
+  "src" : {
+    "interface" : {
+      "name" : "eth4",
+      "number" : 4
+    },
+    "switch-dpid" : "00:00:00:00:00:00:00:02"
+  }
+}, {
+  "dst" : {
+    "interface" : {
+      "name" : "eth2",
+      "number" : 2
+    },
+    "switch-dpid" : "00:00:00:00:00:00:00:01"
+  },
+  "link-direction" : "bidirectional",
+  "link-type" : "internal",
+  "src" : {
+    "interface" : {
+      "name" : "eth1",
+      "number" : 1
+    },
+    "switch-dpid" : "00:00:00:00:00:00:00:03"
+  }
+}, {
+  "dst" : {
+    "interface" : {
+      "name" : "eth4",
+      "number" : 4
+    },
+    "switch-dpid" : "00:00:00:00:00:00:00:02"
+  },
+  "link-direction" : "bidirectional",
+  "link-type" : "internal",
+  "src" : {
+    "interface" : {
+      "name" : "eth4",
+      "number" : 4
+    },
+    "switch-dpid" : "00:00:00:00:00:00:00:03"
+  }
+} ]

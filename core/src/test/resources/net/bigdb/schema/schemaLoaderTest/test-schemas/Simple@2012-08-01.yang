@@ -1,0 +1,22 @@
+module Simple {
+    namespace net.bigdb;
+    prefix "s";
+    
+    description "Simple model";
+    
+    organization "Acme";
+    
+    typedef positive-integer {
+        description "A positive integer";
+        type int16 {
+            range 1..max;
+        }
+    }
+    
+    container schemas {
+        leaf test-revision {
+            type positive-integer;
+            description "Older revision";
+        }
+    }
+}

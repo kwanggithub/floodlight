@@ -1,0 +1,10 @@
+[ {
+  "name" : "test",
+  "priority" : 50
+}, {
+  "name" : "foo",
+  "priority" : 100
+}, {
+  "name" : "bar",
+  "priority" : 200
+} ]

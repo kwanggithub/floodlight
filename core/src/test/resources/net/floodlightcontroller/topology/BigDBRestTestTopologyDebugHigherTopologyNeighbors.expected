@@ -1,0 +1,7 @@
+[ {
+  "id" : 1,
+  "neighbor-id" : [ 2, 3 ]
+}, {
+  "id" : 2,
+  "neighbor-id" : [ 4, 5 ]
+} ]

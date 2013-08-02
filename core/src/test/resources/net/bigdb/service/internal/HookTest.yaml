@@ -1,0 +1,13 @@
+treespaces:
+  - name: HookTest
+    data_sources:
+        - name: config
+          implementation_class: net.bigdb.data.memory.MemoryDataSource
+    data_source_mappings:
+      - data_source: config
+        predicate: Config
+    module_search_paths:
+      - path: src/test/resources/net/bigdb/service/internal
+        recursive: true
+    modules:
+      - name: HookTest

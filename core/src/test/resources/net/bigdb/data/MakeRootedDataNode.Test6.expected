@@ -1,0 +1,8 @@
+[ {
+  "name" : "foo",
+  "rule" : [ {
+    "description" : "test-description",
+    "id" : "foo",
+    "sequence" : 100
+  } ]
+} ]

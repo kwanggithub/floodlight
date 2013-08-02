@@ -1,0 +1,29 @@
+treespaces:
+  - name: controller
+    data_sources:
+      - name: config
+        implementation_class: net.aurora.datasource.cassandra.CassandraDataSource
+        properties: {
+          keyspace: config,
+          read_consistency_level: ONE,
+          write_consistency_level: ONE,
+          durable_writes: true
+        }
+      - name: operational
+        implementation_class: net.aurora.datasource.cassandra.CassandraDataSource
+        properties: {
+          keyspace: operational,
+          durable_writes: false
+        }
+    data_source_mappings:
+      - predicate: Config
+        data_source: config
+      - data_source: operational
+    module_search_paths:
+      - path: test-modules
+        recursive: true
+    modules:
+      - name: bvs
+        revision: "2012-07-10"
+        directory: "test/schemas"
+        recursive: false

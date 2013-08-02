@@ -1,0 +1,9 @@
+{
+  "child1" : 100,
+  "child2" : "foo",
+  "child3" : {
+    "child3.1" : 200,
+    "child3.2" : "abc",
+    "child3.3" : "xyz"
+  }
+}

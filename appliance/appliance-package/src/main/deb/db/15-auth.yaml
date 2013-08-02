@@ -1,0 +1,6 @@
+# Enable authentication 
+auth_config: {
+    enabled: true,
+    session_manager: net.bigdb.auth.session.SimpleSessionManager,
+    allow_empty_admin: true
+}

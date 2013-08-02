@@ -1,0 +1,19 @@
+treespaces:
+  - name: LogicalDataNodeTest
+    data_sources:
+        - name: ds1
+          implementation_class: net.bigdb.data.memory.MemoryDataSource
+          config: true
+        - name: ds2
+          implementation_class: net.bigdb.data.memory.MemoryDataSource
+          config: true
+        - name: ds3
+          implementation_class: net.bigdb.data.memory.MemoryDataSource
+          config: false
+    data_source_mappings:
+      - data_source: "$data-source"
+    module_search_paths:
+      - path: src/test/resources/net/bigdb/service/internal
+        recursive: true
+    modules:
+      - name: LogicalDataNodeTest

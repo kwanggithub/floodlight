@@ -1,0 +1,32 @@
+{
+  "CustomName" : 333,
+  "testAnswer" : "maybe",
+  "testContainer" : {
+    "name" : "Container",
+    "namespace" : "Basic",
+    "value" : "XYZ"
+  },
+  "testList" : [ {
+    "name" : "Bean1",
+    "namespace" : "Basic",
+    "value" : "ABC"
+  }, {
+    "name" : "Bean2",
+    "namespace" : "Basic",
+    "value" : "FGH"
+  }, {
+    "name" : "Bean2",
+    "namespace" : "Basic",
+    "value" : "XYZ"
+  } ],
+  "testMap" : {
+    "Array" : [ 234234, 3453453 ],
+    "Bean" : {
+      "name" : "Bean2",
+      "namespace" : "Basic",
+      "value" : "XYZ"
+    },
+    "String" : "Hello",
+    "int" : 1235
+  }
+}

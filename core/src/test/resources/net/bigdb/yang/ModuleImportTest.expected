@@ -1,0 +1,13 @@
+{
+  "name" : "ModuleImportTest",
+  "imports" : [ {
+    "name" : "BaseTypes",
+    "prefix" : "a"
+  }, {
+    "name" : "MoreTypes",
+    "prefix" : "b",
+    "revisionDate" : "2012-07-12"
+  } ],
+  "namespace" : "net.bigdb",
+  "prefix" : "mit"
+}

@@ -1,0 +1,10 @@
+# Modules needed for the simple forwarding application
+treespaces:
+  - name: controller
+    modules:
+      - name: quantum
+        revision: 2012-11-21
+      - name: topology
+      - name: tag
+      - name: device-security
+        revision: 2013-07-11

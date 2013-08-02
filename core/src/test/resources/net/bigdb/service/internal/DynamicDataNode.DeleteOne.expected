@@ -1,0 +1,16 @@
+{
+  "test" : {
+    "child1" : 100,
+    "child3" : [ "foo", "bar" ],
+    "child4" : [ {
+      "child41" : "abc",
+      "child42" : [ {
+        "child421" : "baa",
+        "child422" : 100
+      }, {
+        "child421" : "ccc",
+        "child422" : 300
+      } ]
+    } ]
+  }
+}

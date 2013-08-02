@@ -1,0 +1,55 @@
+# Options to pass to Floodlight.
+
+# Check for 64-bit system
+ARCH=`uname -m`
+
+calculate_heap_sizes()
+{
+    # heap size
+    system_memory_in_mb=`free -m | awk '/Mem:/ {print $2}'`
+    system_cpu_cores=`egrep -c 'processor([[:space:]]+):.*' /proc/cpuinfo`
+    max_heap_size_in_mb=$((3 * system_memory_in_mb / 4))
+    max_sensible_heap_size_in_mb=1360
+    if [ "$ARCH" = "x86_64" ]; then
+	max_sensible_heap_size_in_mb=4000
+    fi
+    if [ "$max_heap_size_in_mb" -gt "$max_sensible_heap_size_in_mb" ]; then
+        MAX_HEAP_SIZE="${max_sensible_heap_size_in_mb}M"
+    else
+        MAX_HEAP_SIZE="${max_heap_size_in_mb}M"
+    fi
+}
+
+# Override these to set the amount of memory to allocate to the JVM at start-up.
+#MAX_HEAP_SIZE="400M"
+#HEAP_NEWSIZE="100M"
+
+if [ "x$MAX_HEAP_SIZE" = "x" ] && [ "x$HEAP_NEWSIZE" = "x" ]; then
+    calculate_heap_sizes
+else
+    if [ "x$MAX_HEAP_SIZE" = "x" ] ||  [ "x$HEAP_NEWSIZE" = "x" ]; then
+        echo "please set or unset MAX_HEAP_SIZE and HEAP_NEWSIZE in pairs"
+	echo "(see /etc/default/floodlight)"
+        exit 1
+    fi
+fi
+
+JVM_OPTS=""
+JVM_OPTS="-server"
+
+if [ "$ARCH" = "x86_64" ]; then
+    JVM_OPTS="$JVM_OPTS -d64"
+fi
+
+# Additional options to pass to the JVM
+JVM_OPTS="$JVM_OPTS -ea"
+JVM_OPTS="$JVM_OPTS -XX:+UseG1GC"
+JVM_OPTS="$JVM_OPTS -XX:OnError='kill -9 %p'"
+JVM_OPTS="$JVM_OPTS -XX:OnOutOfMemoryError='kill -9 %p'"
+
+# Other properties
+JVM_OPTS="$JVM_OPTS -Dlogback.configurationFile=/etc/floodlight/logback.xml"
+
+JVM_OPTS="$JVM_OPTS -Xmx${MAX_HEAP_SIZE}"
+
+DAEMON_OPTS="-cf /etc/floodlight/conf.d"

@@ -1,0 +1,18 @@
+module CounterSchemaTest {
+    namespace "urn:net.bigdb";
+    prefix "mt";
+        
+    import floodlight-counter {
+        prefix "floodlight-counter";
+        revision-date "2012-10-29";
+    }
+    
+    description "Test counter schema.";
+    
+    organization "Acme";
+    
+    
+    container test-counter {
+        uses floodlight-counter:counter-grouping;
+    }
+}

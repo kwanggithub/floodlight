@@ -1,0 +1,52 @@
+#!/bin/bash
+
+set -e
+
+CHECK_FAILED=0
+
+# Check the total RAM size is larger than 2GB
+MIN_RAM_SIZE_REQUIRED_KB=2000000
+totalMemInKB=$(free | grep Mem | awk '{print $2}')
+if [ ${totalMemInKB} -lt ${MIN_RAM_SIZE_REQUIRED_KB} ]; then
+    errMsg="Warning: Minimum of 2 GB of RAM is recommended. The VM is only configured with ${totalMemInKB} KB."
+    echo "$errMsg"
+    logger -t system "$errMsg"
+    CHECK_FAILED=1
+fi
+
+# Check /log has enough free disk space
+MAX_USED_LOG_PERCENTAGE=50
+if [ -d /log ]; then
+    dfLine=`df /log | grep /log`
+    usedLogDir=$(echo ${dfLine} | awk '{ sub(/%/,"",$5); print $5}')
+    if [ "X$usedLogDir" = "X" ] ; then
+        echo "WARNING!!! check-vm df failed: could not find disk usage" >&1
+        echo "WARNING!!! got df = \"$dfLine\" instead... skipping" >&1
+    elif [ ${usedLogDir} -gt ${MAX_USED_LOG_PERCENTAGE} ]; then
+        errMsg="Warning: It is recommended that the /log partition have less than ${MAX_USED_LOG_PERCENTAGE}% used. The /log partition currently has ${usedLogDir}% used."
+        echo "$errMsg"
+        logger -t system "$errMsg"
+        CHECK_FAILED=2
+    fi
+fi
+
+# Check the number of cores.
+WARN_MULTI_CORE=no
+if [ "${WARN_MULTI_CORE}"x = "yes"x ] ; then
+    if [ -x /usr/bin/getconf ] ; then
+        numprocs=$(/usr/bin/getconf _NPROCESSORS_ONLN)
+        if [ $numprocs -eq 0 ]; then
+            numprocs=1
+        fi
+    else
+        numprocs=$(grep processor /proc/cpuinfo | wc -l)
+    fi
+    if [ ${numprocs} -ne 1 ]; then
+        errMsg="Warning: Single CPU/core is recommended. The VM currently has ${numprocs} cores."
+        echo "$errMsg"
+        logger -t system "$errMsg"
+        CHECK_FAILED=3
+    fi
+fi
+
+exit ${CHECK_FAILED}

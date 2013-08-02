@@ -1,0 +1,38 @@
+[ {
+  "attachment-point" : [ {
+    "dpid" : "00:00:00:00:00:00:00:05",
+    "interface-name" : "2",
+    "last-seen" : "2001-09-09T01:46:40.000Z"
+  } ],
+  "entity-class-name" : "DefaultEntityClass",
+  "id" : "44656661756C74456E74697479436C617373-02-000000000002-00000004",
+  "ip-address" : [ "0.0.0.2", "10.11.0.1" ],
+  "last-seen" : "2001-09-09T01:46:40.000Z",
+  "mac" : "00:00:00:00:00:02",
+  "security-ip-address" : [ "10.0.1.100", "10.0.2.100" ],
+  "vlan" : [ 4 ]
+}, {
+  "attachment-point" : [ {
+    "dpid" : "00:00:00:00:00:00:00:01",
+    "interface-name" : "1",
+    "last-seen" : "2001-09-09T01:46:40.000Z"
+  } ],
+  "entity-class-name" : "DefaultEntityClass",
+  "id" : "44656661756C74456E74697479436C617373-02-FE0000000001-0000000A",
+  "ip-address" : [ "0.0.0.2" ],
+  "last-seen" : "2001-09-09T01:46:40.000Z",
+  "mac" : "fe:00:00:00:00:01",
+  "vlan" : [ 10 ]
+}, {
+  "attachment-point" : [ {
+    "dpid" : "00:00:00:00:00:00:00:0a",
+    "interface-name" : "2",
+    "last-seen" : "2001-09-09T01:46:40.000Z"
+  } ],
+  "entity-class-name" : "DefaultEntityClass",
+  "id" : "44656661756C74456E74697479436C617373-02-FE0000000001-0000000E",
+  "ip-address" : [ "0.0.0.2" ],
+  "last-seen" : "2001-09-09T01:46:40.000Z",
+  "mac" : "fe:00:00:00:00:01",
+  "vlan" : [ 14 ]
+} ]

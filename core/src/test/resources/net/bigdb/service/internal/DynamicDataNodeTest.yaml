@@ -1,0 +1,12 @@
+treespaces:
+  - name: DynamicDataNodeTest
+    data_sources:
+        - name: test
+          implementation_class: net.bigdb.data.memory.MemoryDataSource
+    data_source_mappings:
+      - data_source: "$data-source"
+    module_search_paths:
+      - path: src/test/resources/net/bigdb/service/internal
+        recursive: true
+    modules:
+      - name: DynamicDataNodeTest

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<configuration scan="true">
+  <appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
+    <syslogHost>localhost</syslogHost>
+    <facility>user</facility>
+    <suffixPattern>floodlight: %-5level [%logger:%thread] %msg</suffixPattern>
+    <stackTracePattern>floodlight: %-5level [%logger:%thread] \t</stackTracePattern>
+  </appender>
+  <appender name="EV_WARN_ERR" class="net.floodlightcontroller.debugevent.DebugEventAppender">
+  </appender>
+  <root level="INFO">
+    <appender-ref ref="SYSLOG" />
+    <appender-ref ref="EV_WARN_ERR" />
+  </root>
+  <logger name="org" level="WARN"/>
+  <logger name="LogService" level="WARN"/> <!-- Restlet access logging -->
+  <logger name="net.floodlightcontroller" level="INFO"/>
+  <logger name="net.floodlightcontroller.logging" level="WARN"/>
+  <logger name="com.bigswitch" level="INFO"/>
+  <logger name="org.sdnplatform" level="INFO"/>
+</configuration>

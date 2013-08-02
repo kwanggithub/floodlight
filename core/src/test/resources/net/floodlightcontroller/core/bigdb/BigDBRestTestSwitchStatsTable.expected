@@ -1,0 +1,17 @@
+[ {
+  "active-count" : 5,
+  "lookup-count" : 567,
+  "match-fields" : [ "dl-src", "dl-vlan-pcp", "nw-src", "tp-src" ],
+  "matched-count" : 123,
+  "maximum-entries" : 1000,
+  "name" : "t1",
+  "table-id" : 0
+}, {
+  "active-count" : 5,
+  "lookup-count" : 567,
+  "match-fields" : [ "dl-src", "dl-vlan-pcp", "nw-src", "tp-src" ],
+  "matched-count" : 123,
+  "maximum-entries" : 1000,
+  "name" : "t2",
+  "table-id" : 0
+} ]

@@ -1,0 +1,10 @@
+Associate groups with a user, one group at a time.  Each invocation of the group command
+can either add or remove a single group to the user.   Each of the groups are simple
+keywords, the group names may or may not have special meaning to the authenticator.
+
+There are two groups which do have special rights:  the 'admin' group, and the
+'reader' group.   The 'admin' group allows access to all the REST API's, allowing
+the user to add or delete new users,  set passwords, and manage other RBAC rights.
+
+The 'reader' group allows read access to all the REST API's, a user with the
+'reader' group associated may view the 'show running-config' output.

@@ -1,0 +1,30 @@
+module MandatoryTest {
+    namespace net.bigdb;
+    prefix "mt";
+    
+    description "More common types";
+    
+    organization "Acme";
+ 
+    container string-mandatory-test {
+        leaf test-mandatory {
+            mandatory true;
+            type string;
+        }
+        
+        leaf test-regular {
+            type string;
+        }
+        leaf-list test-leaf-list {
+            type string;
+        }
+        
+        list test-list {
+            key "name";
+            
+            leaf name {
+                type string;
+            }
+        }
+    }
+}

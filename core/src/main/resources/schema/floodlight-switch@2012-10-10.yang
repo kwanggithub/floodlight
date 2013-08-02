@@ -1,0 +1,152 @@
+module floodlight-switch {
+    namespace "urn:floodlight:switch:yang";
+    prefix "floodlight-switch";
+
+    import bigdb {
+        prefix bigdb;
+        revision-date 2012-10-12;
+    }
+    
+    import ietf-yang-types {
+        prefix "yang";
+        revision-date "2010-09-24";
+    }
+
+    import ietf-inet-types {
+        prefix "inet";
+        revision-date "2010-09-24";
+    }
+
+    import floodlight-types {
+        prefix "floodlight-types";
+        revision-date "2012-10-07";
+    }
+           
+    description "Model for the floodlight OpenFlow controller";
+    
+    organization "www.openflowhub.org";
+    
+    revision "2012-10-10" {
+        description "Initial revision.";
+    }
+    
+    grouping switch-controller-grouping {
+
+        description
+            "Wraps the controller information in Openflow switch";
+
+        leaf id {
+            type inet:uri;
+            mandatory true;
+            description 
+                "An unique but locally arbitrary 
+                 identifier that identifies a controller within 
+                 an OpenFlow Switch and is persistent across 
+                 reboots of the system.";
+        }
+                        
+        uses floodlight-types:inet-address-grouping;
+        
+        leaf connected {
+            type boolean;
+            description "whether the switch is connected to this 
+                         controller";
+        }
+        
+        leaf role {
+            config false;
+            type enumeration {
+                enum equal;
+                enum master;
+                enum slave;
+            }
+            description 
+                "Role of the controller."; 
+        }
+        
+        leaf connected-since {
+            type floodlight-types:date-time-string;
+        }
+    }
+    
+    grouping switch-grouping {     
+        list switch {
+            bigdb:data-source "controller-data-source";
+            
+            description 
+                "A logical openflow capable switch.";
+                 
+            key "dpid";
+            //unique "dpid";
+            
+            leaf dpid {
+                type floodlight-types:dpid-string;
+                description "Datapath ID of the switch";
+            }
+            
+            uses floodlight-types:inet-address-grouping;
+            
+//            leaf-list aliases {
+//                description "Aliases for the switch";
+//                type floodlight-types:alias-string;
+//                config true;
+//            }
+            
+//            list controller {
+//                description 
+//                    "List of controllers this switch connects to";
+//                key "id";
+//                //unique "id";
+//                uses switch-controller-grouping;
+//            }
+
+            leaf role {
+                config false;
+                type floodlight-types:controller-role;
+                description 
+                    "Role of the controller."; 
+            }
+            
+            leaf capabilities {
+                type floodlight-types:switch-capabilities;
+            }
+
+            leaf core-switch {
+                type boolean;
+                config true;
+                default "false";
+            }
+            
+            list port {
+                key "name";
+                leaf name {
+                    type string;
+                }
+                leaf number {
+                    type int32 { range "1..max"; }
+                }
+                leaf hardware-address {
+                    type floodlight-types:mac-string;
+                }
+                leaf config-flags {
+                    type floodlight-types:switch-port-flags;
+                }
+                leaf state-flags {
+                    type floodlight-types:switch-port-flags;
+                }
+                leaf current-features {
+                    type floodlight-types:switch-port-feature;
+                }
+                leaf supported-features {
+                    type floodlight-types:switch-port-feature;
+                }
+                leaf peer-features {
+                    type floodlight-types:switch-port-feature;
+                }
+                leaf advertised-features {
+                    type floodlight-types:switch-port-feature;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Wrap chroot to unset TMPDIR to work around vmbuilder bug where
+# TMPDIR being unset leaves log file shrapnel but leaving it set 
+# causes the build to fail
+
+unset TMPDIR
+/usr/sbin/chroot "$@"

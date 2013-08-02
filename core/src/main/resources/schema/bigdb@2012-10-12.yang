@@ -1,0 +1,66 @@
+module bigdb {
+    namespace net.bigdb;
+    prefix "bigdb";
+    
+    description "Definitions to work with BigDB";
+    
+    organization "www.openflowhub.org";
+    
+    extension data-source {
+        description "Extension to specify the data source for a node";
+        argument data-source-name;
+    }
+
+    extension information-type {
+        description 
+            "Extension to specify the type of information.
+            
+            Can have values as debug, default-no-return";
+        argument information-type-name;
+    }
+
+    extension column-header {
+        description "String value to use as the column header";
+        argument column-header-name;
+    }
+
+    extension case-sensitive {
+        description "identify field value as case sensitive, default True";
+        argument case-sensitive-value;
+    }
+
+    extension alias {
+        description "identify this field as an alias for the key, default False";
+        argument alias-value;
+    }
+
+    extension cascade {
+        description
+            "Boolean value that determines if a node should be returned
+             recursively when it's parent node it retrieved. If a node is
+             tagged with cascade=false then none of it or its child nodes will
+             be returned for ancestor node queries";
+
+        argument cascade-enabled;
+    }
+
+    extension allow-empty-string {
+        description
+            "Boolean value that indicates that the value for a string leaf node
+             or a string type specification is allowed to be an empty string.
+             If the allow-empty-string value is true, then when the string
+             value is set to the empty string it is not validated against the
+             restrictions (e.g. length, patterns) specified in the schema.
+             The default value is false.";
+        argument allow-empty-string-value;
+    }
+    
+    extension local-config {
+        description
+            "Boolean value that indicates a particular configuration subtree
+             should be local to the particular node on which it is being 
+             accessed.";
+             
+        argument local-config-value;
+    }
+}

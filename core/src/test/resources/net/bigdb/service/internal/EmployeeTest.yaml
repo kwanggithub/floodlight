@@ -1,0 +1,20 @@
+treespaces:
+  - name: SimpleTest
+    data_sources:
+        - name: config
+          implementation_class: net.bigdb.data.memory.MemoryDataSource
+        - name: operational
+          implementation_class: net.bigdb.data.memory.MemoryDataSource
+    data_source_mappings:
+      - data_source: config
+        predicate: Config
+      - data_source: "$data-source"
+        predicate: "!Config"
+      - data_source: operational
+    module_search_paths:
+      - path: src/test/resources/net/bigdb/service/internal
+        recursive: true
+    modules:
+      - name: EmployeeTest
+auth_config:
+    enabled: false

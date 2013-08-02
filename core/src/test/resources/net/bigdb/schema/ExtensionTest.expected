@@ -1,0 +1,172 @@
+{
+  "modules" : {
+    "ExtensionTest" : {
+      "prefix" : "mt",
+      "id" : {
+        "name" : "ExtensionTest"
+      }
+    },
+    "Extension-Defs" : {
+      "prefix" : "extension-def",
+      "extensions" : {
+        "test-extension-1" : {
+          "name" : "test-extension-1",
+          "module" : {
+            "name" : "Extension-Defs"
+          },
+          "nodeType" : "USES",
+          "description" : "This is test extension 1.",
+          "argument" : "extension-1"
+        },
+        "test-extension-2" : {
+          "name" : "test-extension-2",
+          "module" : {
+            "name" : "Extension-Defs"
+          },
+          "nodeType" : "USES",
+          "description" : "This is test extension 2.",
+          "argument" : "extension-2"
+        }
+      },
+      "id" : {
+        "name" : "Extension-Defs"
+      }
+    }
+  },
+  "schemaRoot" : {
+    "nodeType" : "CONTAINER",
+    "attributes" : {
+      "Config" : "true"
+    },
+    "childNodes" : {
+      "extension-test" : {
+        "name" : "extension-test",
+        "module" : {
+          "name" : "ExtensionTest"
+        },
+        "nodeType" : "CONTAINER",
+        "description" : "Testing the extension parsing.",
+        "attributes" : {
+          "test-extension-1" : "extension-1-container"
+        },
+        "childNodes" : {
+          "leaf-list-node-test" : {
+            "name" : "leaf-list-node-test",
+            "module" : {
+              "name" : "ExtensionTest"
+            },
+            "nodeType" : "LEAF_LIST",
+            "attributes" : {
+              "test-extension-1" : "extension-1-leaf-list"
+            },
+            "leafSchemaNode" : {
+              "module" : {
+                "name" : "ExtensionTest"
+              },
+              "nodeType" : "LEAF",
+              "mandatory" : false,
+              "typeSchemaNode" : {
+                "module" : {
+                  "name" : "ExtensionTest"
+                },
+                "nodeType" : "TYPE",
+                "leafType" : "STRING"
+              },
+              "leafType" : "STRING"
+            }
+          },
+          "leaf-node-test" : {
+            "name" : "leaf-node-test",
+            "module" : {
+              "name" : "ExtensionTest"
+            },
+            "nodeType" : "LEAF",
+            "mandatory" : false,
+            "attributes" : {
+              "test-extension-1" : "extension-1-leaf"
+            },
+            "typeSchemaNode" : {
+              "name" : "leaf-node-test",
+              "module" : {
+                "name" : "ExtensionTest"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "STRING",
+              "defaultValueString" : "5678FA",
+              "typeValidator" : [ {
+                "type" : "LENGTH_VALIDATOR",
+                "ranges" : [ {
+                  "start" : 2,
+                  "end" : 32
+                } ]
+              } ]
+            },
+            "defaultValue" : "5678FA",
+            "leafType" : "STRING"
+          },
+          "list-node-test" : {
+            "name" : "list-node-test",
+            "module" : {
+              "name" : "ExtensionTest"
+            },
+            "nodeType" : "LIST",
+            "description" : "list node with an extension",
+            "attributes" : {
+              "test-extension-1" : "extension-1-list-node"
+            },
+            "listElementSchemaNode" : {
+              "module" : {
+                "name" : "ExtensionTest"
+              },
+              "nodeType" : "LIST_ELEMENT",
+              "childNodes" : {
+                "id" : {
+                  "name" : "id",
+                  "module" : {
+                    "name" : "ExtensionTest"
+                  },
+                  "nodeType" : "LEAF",
+                  "mandatory" : false,
+                  "typeSchemaNode" : {
+                    "name" : "id",
+                    "module" : {
+                      "name" : "ExtensionTest"
+                    },
+                    "nodeType" : "TYPE",
+                    "leafType" : "INTEGER",
+                    "typeValidator" : [ {
+                      "type" : "RANGE_VALIDATOR",
+                      "ranges" : [ {
+                        "start" : -2147483648,
+                        "end" : 2147483647
+                      } ]
+                    } ]
+                  },
+                  "leafType" : "INTEGER"
+                },
+                "name" : {
+                  "name" : "name",
+                  "module" : {
+                    "name" : "ExtensionTest"
+                  },
+                  "nodeType" : "LEAF",
+                  "mandatory" : false,
+                  "typeSchemaNode" : {
+                    "name" : "name",
+                    "module" : {
+                      "name" : "ExtensionTest"
+                    },
+                    "nodeType" : "TYPE",
+                    "leafType" : "STRING"
+                  },
+                  "leafType" : "STRING"
+                }
+              },
+              "keyNodeNames" : [ "id" ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

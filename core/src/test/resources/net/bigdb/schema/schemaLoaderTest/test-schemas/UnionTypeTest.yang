@@ -1,0 +1,111 @@
+module UnionTypeTest {
+
+    namespace
+      "urn:ietf:params:xml:ns:yang:ietf-inet-types";
+
+    prefix inet;
+
+    organization
+      "IETF NETMOD (NETCONF Data Modeling Language) Working Group";
+
+    description
+        "Test union type";
+
+    revision "2010-09-24"{
+      description "Initial revision.";
+      reference
+        "RFC 6021: Common YANG Data Types";
+    }
+
+    typedef ip-address {
+      type union {
+        type ipv4-address;
+        type ipv6-address;
+      }
+      description
+        "The ip-address type represents an IP address";
+    }
+
+    typedef ipv4-address {
+      type string {
+        pattern
+          '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%[\p{N}\p{L}]+)?';
+      }
+      description
+        "The ipv4-address type ";
+    }
+
+    typedef ipv6-address {
+        type string {
+            pattern
+                '((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(%[\p{N}\p{L}]+)?';
+            pattern
+                '(([^:]+:){6}(([^:]+:[^:]+)|(.*\..*)))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?)(%.+)?';
+        }
+        description
+            "The ipv6-address type ";
+    }
+
+    typedef ip-prefix {
+        type union {
+            type ipv4-prefix;
+            type ipv6-prefix;
+        }
+        description
+            "The ip-prefix type represents an IP prefix and is IP
+            version neutral.  The format of the textual representations
+            implies the IP version.";
+    }
+
+    typedef ipv4-prefix {
+      type string {
+        pattern
+          '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])/(([0-9])|([1-2][0-9])|(3[0-2]))';
+      }
+      description
+        "The ipv4-prefix ";
+    }
+
+    typedef ipv6-prefix {
+      type string {
+        pattern
+          '((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(/(([0-9])|([0-9]{2})|(1[0-1][0-9])|(12[0-8])))';
+        pattern
+          '(([^:]+:){6}(([^:]+:[^:]+)|(.*\..*)))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?)(/.+)';
+      }
+      description
+        "The ipv6-prefix ";
+    }
+
+    typedef domain-name {
+      type string {
+        length "1..253";
+        pattern
+          '((([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.)*([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.?)|\.';
+      }
+      description
+        "The domain-name type represents a DNS domain name.";
+    }
+
+    typedef host {
+      type union {
+        type ip-address;
+        type domain-name;
+      }
+      description
+        "The host type represents either an IP address or a DNS
+       domain name.";
+    }
+
+    typedef uri {
+      type string;
+      description
+        "The uri type represents a Uniform Resource Identifier";
+
+    }
+    container union-test {
+        leaf host-name {
+            type host;
+        }
+    }
+}  

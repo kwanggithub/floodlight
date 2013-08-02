@@ -1,0 +1,6 @@
+# Modules for configuration of the floodlight appliance OS
+treespaces:
+  - name: controller
+    modules:
+      - name: os
+        revision: 2013-06-12

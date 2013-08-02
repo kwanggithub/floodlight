@@ -1,0 +1,11 @@
+libnss_extrausers:
+
+With the following lines in /etc/nsswitch.conf
+
+passwd:         compat remoteuser
+group:          compat remoteuser
+shadow:         compat remoteuser
+
+and /lib/libnss_remoteuser.so.0 from this package, glibc will
+map unknown users to a single, remote UID.
+

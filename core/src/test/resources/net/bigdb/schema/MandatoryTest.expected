@@ -1,0 +1,116 @@
+{
+  "modules" : {
+    "MandatoryTest" : {
+      "prefix" : "mt",
+      "id" : {
+        "name" : "MandatoryTest"
+      }
+    }
+  },
+  "schemaRoot" : {
+    "nodeType" : "CONTAINER",
+    "attributes" : {
+      "Config" : "true"
+    },
+    "childNodes" : {
+      "string-mandatory-test" : {
+        "name" : "string-mandatory-test",
+        "module" : {
+          "name" : "MandatoryTest"
+        },
+        "nodeType" : "CONTAINER",
+        "childNodes" : {
+          "test-leaf-list" : {
+            "name" : "test-leaf-list",
+            "module" : {
+              "name" : "MandatoryTest"
+            },
+            "nodeType" : "LEAF_LIST",
+            "leafSchemaNode" : {
+              "module" : {
+                "name" : "MandatoryTest"
+              },
+              "nodeType" : "LEAF",
+              "mandatory" : false,
+              "typeSchemaNode" : {
+                "module" : {
+                  "name" : "MandatoryTest"
+                },
+                "nodeType" : "TYPE",
+                "leafType" : "STRING"
+              },
+              "leafType" : "STRING"
+            }
+          },
+          "test-list" : {
+            "name" : "test-list",
+            "module" : {
+              "name" : "MandatoryTest"
+            },
+            "nodeType" : "LIST",
+            "listElementSchemaNode" : {
+              "module" : {
+                "name" : "MandatoryTest"
+              },
+              "nodeType" : "LIST_ELEMENT",
+              "childNodes" : {
+                "name" : {
+                  "name" : "name",
+                  "module" : {
+                    "name" : "MandatoryTest"
+                  },
+                  "nodeType" : "LEAF",
+                  "mandatory" : false,
+                  "typeSchemaNode" : {
+                    "name" : "name",
+                    "module" : {
+                      "name" : "MandatoryTest"
+                    },
+                    "nodeType" : "TYPE",
+                    "leafType" : "STRING"
+                  },
+                  "leafType" : "STRING"
+                }
+              },
+              "keyNodeNames" : [ "name" ]
+            }
+          },
+          "test-mandatory" : {
+            "name" : "test-mandatory",
+            "module" : {
+              "name" : "MandatoryTest"
+            },
+            "nodeType" : "LEAF",
+            "mandatory" : true,
+            "typeSchemaNode" : {
+              "name" : "test-mandatory",
+              "module" : {
+                "name" : "MandatoryTest"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "STRING"
+            },
+            "leafType" : "STRING"
+          },
+          "test-regular" : {
+            "name" : "test-regular",
+            "module" : {
+              "name" : "MandatoryTest"
+            },
+            "nodeType" : "LEAF",
+            "mandatory" : false,
+            "typeSchemaNode" : {
+              "name" : "test-regular",
+              "module" : {
+                "name" : "MandatoryTest"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "STRING"
+            },
+            "leafType" : "STRING"
+          }
+        }
+      }
+    }
+  }
+}

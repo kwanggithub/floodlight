@@ -1,0 +1,9 @@
+{
+  "child1" : 5,
+  "child2" : 23,
+  "child3" : [ "foo" ],
+  "child4" : {
+    "child4.1" : "test",
+    "child4.2" : 100
+  }
+}

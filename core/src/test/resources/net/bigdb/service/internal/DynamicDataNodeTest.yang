@@ -1,0 +1,57 @@
+module DynamicDataNodeTest {
+    namespace net.bigdb;
+    prefix "ddnt";
+
+    import bigdb {
+        prefix bigdb;
+    }
+
+    description "Basic test schema";
+
+    organization "BigDB Inc.";
+
+    container test {
+        bigdb:data-source test;
+        config false;
+        leaf child1 {
+            type int32;
+        }
+        container child2 {
+            leaf child21 {
+                type int32;
+            }
+        }
+        leaf-list child3 {
+            type string;
+        }
+        list child4 {
+            key "child41";
+            leaf child41 {
+                type string;
+            }
+            list child42 {
+                key "child421";
+                leaf child421 {
+                    type string;
+                }
+                leaf child422 {
+                    type int32;
+                }
+            }
+        }
+    }
+
+    container dynamic-leaf {
+        bigdb:data-source test;
+        config false;
+        leaf child1 {
+            type string;
+        }
+        leaf child2 {
+            type int32;
+        }
+        leaf child3 {
+            type int64;
+        }
+     }
+}

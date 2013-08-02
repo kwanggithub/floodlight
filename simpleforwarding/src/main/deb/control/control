@@ -1,0 +1,10 @@
+Package: floodlight-simpleforwarding
+Version: [[version]]
+Section: net
+Priority: low
+Maintainer: rob.adams@bigswitch.com
+Architecture: all
+Depends: floodlight-core
+Provides: floodlight-application
+Conflicts: floodlight-application
+Description: Simple forwarding application for floodlight

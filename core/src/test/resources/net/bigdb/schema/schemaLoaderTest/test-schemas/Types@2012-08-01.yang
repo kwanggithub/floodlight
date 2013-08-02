@@ -1,0 +1,14 @@
+module Types {
+    namespace net.bigdb;
+    prefix "t";
+    
+    description "Common types";
+    
+    organization "Acme";
+    
+    typedef short-string {
+        type string {
+            length 0..32;
+        }
+    }
+}

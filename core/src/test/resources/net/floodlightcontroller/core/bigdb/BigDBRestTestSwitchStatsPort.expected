@@ -1,0 +1,35 @@
+[ {
+  "collisions" : 0,
+  "interface" : {
+    "name" : "eth1",
+    "number" : 1
+  },
+  "receive-bytes" : 100,
+  "receive-crc-errors" : 0,
+  "receive-dropped" : 0,
+  "receive-errors" : 0,
+  "receive-frame-errors" : 0,
+  "receive-overrun-errors" : 0,
+  "receive-packets" : 100,
+  "transmit-bytes" : 100,
+  "transmit-dropped" : 0,
+  "transmit-errors" : 0,
+  "transmit-packets" : 100
+}, {
+  "collisions" : 0,
+  "interface" : {
+    "name" : "eth2",
+    "number" : 2
+  },
+  "receive-bytes" : 100,
+  "receive-crc-errors" : 0,
+  "receive-dropped" : 0,
+  "receive-errors" : 0,
+  "receive-frame-errors" : 0,
+  "receive-overrun-errors" : 0,
+  "receive-packets" : 100,
+  "transmit-bytes" : 100,
+  "transmit-dropped" : 0,
+  "transmit-errors" : 0,
+  "transmit-packets" : 100
+} ]

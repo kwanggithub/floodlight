@@ -1,0 +1,56 @@
+[ {
+  "first-name" : "James",
+  "id" : "111-22-1234",
+  "last-name" : "Madison",
+  "nickname" : [ "Jim" ]
+}, {
+  "address" : [ {
+    "city" : "Chicago",
+    "state" : "IL",
+    "street" : "300 Main St.",
+    "zip-code" : "33333"
+  }, {
+    "city" : "New York",
+    "state" : "NY",
+    "street" : "3245 Wall St.",
+    "zip-code" : "01235"
+  } ],
+  "first-name" : "John",
+  "id" : "123-45-2345",
+  "job" : [ {
+    "employee-id" : "1",
+    "employer-id" : "Acme",
+    "title" : "sales"
+  }, {
+    "employee-id" : "123-45",
+    "employer-id" : "BBB",
+    "title" : "director"
+  } ],
+  "last-name" : "Johnson",
+  "nickname" : [ "JJ" ]
+}, {
+  "address" : [ {
+    "city" : "Mountain View",
+    "state" : "CA",
+    "street" : "1234 Evelyn Ave.",
+    "zip-code" : "94567"
+  }, {
+    "city" : "Palo Alto",
+    "state" : "CA",
+    "street" : "356 University Ave.",
+    "zip-code" : "93015"
+  } ],
+  "first-name" : "James",
+  "id" : "333-44-5555",
+  "job" : [ {
+    "employee-id" : "2",
+    "employer-id" : "Acme",
+    "title" : "engineer"
+  }, {
+    "employee-id" : "1234",
+    "employer-id" : "Boo",
+    "title" : "vp"
+  } ],
+  "last-name" : "Jacobs",
+  "nickname" : [ "Jim" ]
+} ]

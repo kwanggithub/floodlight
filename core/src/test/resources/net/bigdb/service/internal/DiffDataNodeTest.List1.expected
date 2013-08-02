@@ -1,0 +1,7 @@
+{
+  "test|100" : {
+    "child1" : "test",
+    "child2" : 100,
+    "child3" : "abcd"
+  }
+}

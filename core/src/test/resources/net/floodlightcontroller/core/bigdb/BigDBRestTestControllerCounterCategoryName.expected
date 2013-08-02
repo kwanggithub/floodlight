@@ -1,0 +1,4 @@
+{
+  "name" : "L2",
+  "sub-counter-name" : [ "OFPacketIn__broadcast", "OFPacketIn__multicast" ]
+}

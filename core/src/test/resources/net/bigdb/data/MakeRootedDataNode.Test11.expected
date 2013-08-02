@@ -1,0 +1,7 @@
+{
+  "test" : {
+    "policy" : [ {
+      "name" : "foo"
+    } ]
+  }
+}

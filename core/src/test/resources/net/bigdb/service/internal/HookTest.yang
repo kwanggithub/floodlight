@@ -1,0 +1,41 @@
+module HookTest {
+    namespace net.bigdb;
+    prefix "ht";
+
+    import bigdb {
+        prefix bigdb;
+    }
+
+    description "Hook test schema";
+
+    organization "BigDB Inc.";
+
+    container hook-test {
+        leaf child1 {
+            type int32;
+        }
+        container child4 {
+            leaf child4.1 {
+                type string;
+            }
+            leaf child4.2 {
+                type int32;
+            }
+        }
+        list child5 {
+            key "child5.1";
+            leaf child5.1 {
+                type string;
+            }
+            leaf child5.2 {
+                type int32;
+            }
+            list child5.3 {
+                key "child5.3.1";
+                leaf child5.3.1 {
+                    type int32;
+                }
+            }
+        }
+    }
+}

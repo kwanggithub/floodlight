@@ -1,0 +1,263 @@
+module os {
+    namespace "urn:os:yang";
+    prefix "os";
+
+    import bigdb {
+        prefix bigdb;
+        revision-date 2012-10-12;
+    }
+    import ietf-inet-types {
+        prefix "ietf";
+        revision-date "2010-09-24";
+    }
+    import ietf-yang-types {
+        prefix "yang";
+        revision-date "2010-09-24";
+    }
+    import floodlight-types {
+        prefix "floodlight-types";
+        revision-date "2012-10-07";
+    }
+
+    description "Schema for managing a controller appliance operating system";
+
+    organization "www.openflowhub.org";
+
+    revision "2013-06-12" {
+        description "Initial revision";
+    }
+
+    container os {
+        container config {
+            container global {
+                description "OS configuration that applies globally across the cluster";
+    
+                leaf login-banner {
+                    description "Banner to be displayed on login";
+                    type string {
+                        length "1 .. 2048";
+                    }
+                }
+                
+                container snmp-config {
+                    leaf enabled {
+                        description "Whether SNMP support is enabled";
+                        type boolean;
+                        default "false";
+                    }
+                    leaf contact {
+                        description "Administrative contact reported during SNMP traps.";
+                        type string;
+                    }
+                    leaf location {
+                        description "Server location used for SNMP traps";
+                        type ietf:domain-name;
+                    }
+                    leaf community {
+                        description "SNMP community string";
+                        type string {
+                            length "1 .. 128";
+                        }
+                    }
+                }
+            }
+            
+            container local-node {
+                description "OS configuration that applies locally only to the current node";
+                bigdb:local-config true;
+    
+                container network-config {
+                    leaf domain-lookups-enabled {
+                        description "Whether DNS lookups should be enabled";
+                        type boolean;
+                        default "true";
+                    }
+                    leaf-list dns-servers {
+                        description "DNS servers to use for domain lookups";
+                        type ietf:domain-name; 
+                    }
+                    leaf domain-name {
+                        description "Domain to use in the DNS search path";
+                        type ietf:domain-name;
+                    }
+                    leaf default-gateway {
+                        description "Default gateway for static IP configuration";
+                        type ietf:ip-address;
+                    }
+                    list network-interfaces {
+                        key "type number";
+                        leaf type {
+                            description "Interface type, e.g. \"Ethernet\"";
+                            type string {
+                                length "1 .. 32";
+                            }
+                        }
+                        leaf number {
+                            description "Interface number, e.g. 0";
+                            type uint16;
+                        }
+                        leaf config-mode {
+                            description "Configuration mode for interface.";
+                            type enumeration {
+                                enum dhcp;
+                                enum static;
+                            }
+                        }
+                        leaf ip-address {
+                            description "Static IP address for the node";
+                            type ietf:ip-address;
+                        }
+                        leaf netmask {
+                            description "Netmask as a dotted quad, e.g. 255.255.255.0";
+                            type ietf:ip-address;
+                        }
+                        list firewall-rules {
+                            key "src-ip vrrp-ip port proto";
+                            leaf src-ip {
+                                description "Match on the source IP";
+                                type ietf:ip-address;
+                            }
+                            leaf vrrp-ip {
+                                description "Match on the source of a VRRP packet";
+                                type ietf:ip-address;
+                            }
+                            leaf port {
+                                description "Match on the destination layer 4 port";
+                                type ietf:port-number;
+                            }
+                            leaf proto {
+                                description "Match on the layer 3 protocol (tcp, udp, or vrrp)";
+                                type string {
+                                    length "1 .. 4";
+                                }
+                            }
+                        }
+                    }
+                }
+                container time-config {
+                    leaf time-zone {
+                        description "The time zone for the OS, e.g. Etc/UTC";
+                        type string {
+                            length "1 .. 256";
+                        }
+                        default "UTC";
+                    }
+                    leaf-list ntp-servers {
+                        // This is strictly ordered so should have user
+                        // ordering specified, but we don't currently
+                        // support it
+    
+                        // ordered-by user;
+                        description "Ordered list of NTP servers to use for time synchronization";
+                        type ietf:domain-name; 
+                    }
+                }
+                container logging-config {
+                    leaf logging-enabled {
+                        bigdb:local-config true;
+                        description "Whether remote logging is enabled";
+                        type boolean;
+                        default "false";
+                    }
+                    list logging-servers {
+                        key "server";
+                        leaf server {
+                            bigdb:local-config true;
+                            description "Host name of the syslog server";
+                            type ietf:domain-name;
+                        }
+                        leaf log-level {
+                            bigdb:local-config true;
+                            description "Log level of messages to log to the server";
+                            type string {
+                                length "1 .. 32";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        container action {
+            description "Contains system actions not associated with configuration";
+            config false;
+            bigdb:data-source "controller-data-source";
+            bigdb:cascade "false";
+            
+            container power {
+                description "Reboot or power down the system";
+                
+                leaf action {
+                    type enumeration {
+                        enum shutdown;
+                        enum reboot;
+                    }
+                }
+            }
+            
+            container time {
+                container ntp {
+                    description "Set the system time using NTP immediately 
+                        without waiting for NTP time sync.  Note that this
+                        should be called only under very specific circumstances";
+
+                    leaf ntp-server {
+                        type ietf:domain-name;
+                    }
+                }
+                
+                leaf system-time {
+                    description "Set the current time on the controller.  
+                        This value is read/write";
+                    type yang:date-and-time;
+                }
+            }
+
+            container system-user {
+                description "Actions related to UNIX system users, not 
+                    Floodlight users.";
+
+                container set-shell {
+                    description "Reset the login shell of a given system user";
+                    leaf user-name {
+                        description "User name";
+                        type floodlight-types:identifier-string;
+                    }
+                    leaf shell {
+                        description "The new login shell";
+                        type enumeration {
+                            enum firstboot;
+                            enum cli;
+                        }
+                    }
+                }
+                container reset-password {
+                    description "Reset the password of a given system user";
+                    leaf user-name {
+                        description "User name";
+                        type floodlight-types:identifier-string;
+                    }
+                    leaf password {
+                        description "The new password";
+                        type string {
+                            length "0 .. 128";
+                        }
+                    }
+                }
+            }
+
+            container services {
+                container regenerate-keys {
+                    description "Generate or regenerate server keys or SSL 
+                        certificates";
+                    leaf-list action {
+                        type enumeration {
+                            enum web-ssl;
+                            enum ssh;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

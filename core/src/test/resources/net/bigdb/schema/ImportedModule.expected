@@ -1,0 +1,157 @@
+{
+  "modules" : {
+    "Types" : {
+      "prefix" : "t",
+      "typedefs" : {
+        "ip-address" : {
+          "name" : "ip-address",
+          "module" : {
+            "name" : "Types"
+          },
+          "nodeType" : "LEAF",
+          "description" : "A dotted decimal IP string",
+          "typeSchemaNode" : {
+            "name" : "ip-address",
+            "module" : {
+              "name" : "Types"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "STRING",
+            "typeValidator" : [ {
+              "type" : "LENGTH_VALIDATOR",
+              "ranges" : [ {
+                "start" : 0,
+                "end" : 9223372036854775807
+              } ]
+            }, {
+              "type" : "PATTERN_VALIDATOR",
+              "pattern" : "([0-9]{1,3}\\.){3}[0-9]{1,3}"
+            } ]
+          },
+          "leafType" : "STRING"
+        },
+        "short-string" : {
+          "name" : "short-string",
+          "module" : {
+            "name" : "Types"
+          },
+          "nodeType" : "LEAF",
+          "typeSchemaNode" : {
+            "name" : "short-string",
+            "module" : {
+              "name" : "Types"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "STRING",
+            "typeValidator" : [ {
+              "type" : "LENGTH_VALIDATOR",
+              "ranges" : [ {
+                "start" : 0,
+                "end" : 32
+              } ]
+            } ]
+          },
+          "leafType" : "STRING"
+        },
+        "positive-integer" : {
+          "name" : "positive-integer",
+          "module" : {
+            "name" : "Types"
+          },
+          "nodeType" : "LEAF",
+          "description" : "A positive integer",
+          "typeSchemaNode" : {
+            "name" : "positive-integer",
+            "module" : {
+              "name" : "Types"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "INTEGER",
+            "typeValidator" : [ {
+              "type" : "RANGE_VALIDATOR",
+              "ranges" : [ {
+                "start" : 1,
+                "end" : 2147483647
+              } ]
+            } ]
+          },
+          "leafType" : "INTEGER"
+        }
+      },
+      "id" : {
+        "name" : "Types"
+      }
+    },
+    "ImportedModule" : {
+      "prefix" : "im",
+      "id" : {
+        "name" : "ImportedModule"
+      }
+    }
+  },
+  "schemaRoot" : {
+    "nodeType" : "CONTAINER",
+    "attributes" : {
+      "Config" : "true"
+    },
+    "childNodes" : {
+      "schemas" : {
+        "name" : "schemas",
+        "module" : {
+          "name" : "ImportedModule"
+        },
+        "nodeType" : "CONTAINER",
+        "childNodes" : {
+          "test-int" : {
+            "name" : "test-int",
+            "module" : {
+              "name" : "ImportedModule"
+            },
+            "nodeType" : "LEAF",
+            "mandatory" : false,
+            "typeSchemaNode" : {
+              "name" : "positive-integer",
+              "module" : {
+                "name" : "Types"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "INTEGER",
+              "typeValidator" : [ {
+                "type" : "RANGE_VALIDATOR",
+                "ranges" : [ {
+                  "start" : 1,
+                  "end" : 2147483647
+                } ]
+              } ]
+            },
+            "leafType" : "INTEGER"
+          },
+          "test-string" : {
+            "name" : "test-string",
+            "module" : {
+              "name" : "ImportedModule"
+            },
+            "nodeType" : "LEAF",
+            "mandatory" : false,
+            "typeSchemaNode" : {
+              "name" : "short-string",
+              "module" : {
+                "name" : "Types"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "STRING",
+              "typeValidator" : [ {
+                "type" : "LENGTH_VALIDATOR",
+                "ranges" : [ {
+                  "start" : 0,
+                  "end" : 32
+                } ]
+              } ]
+            },
+            "leafType" : "STRING"
+          }
+        }
+      }
+    }
+  }
+}

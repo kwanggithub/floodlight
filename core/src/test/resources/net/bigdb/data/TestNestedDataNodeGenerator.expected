@@ -1,0 +1,10 @@
+{
+  "ChildContainer" : {
+    "ChildLeafList" : [ "Foo1", "Foo2", "Bar" ],
+    "ChildList" : [ {
+      "ID" : "Key1",
+      "Ratio" : 345.234
+    } ]
+  },
+  "ChildInt" : 2345
+}

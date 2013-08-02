@@ -1,0 +1,11 @@
+{
+  "core" : {
+    "aaa" : {
+      "local-user" : [ {
+        "full-name" : "hrtlbrnft",
+        "password" : "30e7c83abf16bc8b33a701bf3b1a2a94",
+        "user-name" : "admin"
+      } ]
+    }
+  }
+}

@@ -1,0 +1,42 @@
+[ {
+  "address" : [ {
+    "city" : "Mountain View",
+    "state" : "CA",
+    "street" : "1234 Evelyn Ave.",
+    "zip-code" : "94567"
+  }, {
+    "city" : "Palo Alto",
+    "state" : "CA",
+    "street" : "356 University Ave.",
+    "zip-code" : "93015"
+  } ],
+  "first-name" : "Katherine",
+  "id" : "123-45-1111",
+  "last-name" : "Smith",
+  "nickname" : [ "Katie", "Kate" ]
+}, {
+  "address" : [ {
+    "city" : "Mountain View",
+    "state" : "CA",
+    "street" : "1234 Evelyn Ave.",
+    "zip-code" : "94567"
+  }, {
+    "city" : "Palo Alto",
+    "state" : "CA",
+    "street" : "356 University Ave.",
+    "zip-code" : "93015"
+  } ],
+  "first-name" : "James",
+  "id" : "333-44-5555",
+  "job" : [ {
+    "employee-id" : "2",
+    "employer-id" : "Acme",
+    "title" : "engineer"
+  }, {
+    "employee-id" : "1234",
+    "employer-id" : "Boo",
+    "title" : "vp"
+  } ],
+  "last-name" : "Jacobs",
+  "nickname" : [ "Jim" ]
+} ]

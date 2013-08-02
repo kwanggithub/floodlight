@@ -1,0 +1,12 @@
+[ {
+  "email-address" : [ "andrew@foo.com", "jackson@foo.com" ],
+  "employee-id" : "1",
+  "first-name" : "Andrew",
+  "im-last-message-time" : "2012-09-12:10:03:21",
+  "im-status" : "Offline",
+  "last-name" : "Jackson"
+}, {
+  "employee-id" : "2",
+  "im-last-message-time" : "2012-09-12:10:05:21",
+  "im-status" : "Online"
+} ]

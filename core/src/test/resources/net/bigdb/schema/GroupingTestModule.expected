@@ -1,0 +1,371 @@
+{
+  "modules" : {
+    "GroupingDefModule" : {
+      "prefix" : "group-def",
+      "id" : {
+        "name" : "GroupingDefModule"
+      },
+      "grouping" : {
+        "port-resource" : {
+          "name" : "port-resource",
+          "module" : {
+            "name" : "GroupingDefModule"
+          },
+          "nodeType" : "GROUPING",
+          "description" : "The grouping for port resource properties for testing grouping",
+          "childNodes" : {
+            "current-rate" : {
+              "name" : "current-rate",
+              "module" : {
+                "name" : "GroupingDefModule"
+              },
+              "nodeType" : "LEAF",
+              "mandatory" : false,
+              "attributes" : {
+                "Config" : "false"
+              },
+              "typeSchemaNode" : {
+                "name" : "current-rate",
+                "module" : {
+                  "name" : "GroupingDefModule"
+                },
+                "nodeType" : "TYPE",
+                "leafType" : "INTEGER",
+                "typeValidator" : [ {
+                  "type" : "RANGE_VALIDATOR",
+                  "ranges" : [ {
+                    "start" : 0,
+                    "end" : 4294967295
+                  } ]
+                } ]
+              },
+              "leafType" : "INTEGER"
+            },
+            "id" : {
+              "name" : "id",
+              "module" : {
+                "name" : "GroupingDefModule"
+              },
+              "nodeType" : "LEAF",
+              "mandatory" : false,
+              "description" : "A unique identifier",
+              "typeSchemaNode" : {
+                "name" : "id",
+                "module" : {
+                  "name" : "GroupingDefModule"
+                },
+                "nodeType" : "TYPE",
+                "leafType" : "STRING"
+              },
+              "leafType" : "STRING"
+            },
+            "name" : {
+              "name" : "name",
+              "module" : {
+                "name" : "GroupingDefModule"
+              },
+              "nodeType" : "LEAF",
+              "mandatory" : false,
+              "attributes" : {
+                "Config" : "false"
+              },
+              "typeSchemaNode" : {
+                "name" : "name",
+                "module" : {
+                  "name" : "GroupingDefModule"
+                },
+                "nodeType" : "TYPE",
+                "leafType" : "STRING",
+                "typeValidator" : [ {
+                  "type" : "LENGTH_VALIDATOR",
+                  "ranges" : [ {
+                    "start" : 1,
+                    "end" : 16
+                  } ]
+                } ]
+              },
+              "leafType" : "STRING"
+            },
+            "number" : {
+              "name" : "number",
+              "module" : {
+                "name" : "GroupingDefModule"
+              },
+              "nodeType" : "LEAF",
+              "mandatory" : false,
+              "attributes" : {
+                "Config" : "false"
+              },
+              "typeSchemaNode" : {
+                "name" : "number",
+                "module" : {
+                  "name" : "GroupingDefModule"
+                },
+                "nodeType" : "TYPE",
+                "leafType" : "INTEGER",
+                "typeValidator" : [ {
+                  "type" : "RANGE_VALIDATOR",
+                  "ranges" : [ {
+                    "start" : 0,
+                    "end" : 9223372036854775807
+                  } ]
+                } ]
+              },
+              "leafType" : "INTEGER"
+            }
+          }
+        }
+      }
+    },
+    "GroupingTestModule" : {
+      "prefix" : "group-test",
+      "id" : {
+        "name" : "GroupingTestModule"
+      },
+      "grouping" : {
+        "queue-resource" : {
+          "name" : "queue-resource",
+          "module" : {
+            "name" : "GroupingTestModule"
+          },
+          "nodeType" : "GROUPING",
+          "description" : "The grouping for a queue resource.",
+          "childNodes" : {
+            "id" : {
+              "name" : "id",
+              "module" : {
+                "name" : "GroupingTestModule"
+              },
+              "nodeType" : "LEAF",
+              "mandatory" : false,
+              "typeSchemaNode" : {
+                "name" : "id",
+                "module" : {
+                  "name" : "GroupingTestModule"
+                },
+                "nodeType" : "TYPE",
+                "leafType" : "INTEGER",
+                "typeValidator" : [ {
+                  "type" : "RANGE_VALIDATOR",
+                  "ranges" : [ {
+                    "start" : 0,
+                    "end" : 9223372036854775807
+                  } ]
+                } ]
+              },
+              "leafType" : "INTEGER"
+            },
+            "resource-id" : {
+              "name" : "resource-id",
+              "module" : {
+                "name" : "GroupingTestModule"
+              },
+              "nodeType" : "LEAF",
+              "mandatory" : false,
+              "typeSchemaNode" : {
+                "name" : "resource-id",
+                "module" : {
+                  "name" : "GroupingTestModule"
+                },
+                "nodeType" : "TYPE",
+                "leafType" : "STRING"
+              },
+              "leafType" : "STRING"
+            }
+          }
+        }
+      }
+    }
+  },
+  "schemaRoot" : {
+    "nodeType" : "CONTAINER",
+    "attributes" : {
+      "Config" : "true"
+    },
+    "childNodes" : {
+      "controller" : {
+        "name" : "controller",
+        "module" : {
+          "name" : "GroupingTestModule"
+        },
+        "nodeType" : "CONTAINER",
+        "childNodes" : {
+          "port" : {
+            "name" : "port",
+            "module" : {
+              "name" : "GroupingTestModule"
+            },
+            "nodeType" : "LIST",
+            "description" : "The list contains all port resources.",
+            "listElementSchemaNode" : {
+              "module" : {
+                "name" : "GroupingTestModule"
+              },
+              "nodeType" : "LIST_ELEMENT",
+              "childNodes" : {
+                "current-rate" : {
+                  "name" : "current-rate",
+                  "module" : {
+                    "name" : "GroupingDefModule"
+                  },
+                  "nodeType" : "LEAF",
+                  "mandatory" : false,
+                  "attributes" : {
+                    "Config" : "false"
+                  },
+                  "typeSchemaNode" : {
+                    "name" : "current-rate",
+                    "module" : {
+                      "name" : "GroupingDefModule"
+                    },
+                    "nodeType" : "TYPE",
+                    "leafType" : "INTEGER",
+                    "typeValidator" : [ {
+                      "type" : "RANGE_VALIDATOR",
+                      "ranges" : [ {
+                        "start" : 0,
+                        "end" : 4294967295
+                      } ]
+                    } ]
+                  },
+                  "leafType" : "INTEGER"
+                },
+                "id" : {
+                  "name" : "id",
+                  "module" : {
+                    "name" : "GroupingDefModule"
+                  },
+                  "nodeType" : "LEAF",
+                  "mandatory" : false,
+                  "description" : "A unique identifier",
+                  "typeSchemaNode" : {
+                    "name" : "id",
+                    "module" : {
+                      "name" : "GroupingDefModule"
+                    },
+                    "nodeType" : "TYPE",
+                    "leafType" : "STRING"
+                  },
+                  "leafType" : "STRING"
+                },
+                "name" : {
+                  "name" : "name",
+                  "module" : {
+                    "name" : "GroupingDefModule"
+                  },
+                  "nodeType" : "LEAF",
+                  "mandatory" : false,
+                  "attributes" : {
+                    "Config" : "false"
+                  },
+                  "typeSchemaNode" : {
+                    "name" : "name",
+                    "module" : {
+                      "name" : "GroupingDefModule"
+                    },
+                    "nodeType" : "TYPE",
+                    "leafType" : "STRING",
+                    "typeValidator" : [ {
+                      "type" : "LENGTH_VALIDATOR",
+                      "ranges" : [ {
+                        "start" : 1,
+                        "end" : 16
+                      } ]
+                    } ]
+                  },
+                  "leafType" : "STRING"
+                },
+                "number" : {
+                  "name" : "number",
+                  "module" : {
+                    "name" : "GroupingDefModule"
+                  },
+                  "nodeType" : "LEAF",
+                  "mandatory" : false,
+                  "attributes" : {
+                    "Config" : "false"
+                  },
+                  "typeSchemaNode" : {
+                    "name" : "number",
+                    "module" : {
+                      "name" : "GroupingDefModule"
+                    },
+                    "nodeType" : "TYPE",
+                    "leafType" : "INTEGER",
+                    "typeValidator" : [ {
+                      "type" : "RANGE_VALIDATOR",
+                      "ranges" : [ {
+                        "start" : 0,
+                        "end" : 9223372036854775807
+                      } ]
+                    } ]
+                  },
+                  "leafType" : "INTEGER"
+                }
+              },
+              "keyNodeNames" : [ "resource-id" ]
+            }
+          },
+          "queue" : {
+            "name" : "queue",
+            "module" : {
+              "name" : "GroupingTestModule"
+            },
+            "nodeType" : "LIST",
+            "description" : "The grouping for a queue resource.",
+            "listElementSchemaNode" : {
+              "module" : {
+                "name" : "GroupingTestModule"
+              },
+              "nodeType" : "LIST_ELEMENT",
+              "childNodes" : {
+                "id" : {
+                  "name" : "id",
+                  "module" : {
+                    "name" : "GroupingTestModule"
+                  },
+                  "nodeType" : "LEAF",
+                  "mandatory" : false,
+                  "typeSchemaNode" : {
+                    "name" : "id",
+                    "module" : {
+                      "name" : "GroupingTestModule"
+                    },
+                    "nodeType" : "TYPE",
+                    "leafType" : "INTEGER",
+                    "typeValidator" : [ {
+                      "type" : "RANGE_VALIDATOR",
+                      "ranges" : [ {
+                        "start" : 0,
+                        "end" : 9223372036854775807
+                      } ]
+                    } ]
+                  },
+                  "leafType" : "INTEGER"
+                },
+                "resource-id" : {
+                  "name" : "resource-id",
+                  "module" : {
+                    "name" : "GroupingTestModule"
+                  },
+                  "nodeType" : "LEAF",
+                  "mandatory" : false,
+                  "typeSchemaNode" : {
+                    "name" : "resource-id",
+                    "module" : {
+                      "name" : "GroupingTestModule"
+                    },
+                    "nodeType" : "TYPE",
+                    "leafType" : "STRING"
+                  },
+                  "leafType" : "STRING"
+                }
+              },
+              "keyNodeNames" : [ "resource-id" ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

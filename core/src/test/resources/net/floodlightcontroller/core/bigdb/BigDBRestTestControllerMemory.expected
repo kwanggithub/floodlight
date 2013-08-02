@@ -1,0 +1,7 @@
+[ {
+  "amount" : 20000000,
+  "memory-type" : "free"
+}, {
+  "amount" : 1000000000,
+  "memory-type" : "total"
+} ]

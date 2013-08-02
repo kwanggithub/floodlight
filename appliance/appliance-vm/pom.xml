@@ -1,0 +1,100 @@
+<!--
+    Copyright 2011,2012,2013, Big Switch Networks, Inc.
+    
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- Project Information -->
+  <parent>
+    <groupId>org.projectfloodlight</groupId>
+    <artifactId>floodlight-appliance</artifactId>
+    <version>2.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>floodlight-appliance-vm</artifactId>
+  <packaging>jar</packaging>
+
+  <name>Appliance VM</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.projectfloodlight</groupId>
+      <artifactId>floodlight-simpleforwarding</artifactId>
+      <version>2.0-SNAPSHOT</version>
+      <type>deb</type>
+    </dependency>
+    <dependency>
+      <groupId>org.projectfloodlight</groupId>
+      <artifactId>floodlight-staticflow</artifactId>
+      <version>2.0-SNAPSHOT</version>
+      <type>deb</type>
+    </dependency>
+    <dependency>
+      <groupId>org.projectfloodlight</groupId>
+      <artifactId>floodlight-appliance-package</artifactId>
+      <version>2.0-SNAPSHOT</version>
+      <type>deb</type>
+    </dependency>
+  </dependencies>
+
+  <!-- To build a different flavor, specify appliance.flavor on the
+       command line.  Options are simpleforwarding and staticflow -->
+  <properties>
+    <appliance.flavor>simpleforwarding</appliance.flavor>
+    <appliance.suite>precise</appliance.suite>
+    <appliance.arch>amd64</appliance.arch>
+    <appliance.release>Floodlight Appliance ${project.version}</appliance.release>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <phase>never</phase>
+            <configuration>
+              <finalName>unwanted</finalName>
+              <classifier>unwanted</classifier>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+          <showDeprecation>true</showDeprecation>
+        </configuration>
+      </plugin>
+      <plugin>
+	<groupId>org.projectfloodlight</groupId>
+	<artifactId>appliance-maven</artifactId>
+	<version>2.0-SNAPSHOT</version>
+        <executions>
+	  <execution>
+	    <goals><goal>appliance</goal></goals>
+	  </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

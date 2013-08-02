@@ -1,0 +1,240 @@
+<!--
+    Copyright 2011,2012,2013, Big Switch Networks, Inc.
+    
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- Project Information -->
+  <parent>
+    <groupId>org.projectfloodlight</groupId>
+    <artifactId>floodlight-appliance</artifactId>
+    <version>2.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>floodlight-appliance-package</artifactId>
+  <packaging>jar</packaging>
+
+  <!-- 
+       Note that this is an atypical application as it doesn't include
+       any jar files, so it's not a good example to use as a reference
+  -->
+  <name>Appliance Package</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.projectfloodlight</groupId>
+      <artifactId>floodlight-core</artifactId>
+      <version>2.0-SNAPSHOT</version>
+      <type>deb</type>
+    </dependency>
+    <dependency>
+      <groupId>org.projectfloodlight</groupId>
+      <artifactId>libpam-rest</artifactId>
+      <version>2.0-SNAPSHOT</version>
+      <type>deb</type>
+    </dependency>
+    <dependency>
+      <groupId>org.projectfloodlight</groupId>
+      <artifactId>libnss-remoteuser</artifactId>
+      <version>2.0-SNAPSHOT</version>
+      <type>deb</type>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <phase>never</phase>
+            <configuration>
+              <finalName>unwanted</finalName>
+              <classifier>unwanted</classifier>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+          <showDeprecation>true</showDeprecation>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <id>firstboot-package</id>
+            <phase>package</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>python</executable>
+              <workingDirectory>src/main/python/firstboot</workingDirectory>
+              <arguments>
+                <argument>setup.py</argument>
+                <argument>install</argument>
+                <argument>--root=${project.build.directory}/python/firstboot</argument>
+                <argument>--prefix=/usr/</argument>
+                <argument>--install-data=/usr/share/floodlight/firstboot</argument>
+                <argument>--install-lib=/usr/share/floodlight/firstboot</argument>
+                <argument>--install-script=/usr/share/floodlight/firstboot</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>jdeb</artifactId>
+        <groupId>org.vafer</groupId>
+        <version>1.0.1</version>
+        <executions>
+
+          <execution>
+            <id>appliance-package</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jdeb</goal>
+            </goals>
+            <configuration>
+              <deb>${project.build.directory}/${project.artifactId}-${project.version}_all.deb</deb>
+              <verbose>false</verbose>
+              <controlDir>${project.basedir}/src/main/deb/control</controlDir>
+              <dataSet>
+                <!-- Install firstboot -->
+                <data>
+                  <src>${project.build.directory}/python/firstboot/</src>
+                  <type>directory</type>
+                  <excludes>**/*~</excludes>
+                  <mapper>
+                    <type>perm</type>
+                    <prefix>/</prefix>
+                  </mapper>
+                </data>
+                <data>
+                  <src>${project.build.directory}/python/firstboot/usr/share/floodlight/firstboot/firstboot</src>
+                  <type>file</type>
+                  <mapper>
+                    <type>perm</type>
+                    <filemode>755</filemode>
+                    <prefix>/usr/share/floodlight/firstboot</prefix>
+                  </mapper>
+                </data>
+                <data>
+                  <type>link</type>
+                  <linkName>/usr/bin/floodlight-firstboot</linkName>
+                  <linkTarget>/usr/share/floodlight/firstboot/firstboot</linkTarget>
+                  <symlink>true</symlink>
+                </data>
+
+                <!-- Sudoer configuration -->
+                <data>
+                  <src>${project.basedir}/src/main/deb/sudoers.d/os-config</src>
+                  <type>file</type>
+                  <mapper>
+                    <type>perm</type>
+                    <prefix>/etc/sudoers.d</prefix>
+                    <filemode>440</filemode>
+                  </mapper>
+                </data>
+
+                <!-- pam-auth-update profile -->
+                <data>
+                  <src>${project.basedir}/src/main/deb/pam-configs/pam_rest</src>
+                  <type>file</type>
+                  <mapper>
+                    <type>perm</type>
+                    <prefix>/usr/share/pam-configs/</prefix>
+                  </mapper>
+                </data>
+
+                <data>
+                  <src>${project.basedir}/src/main/deb/sudoers.d</src>
+                  <type>directory</type>
+                  <excludes>**/*~</excludes>
+                  <mapper>
+                    <type>perm</type>
+                    <prefix>/etc/sudoers.d</prefix>
+                  </mapper>
+                </data>
+
+                <!-- nginx configuration -->
+                <data>
+                  <src>${project.basedir}/src/main/deb/nginx</src>
+                  <type>directory</type>
+                  <excludes>**/*~</excludes>
+                  <mapper>
+                    <type>perm</type>
+                    <prefix>/etc/nginx/sites-available</prefix>
+                  </mapper>
+                </data>
+                <data>
+                  <type>link</type>
+                  <linkName>/etc/nginx/sites-enabled/floodlight-ssl-rp</linkName>
+                  <linkTarget>/etc/nginx/sites-available/floodlight-ssl-rp</linkTarget>
+                  <symlink>true</symlink>
+                </data>
+
+                <!-- Wrapper scripts -->
+                <data>
+                  <src>${project.basedir}/src/main/deb/sbin</src>
+                  <type>directory</type>
+                  <excludes>**/*~</excludes>
+                  <mapper>
+                    <type>perm</type>
+                    <prefix>/usr/sbin</prefix>
+                    <filemode>755</filemode>
+                  </mapper>
+                </data>
+
+                <!-- Floodlight config -->
+                <data>
+                  <src>${project.basedir}/src/main/deb/confd</src>
+                  <type>directory</type>
+                  <excludes>**/*~</excludes>
+                  <mapper>
+                    <type>perm</type>
+                    <prefix>/etc/floodlight/conf.d</prefix>
+                  </mapper>
+                </data>
+                <data>
+                  <src>${project.basedir}/src/main/deb/db</src>
+                  <type>directory</type>
+                  <excludes>**/*~</excludes>
+                  <mapper>
+                    <type>perm</type>
+                    <prefix>/etc/floodlight/db.d</prefix>
+                  </mapper>
+                </data>
+              </dataSet>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

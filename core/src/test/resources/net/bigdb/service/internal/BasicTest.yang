@@ -1,0 +1,213 @@
+module BasicTest {
+    namespace net.bigdb;
+    prefix "ct";
+    
+    import bigdb {
+        prefix bigdb;
+    }
+
+    description "Basic test schema";
+    
+    organization "BigDB Inc.";
+
+    typedef priority-type {
+        type int32;
+        default 1000;
+    }
+
+    // Somewhat artificially factoring these fields into a grouping. This is
+    // as a test for a data source list corruption bug. See the comment below
+    // for the person-dummy-state node.
+    grouping name-fields {
+        leaf first-name {
+            bigdb:column-header "First Name";
+            type string;
+        }
+        
+        leaf last-name {
+            bigdb:column-header "Last Name";
+            type string;
+        }
+    }
+
+    list person {
+
+        key id;
+        
+        leaf id {
+            type string;
+        }
+        
+        uses ct:name-fields;
+
+        leaf-list nickname {
+            type string;
+        }
+        
+        list job {
+            key "employer-id employee-id";
+            
+            min-elements 0;
+            max-elements 4;
+            
+            leaf employer-id {
+                type string;
+            }
+            leaf employee-id {
+                type string;
+            }
+            leaf title {
+                type string;
+            }
+        }
+        
+        list address {
+
+            key "street city state zip-code";
+            leaf street {
+                type string;
+            }
+            
+            leaf city {
+                type string;
+            }
+            
+            leaf state {
+                type string;
+            }
+            
+            leaf zip-code {
+                type string;
+            }
+        }
+    }
+    
+    // This list is here to test for a bug where the data source list for
+    // nodes from a grouping would get corrupted if the grouping was used for
+    // both config and operational state. For the bug to occur it's necessary
+    // for the name of this node to be alphabetically after the "person" node.
+    // There isn't a specific @Test for this bug. If the bug occurs pretty
+    // much all of the other tests fail. So none of the tests actually access
+    // this node, but it should be left here as a regression test for the
+    // data source list corruption bug.
+    list person-dummy-state {
+        config false;
+        bigdb:data-source "controller-data-source";
+        uses ct:name-fields;
+    }
+
+    list group {
+        key "name";
+        leaf name {
+            type string;
+        }
+    }
+
+    list external-group {
+        key "name";
+        leaf name {
+            type string;
+        }
+        list external-user {
+            key "company-id user-id";
+            leaf company-id {
+                type string;
+            }
+            leaf user-id {
+                bigdb:case-sensitive false;
+                type string;
+            }
+        }
+    }
+
+    leaf allow-empty-leaf {
+        bigdb:allow-empty-string true;
+        type string {
+            pattern "abc.*";
+        }
+    }
+
+    leaf allow-empty-type {
+        type string {
+            bigdb:allow-empty-string true;
+            pattern "abc.*";
+        }
+    }
+
+    list prioritized-list {
+        key "priority";
+        leaf priority {
+            type uint32;
+        }
+        leaf name {
+            type string;
+        }
+    }
+
+    list update-test {
+        key "child1";
+        leaf child1 {
+            type string;
+        }
+        container child2 {
+            leaf child21 {
+                type string;
+            }
+            leaf child22 {
+                type int32;
+            }
+        }
+        leaf child3 {
+            type string;
+        }
+    }
+
+    container default-values {
+        leaf leaf-default {
+            type string;
+            default "foobar";
+        }
+        leaf typedef-default {
+            type priority-type;
+        }
+        leaf typedef-default-override {
+            type priority-type;
+            default 2000;
+        }
+    }
+
+    container empty-container {
+        container child1 {
+            container child12 {
+                leaf child121 {
+                    type int32;
+                }
+            }
+        }
+        container child2 {
+            container child21 {
+                leaf child211 {
+                    type string;
+                    default "foo";
+                }
+            }
+        }
+        list child3 {
+            key child31;
+            leaf child31 {
+                type string;
+            }
+            container child32 {
+                leaf child321 {
+                    type int32;
+                }
+            }
+            container child33 {
+                leaf child331 {
+                    type string;
+                    default "bar";
+                }
+            }
+        }
+     }
+}

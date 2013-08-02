@@ -1,0 +1,10 @@
+{
+  "TestBigDecimal" : 3452457293452873450.9834,
+  "TestBigInteger" : 34524572934528734509834,
+  "TestBinary" : "AQIDBA==",
+  "TestBoolean" : true,
+  "TestDouble" : 3.452938457234234E9,
+  "TestInt" : 1234,
+  "TestLong" : 1234,
+  "TestString" : "Foobar"
+}

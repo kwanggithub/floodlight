@@ -1,0 +1,96 @@
+module device-security {
+    namespace "urn:bigfloodlight:yang";
+    prefix "bigfloodlight-core";
+
+    import bigdb {
+        prefix bigdb;
+        revision-date 2012-10-12;
+    }
+    import floodlight-types {
+        prefix "floodlight-types";
+        revision-date "2012-10-07";
+    }
+    import ietf-inet-types {
+        prefix "inet";
+        revision-date "2010-09-24";
+    }
+
+    description
+        "Modules that includes configuration for device attachment point
+         security";
+
+    organization "www.openflowhub.org";
+
+    revision "2013-07-11" {
+        description "Initial revision.";
+    }
+
+    container core {
+        list device {
+            list security-attachment-point {
+                description
+                    'Configurable security attachment points for the device.
+                     
+                     To prevent MAC address spoofing, a network host can be 
+                     bound to a set of switch/interfaces on which the device 
+                     is allowed to appear. Traffic from this host is then 
+                     not allowed on other switch/interfaces. 
+                     However, the switch/interface continues to allow other 
+                     hosts. When specifying the switch/interface for a 
+                     particular host, use certain wildcards. Either specify 
+                     a particular switch DPID or the keyword all to identify 
+                     all switches. The interface name is specified as a regular 
+                     expression, for example .* matches all interfaces. 
+                     The regular expression is anchor at both start and beginning. 
+                     For example, a regular expressions of Ethernet only matches 
+                     interfaces with the exact name Ethernet.';
+                // cannot all be null
+                // TODO: we need compound key here.
+                key "dpid interface-regex";
+                leaf dpid {
+                    //mandatory true;
+                    description
+                        "The data path id of the switch that this device is allowed 
+                        to attach to. if not exist, mean any. A blank string means
+                        that this field will be ignored.";
+                    type floodlight-types:dpid-string;
+                    bigdb:allow-empty-string true;
+                }
+
+                leaf interface-regex {
+                    //mandatory true;
+                    description
+                        "The regular expression used to match the interface names 
+                        that the device is allowed to attached to. A blank string
+                        means that this field will be ignored.";
+                    type string;
+                    bigdb:allow-empty-string true;
+                }
+            }
+            leaf-list security-ip-address {
+                description
+                    "List of IP addresses linked to this hosts to help prevent
+                     IP address spoofing.
+                     
+                     To prevent IP address spoofing, an IP address can be linked 
+                     to a host or to multiple hosts. When an IP address is linked 
+                     to a set of hosts, only these hosts can use this IP address. 
+                     However, these hosts can still use other IP addresses in 
+                     addition to the configured one. Since address-spaces allow 
+                     reuse of overlapping IP addresses, IP security settings are 
+                     limited to a particular address-space. For example, 
+                     if IP 10.0.0.1 is restricted to a host in address-space 'red' 
+                     it still can be unrestricted in address-space 'green' since traffic 
+                     from 'red' and 'green' is completely independent.
+                     
+                     IP security settings are only enforced on ARP and DHCP packets. 
+                     This implies that a host could still send \"normal\" IP traffic 
+                     using a spoofed IP address. However, it cannot receive a reply 
+                     because it cannot send an ARP reply to notify its peers about 
+                     its MAC address";
+
+                type inet:ip-address;
+            }
+        }
+    }
+}

@@ -1,0 +1,28 @@
+module IetfInetTypesTest {
+    namespace "urn:net.bigdb";
+    prefix "mt";
+
+    import ietf-inet-types {
+        prefix "inet";
+        revision-date "2010-09-24";
+    }
+    
+    description "ietf inet common types";
+    
+    organization "Acme";
+    
+    container ietf-inet-types-test {
+        leaf address-version {
+            type inet:ip-version;
+        }
+        leaf dscp {
+            type inet:dscp;
+        }
+        leaf ip-address {
+            type inet:ipv6-flow-label;
+        }
+        leaf port-number {
+            type inet:port-number;
+        }
+    }
+}

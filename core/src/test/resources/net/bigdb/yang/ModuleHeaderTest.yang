@@ -1,0 +1,9 @@
+module ModuleHeaderTest {
+    yang-version 1.0;
+    namespace net.bigdb;
+    prefix "mht";
+    organization "www.openflowhub.org";
+    contact "Paddy Huntington";
+    description "Test module headers";
+    reference "Test reference";
+}

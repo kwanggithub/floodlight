@@ -1,0 +1,130 @@
+{
+  "name" : "Test",
+  "module" : {
+    "name" : "Test",
+    "revision" : "2012-08-12"
+  },
+  "nodeType" : "CONTAINER",
+  "childNodes" : {
+    "ChildContainer" : {
+      "name" : "ChildContainer",
+      "module" : {
+        "name" : "Test",
+        "revision" : "2012-08-12"
+      },
+      "nodeType" : "CONTAINER",
+      "childNodes" : {
+        "Count" : {
+          "name" : "Count",
+          "module" : {
+            "name" : "Test",
+            "revision" : "2012-08-12"
+          },
+          "nodeType" : "LEAF",
+          "mandatory" : false,
+          "typeSchemaNode" : {
+            "name" : "Count",
+            "module" : {
+              "name" : "Test",
+              "revision" : "2012-08-12"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "INTEGER"
+          },
+          "leafType" : "INTEGER"
+        },
+        "Foo" : {
+          "name" : "Foo",
+          "module" : {
+            "name" : "Test",
+            "revision" : "2012-08-12"
+          },
+          "nodeType" : "LEAF",
+          "mandatory" : false,
+          "typeSchemaNode" : {
+            "name" : "Foo",
+            "module" : {
+              "name" : "Test",
+              "revision" : "2012-08-12"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "STRING"
+          },
+          "leafType" : "STRING"
+        }
+      }
+    },
+    "Int" : {
+      "name" : "Int",
+      "module" : {
+        "name" : "Test",
+        "revision" : "2012-08-12"
+      },
+      "nodeType" : "LEAF",
+      "mandatory" : false,
+      "typeSchemaNode" : {
+        "name" : "Int",
+        "module" : {
+          "name" : "Test",
+          "revision" : "2012-08-12"
+        },
+        "nodeType" : "TYPE",
+        "leafType" : "INTEGER"
+      },
+      "leafType" : "INTEGER"
+    },
+    "Ref" : {
+      "name" : "Ref",
+      "module" : {
+        "name" : "Test",
+        "revision" : "2012-08-12"
+      },
+      "nodeType" : "REFERENCE",
+      "targetPath" : "/ChildContainer/Count",
+      "targetSchemaNode" : {
+        "name" : "Count",
+        "module" : {
+          "name" : "Test",
+          "revision" : "2012-08-12"
+        },
+        "nodeType" : "LEAF",
+        "mandatory" : false,
+        "typeSchemaNode" : {
+          "name" : "Count",
+          "module" : {
+            "name" : "Test",
+            "revision" : "2012-08-12"
+          },
+          "nodeType" : "TYPE",
+          "leafType" : "INTEGER"
+        },
+        "leafType" : "INTEGER"
+      }
+    },
+    "StringList" : {
+      "name" : "StringList",
+      "module" : {
+        "name" : "Test",
+        "revision" : "2012-08-12"
+      },
+      "nodeType" : "LEAF_LIST",
+      "leafSchemaNode" : {
+        "module" : {
+          "name" : "Test",
+          "revision" : "2012-08-12"
+        },
+        "nodeType" : "LEAF",
+        "mandatory" : false,
+        "typeSchemaNode" : {
+          "module" : {
+            "name" : "Test",
+            "revision" : "2012-08-12"
+          },
+          "nodeType" : "TYPE",
+          "leafType" : "STRING"
+        },
+        "leafType" : "STRING"
+      }
+    }
+  }
+}

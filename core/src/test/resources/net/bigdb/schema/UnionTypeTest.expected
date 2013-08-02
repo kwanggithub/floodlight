@@ -1,0 +1,457 @@
+{
+  "modules" : {
+    "UnionTypeTest" : {
+      "prefix" : "inet",
+      "typedefs" : {
+        "ipv4-address" : {
+          "name" : "ipv4-address",
+          "module" : {
+            "name" : "UnionTypeTest"
+          },
+          "nodeType" : "LEAF",
+          "description" : "The ipv4-address type ",
+          "typeSchemaNode" : {
+            "name" : "ipv4-address",
+            "module" : {
+              "name" : "UnionTypeTest"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "STRING",
+            "typeValidator" : [ {
+              "type" : "LENGTH_VALIDATOR",
+              "ranges" : [ {
+                "start" : 0,
+                "end" : 9223372036854775807
+              } ]
+            }, {
+              "type" : "PATTERN_VALIDATOR",
+              "pattern" : "(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%[\\p{N}\\p{L}]+)?"
+            } ]
+          },
+          "leafType" : "STRING"
+        },
+        "ip-address" : {
+          "name" : "ip-address",
+          "module" : {
+            "name" : "UnionTypeTest"
+          },
+          "nodeType" : "LEAF",
+          "description" : "The ip-address type represents an IP address",
+          "typeSchemaNode" : {
+            "name" : "ip-address",
+            "module" : {
+              "name" : "UnionTypeTest"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "UNION",
+            "typeSchemaNodes" : [ {
+              "name" : "ipv4-address",
+              "module" : {
+                "name" : "UnionTypeTest"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "STRING",
+              "typeValidator" : [ {
+                "type" : "LENGTH_VALIDATOR",
+                "ranges" : [ {
+                  "start" : 0,
+                  "end" : 9223372036854775807
+                } ]
+              }, {
+                "type" : "PATTERN_VALIDATOR",
+                "pattern" : "(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%[\\p{N}\\p{L}]+)?"
+              } ]
+            }, {
+              "name" : "ipv6-address",
+              "module" : {
+                "name" : "UnionTypeTest"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "STRING",
+              "typeValidator" : [ {
+                "type" : "LENGTH_VALIDATOR",
+                "ranges" : [ {
+                  "start" : 0,
+                  "end" : 9223372036854775807
+                } ]
+              }, {
+                "type" : "PATTERN_VALIDATOR",
+                "pattern" : "(([^:]+:){6}(([^:]+:[^:]+)|(.*\\..*)))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?)(%.+)?"
+              }, {
+                "type" : "PATTERN_VALIDATOR",
+                "pattern" : "((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(%[\\p{N}\\p{L}]+)?"
+              } ]
+            } ]
+          },
+          "leafType" : "UNION"
+        },
+        "ipv6-prefix" : {
+          "name" : "ipv6-prefix",
+          "module" : {
+            "name" : "UnionTypeTest"
+          },
+          "nodeType" : "LEAF",
+          "description" : "The ipv6-prefix ",
+          "typeSchemaNode" : {
+            "name" : "ipv6-prefix",
+            "module" : {
+              "name" : "UnionTypeTest"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "STRING",
+            "typeValidator" : [ {
+              "type" : "LENGTH_VALIDATOR",
+              "ranges" : [ {
+                "start" : 0,
+                "end" : 9223372036854775807
+              } ]
+            }, {
+              "type" : "PATTERN_VALIDATOR",
+              "pattern" : "(([^:]+:){6}(([^:]+:[^:]+)|(.*\\..*)))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?)(/.+)"
+            }, {
+              "type" : "PATTERN_VALIDATOR",
+              "pattern" : "((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(/(([0-9])|([0-9]{2})|(1[0-1][0-9])|(12[0-8])))"
+            } ]
+          },
+          "leafType" : "STRING"
+        },
+        "host" : {
+          "name" : "host",
+          "module" : {
+            "name" : "UnionTypeTest"
+          },
+          "nodeType" : "LEAF",
+          "description" : "The host type represents either an IP address or a DNS\ndomain name.",
+          "typeSchemaNode" : {
+            "name" : "host",
+            "module" : {
+              "name" : "UnionTypeTest"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "UNION",
+            "typeSchemaNodes" : [ {
+              "name" : "ip-address",
+              "module" : {
+                "name" : "UnionTypeTest"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "UNION",
+              "typeSchemaNodes" : [ {
+                "name" : "ipv4-address",
+                "module" : {
+                  "name" : "UnionTypeTest"
+                },
+                "nodeType" : "TYPE",
+                "leafType" : "STRING",
+                "typeValidator" : [ {
+                  "type" : "LENGTH_VALIDATOR",
+                  "ranges" : [ {
+                    "start" : 0,
+                    "end" : 9223372036854775807
+                  } ]
+                }, {
+                  "type" : "PATTERN_VALIDATOR",
+                  "pattern" : "(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%[\\p{N}\\p{L}]+)?"
+                } ]
+              }, {
+                "name" : "ipv6-address",
+                "module" : {
+                  "name" : "UnionTypeTest"
+                },
+                "nodeType" : "TYPE",
+                "leafType" : "STRING",
+                "typeValidator" : [ {
+                  "type" : "LENGTH_VALIDATOR",
+                  "ranges" : [ {
+                    "start" : 0,
+                    "end" : 9223372036854775807
+                  } ]
+                }, {
+                  "type" : "PATTERN_VALIDATOR",
+                  "pattern" : "(([^:]+:){6}(([^:]+:[^:]+)|(.*\\..*)))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?)(%.+)?"
+                }, {
+                  "type" : "PATTERN_VALIDATOR",
+                  "pattern" : "((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(%[\\p{N}\\p{L}]+)?"
+                } ]
+              } ]
+            }, {
+              "name" : "domain-name",
+              "module" : {
+                "name" : "UnionTypeTest"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "STRING",
+              "typeValidator" : [ {
+                "type" : "LENGTH_VALIDATOR",
+                "ranges" : [ {
+                  "start" : 1,
+                  "end" : 253
+                } ]
+              }, {
+                "type" : "PATTERN_VALIDATOR",
+                "pattern" : "((([a-zA-Z0-9_]([a-zA-Z0-9\\-_]){0,61})?[a-zA-Z0-9]\\.)*([a-zA-Z0-9_]([a-zA-Z0-9\\-_]){0,61})?[a-zA-Z0-9]\\.?)|\\."
+              } ]
+            } ]
+          },
+          "leafType" : "UNION"
+        },
+        "domain-name" : {
+          "name" : "domain-name",
+          "module" : {
+            "name" : "UnionTypeTest"
+          },
+          "nodeType" : "LEAF",
+          "description" : "The domain-name type represents a DNS domain name.",
+          "typeSchemaNode" : {
+            "name" : "domain-name",
+            "module" : {
+              "name" : "UnionTypeTest"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "STRING",
+            "typeValidator" : [ {
+              "type" : "LENGTH_VALIDATOR",
+              "ranges" : [ {
+                "start" : 1,
+                "end" : 253
+              } ]
+            }, {
+              "type" : "PATTERN_VALIDATOR",
+              "pattern" : "((([a-zA-Z0-9_]([a-zA-Z0-9\\-_]){0,61})?[a-zA-Z0-9]\\.)*([a-zA-Z0-9_]([a-zA-Z0-9\\-_]){0,61})?[a-zA-Z0-9]\\.?)|\\."
+            } ]
+          },
+          "leafType" : "STRING"
+        },
+        "ipv6-address" : {
+          "name" : "ipv6-address",
+          "module" : {
+            "name" : "UnionTypeTest"
+          },
+          "nodeType" : "LEAF",
+          "description" : "The ipv6-address type ",
+          "typeSchemaNode" : {
+            "name" : "ipv6-address",
+            "module" : {
+              "name" : "UnionTypeTest"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "STRING",
+            "typeValidator" : [ {
+              "type" : "LENGTH_VALIDATOR",
+              "ranges" : [ {
+                "start" : 0,
+                "end" : 9223372036854775807
+              } ]
+            }, {
+              "type" : "PATTERN_VALIDATOR",
+              "pattern" : "(([^:]+:){6}(([^:]+:[^:]+)|(.*\\..*)))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?)(%.+)?"
+            }, {
+              "type" : "PATTERN_VALIDATOR",
+              "pattern" : "((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(%[\\p{N}\\p{L}]+)?"
+            } ]
+          },
+          "leafType" : "STRING"
+        },
+        "ip-prefix" : {
+          "name" : "ip-prefix",
+          "module" : {
+            "name" : "UnionTypeTest"
+          },
+          "nodeType" : "LEAF",
+          "description" : "The ip-prefix type represents an IP prefix and is IP\nversion neutral.  The format of the textual representations\nimplies the IP version.",
+          "typeSchemaNode" : {
+            "name" : "ip-prefix",
+            "module" : {
+              "name" : "UnionTypeTest"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "UNION",
+            "typeSchemaNodes" : [ {
+              "name" : "ipv4-prefix",
+              "module" : {
+                "name" : "UnionTypeTest"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "STRING",
+              "typeValidator" : [ {
+                "type" : "LENGTH_VALIDATOR",
+                "ranges" : [ {
+                  "start" : 0,
+                  "end" : 9223372036854775807
+                } ]
+              }, {
+                "type" : "PATTERN_VALIDATOR",
+                "pattern" : "(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])/(([0-9])|([1-2][0-9])|(3[0-2]))"
+              } ]
+            }, {
+              "name" : "ipv6-prefix",
+              "module" : {
+                "name" : "UnionTypeTest"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "STRING",
+              "typeValidator" : [ {
+                "type" : "LENGTH_VALIDATOR",
+                "ranges" : [ {
+                  "start" : 0,
+                  "end" : 9223372036854775807
+                } ]
+              }, {
+                "type" : "PATTERN_VALIDATOR",
+                "pattern" : "(([^:]+:){6}(([^:]+:[^:]+)|(.*\\..*)))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?)(/.+)"
+              }, {
+                "type" : "PATTERN_VALIDATOR",
+                "pattern" : "((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(/(([0-9])|([0-9]{2})|(1[0-1][0-9])|(12[0-8])))"
+              } ]
+            } ]
+          },
+          "leafType" : "UNION"
+        },
+        "ipv4-prefix" : {
+          "name" : "ipv4-prefix",
+          "module" : {
+            "name" : "UnionTypeTest"
+          },
+          "nodeType" : "LEAF",
+          "description" : "The ipv4-prefix ",
+          "typeSchemaNode" : {
+            "name" : "ipv4-prefix",
+            "module" : {
+              "name" : "UnionTypeTest"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "STRING",
+            "typeValidator" : [ {
+              "type" : "LENGTH_VALIDATOR",
+              "ranges" : [ {
+                "start" : 0,
+                "end" : 9223372036854775807
+              } ]
+            }, {
+              "type" : "PATTERN_VALIDATOR",
+              "pattern" : "(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])/(([0-9])|([1-2][0-9])|(3[0-2]))"
+            } ]
+          },
+          "leafType" : "STRING"
+        },
+        "uri" : {
+          "name" : "uri",
+          "module" : {
+            "name" : "UnionTypeTest"
+          },
+          "nodeType" : "LEAF",
+          "description" : "The uri type represents a Uniform Resource Identifier",
+          "typeSchemaNode" : {
+            "name" : "uri",
+            "module" : {
+              "name" : "UnionTypeTest"
+            },
+            "nodeType" : "TYPE",
+            "leafType" : "STRING"
+          },
+          "leafType" : "STRING"
+        }
+      },
+      "id" : {
+        "name" : "UnionTypeTest"
+      }
+    }
+  },
+  "schemaRoot" : {
+    "nodeType" : "CONTAINER",
+    "attributes" : {
+      "Config" : "true"
+    },
+    "childNodes" : {
+      "union-test" : {
+        "name" : "union-test",
+        "module" : {
+          "name" : "UnionTypeTest"
+        },
+        "nodeType" : "CONTAINER",
+        "childNodes" : {
+          "host-name" : {
+            "name" : "host-name",
+            "module" : {
+              "name" : "UnionTypeTest"
+            },
+            "nodeType" : "LEAF",
+            "mandatory" : false,
+            "typeSchemaNode" : {
+              "name" : "host",
+              "module" : {
+                "name" : "UnionTypeTest"
+              },
+              "nodeType" : "TYPE",
+              "leafType" : "UNION",
+              "typeSchemaNodes" : [ {
+                "name" : "ip-address",
+                "module" : {
+                  "name" : "UnionTypeTest"
+                },
+                "nodeType" : "TYPE",
+                "leafType" : "UNION",
+                "typeSchemaNodes" : [ {
+                  "name" : "ipv4-address",
+                  "module" : {
+                    "name" : "UnionTypeTest"
+                  },
+                  "nodeType" : "TYPE",
+                  "leafType" : "STRING",
+                  "typeValidator" : [ {
+                    "type" : "LENGTH_VALIDATOR",
+                    "ranges" : [ {
+                      "start" : 0,
+                      "end" : 9223372036854775807
+                    } ]
+                  }, {
+                    "type" : "PATTERN_VALIDATOR",
+                    "pattern" : "(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%[\\p{N}\\p{L}]+)?"
+                  } ]
+                }, {
+                  "name" : "ipv6-address",
+                  "module" : {
+                    "name" : "UnionTypeTest"
+                  },
+                  "nodeType" : "TYPE",
+                  "leafType" : "STRING",
+                  "typeValidator" : [ {
+                    "type" : "LENGTH_VALIDATOR",
+                    "ranges" : [ {
+                      "start" : 0,
+                      "end" : 9223372036854775807
+                    } ]
+                  }, {
+                    "type" : "PATTERN_VALIDATOR",
+                    "pattern" : "(([^:]+:){6}(([^:]+:[^:]+)|(.*\\..*)))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?)(%.+)?"
+                  }, {
+                    "type" : "PATTERN_VALIDATOR",
+                    "pattern" : "((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(%[\\p{N}\\p{L}]+)?"
+                  } ]
+                } ]
+              }, {
+                "name" : "domain-name",
+                "module" : {
+                  "name" : "UnionTypeTest"
+                },
+                "nodeType" : "TYPE",
+                "leafType" : "STRING",
+                "typeValidator" : [ {
+                  "type" : "LENGTH_VALIDATOR",
+                  "ranges" : [ {
+                    "start" : 1,
+                    "end" : 253
+                  } ]
+                }, {
+                  "type" : "PATTERN_VALIDATOR",
+                  "pattern" : "((([a-zA-Z0-9_]([a-zA-Z0-9\\-_]){0,61})?[a-zA-Z0-9]\\.)*([a-zA-Z0-9_]([a-zA-Z0-9\\-_]){0,61})?[a-zA-Z0-9]\\.?)|\\."
+                } ]
+              } ]
+            },
+            "leafType" : "UNION"
+          }
+        }
+      }
+    }
+  }
+}

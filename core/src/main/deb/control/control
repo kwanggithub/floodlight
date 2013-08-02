@@ -1,0 +1,18 @@
+Package: [[artifactId]]
+Version: [[version]]
+Section: net
+Priority: low
+Maintainer: rob.adams@bigswitch.com
+Architecture: all
+Depends: adduser, upstart-job,
+ java7-runtime-headless,
+ python-pkg-resources,
+ python-netifaces,
+ python-ipaddr,
+ python-tz
+Description: Floodlight is a high-performance Java-based SDN platform.
+ It provides a base for developing rich software-defined networking 
+ applications.
+ .
+ Floodlight provides support for clustering and high availability, a
+ CLI and GUI infrastructure, and a modular architecture.

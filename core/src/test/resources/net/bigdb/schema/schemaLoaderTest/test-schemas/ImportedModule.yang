@@ -1,0 +1,20 @@
+module ImportedModule {
+    namespace net.bigdb;
+    prefix "im";
+    import Types {
+        prefix t;
+    }
+    
+    description "Test module importing";
+    
+    organization "Acme";
+    
+    container schemas {
+        leaf test-int {
+            type t:positive-integer;
+        }
+        leaf test-string {
+            type t:short-string;
+        }
+    }
+}

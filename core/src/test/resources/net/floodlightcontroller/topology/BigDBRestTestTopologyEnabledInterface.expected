@@ -1,0 +1,73 @@
+[ {
+  "interface" : {
+    "name" : "eth1",
+    "number" : 1
+  },
+  "switch-dpid" : "00:00:00:00:00:00:00:01"
+}, {
+  "interface" : {
+    "name" : "eth2",
+    "number" : 2
+  },
+  "switch-dpid" : "00:00:00:00:00:00:00:01"
+}, {
+  "interface" : {
+    "name" : "eth1",
+    "number" : 1
+  },
+  "switch-dpid" : "00:00:00:00:00:00:00:02"
+}, {
+  "interface" : {
+    "name" : "eth2",
+    "number" : 2
+  },
+  "switch-dpid" : "00:00:00:00:00:00:00:02"
+}, {
+  "interface" : {
+    "name" : "eth3",
+    "number" : 3
+  },
+  "switch-dpid" : "00:00:00:00:00:00:00:02"
+}, {
+  "interface" : {
+    "name" : "eth4",
+    "number" : 4
+  },
+  "switch-dpid" : "00:00:00:00:00:00:00:02"
+}, {
+  "interface" : {
+    "name" : "eth1",
+    "number" : 1
+  },
+  "switch-dpid" : "00:00:00:00:00:00:00:03"
+}, {
+  "interface" : {
+    "name" : "eth2",
+    "number" : 2
+  },
+  "switch-dpid" : "00:00:00:00:00:00:00:03"
+}, {
+  "interface" : {
+    "name" : "eth3",
+    "number" : 3
+  },
+  "switch-dpid" : "00:00:00:00:00:00:00:03"
+}, {
+  "interface" : {
+    "name" : "eth4",
+    "number" : 4
+  },
+  "switch-dpid" : "00:00:00:00:00:00:00:03"
+}, {
+  "interface" : {
+    "name" : "eth1",
+    "number" : 1
+  },
+  "switch-dpid" : "00:00:00:00:00:00:00:04"
+}, {
+  "interface" : {
+    "name" : "eth2",
+    "number" : 2
+  },
+  "switch-dpid" : "00:00:00:00:00:00:00:04"
+} ]

@@ -1,0 +1,10 @@
+[ {
+  "name" : "L2",
+  "sub-counter-name" : [ "OFPacketIn__broadcast", "OFPacketIn__multicast" ]
+}, {
+  "name" : "L3",
+  "sub-counter-name" : [ "OFPacketIn__L3_IPv4" ]
+}, {
+  "name" : "L4",
+  "sub-counter-name" : [ "OFPacketIn__L4_UDP" ]
+} ]

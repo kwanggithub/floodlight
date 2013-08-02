@@ -1,0 +1,9 @@
+[ {
+  "id" : "ghi",
+  "middleList" : [ {
+    "id" : "cde",
+    "innerList" : [ {
+      "id" : "abc"
+    } ]
+  } ]
+} ]

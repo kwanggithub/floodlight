@@ -1,0 +1,10 @@
+[ {
+  "counter" : 20,
+  "name" : "Foo"
+}, {
+  "counter" : 30,
+  "name" : "Bar"
+}, {
+  "counter" : 40,
+  "name" : "Test"
+} ]

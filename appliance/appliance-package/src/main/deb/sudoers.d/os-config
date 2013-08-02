@@ -1,0 +1,1 @@
+floodlight ALL = (root) NOPASSWD: /usr/sbin/floodlight-osconfigwrapper

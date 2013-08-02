@@ -1,0 +1,78 @@
+[ {
+  "action" : "LINK_ADDED",
+  "date" : "2012-12-11T01:27:42.655Z",
+  "dst-switch-dpid" : "00:00:00:00:00:00:00:02",
+  "dst-switch-port" : 1,
+  "dst-switch-port-state" : 0,
+  "link-type" : "internal",
+  "reason" : "Link added",
+  "src-switch-dpid" : "00:00:00:00:00:00:00:01",
+  "src-switch-port" : 1,
+  "src-switch-port-state" : 0
+}, {
+  "action" : "LINK_ADDED",
+  "date" : "2012-12-11T01:27:43.655Z",
+  "dst-switch-dpid" : "00:00:00:00:00:00:00:03",
+  "dst-switch-port" : 2,
+  "dst-switch-port-state" : 0,
+  "link-type" : "internal",
+  "reason" : "Link added",
+  "src-switch-dpid" : "00:00:00:00:00:00:00:02",
+  "src-switch-port" : 2,
+  "src-switch-port-state" : 0
+}, {
+  "action" : "LINK_ADDED",
+  "date" : "2012-12-11T01:27:45.655Z",
+  "dst-switch-dpid" : "00:00:00:00:00:00:00:01",
+  "dst-switch-port" : 2,
+  "dst-switch-port-state" : 0,
+  "link-type" : "internal",
+  "reason" : "Link added",
+  "src-switch-dpid" : "00:00:00:00:00:00:00:03",
+  "src-switch-port" : 1,
+  "src-switch-port-state" : 0
+}, {
+  "action" : "LINK_ADDED",
+  "date" : "2012-12-11T01:27:48.655Z",
+  "dst-switch-dpid" : "00:00:00:00:00:00:00:04",
+  "dst-switch-port" : 2,
+  "dst-switch-port-state" : 0,
+  "link-type" : "external",
+  "reason" : "Link added",
+  "src-switch-dpid" : "00:00:00:00:00:00:00:02",
+  "src-switch-port" : 3,
+  "src-switch-port-state" : 0
+}, {
+  "action" : "LINK_ADDED",
+  "date" : "2012-12-11T01:27:52.655Z",
+  "dst-switch-dpid" : "00:00:00:00:00:00:00:04",
+  "dst-switch-port" : 1,
+  "dst-switch-port-state" : 0,
+  "link-type" : "external",
+  "reason" : "Link added",
+  "src-switch-dpid" : "00:00:00:00:00:00:00:03",
+  "src-switch-port" : 3,
+  "src-switch-port-state" : 0
+}, {
+  "action" : "LINK_ADDED",
+  "date" : "2012-12-11T01:27:57.655Z",
+  "dst-switch-dpid" : "00:00:00:00:00:00:00:02",
+  "dst-switch-port" : 4,
+  "dst-switch-port-state" : 0,
+  "link-type" : "tunnel",
+  "reason" : "Link added",
+  "src-switch-dpid" : "00:00:00:00:00:00:00:03",
+  "src-switch-port" : 4,
+  "src-switch-port-state" : 0
+}, {
+  "action" : "LINK_ADDED",
+  "date" : "2012-12-11T01:28:03.655Z",
+  "dst-switch-dpid" : "00:00:00:00:00:00:00:03",
+  "dst-switch-port" : 4,
+  "dst-switch-port-state" : 0,
+  "link-type" : "tunnel",
+  "reason" : "Link added",
+  "src-switch-dpid" : "00:00:00:00:00:00:00:02",
+  "src-switch-port" : 4,
+  "src-switch-port-state" : 0
+} ]
