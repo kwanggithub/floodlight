@@ -16,7 +16,7 @@ def running_config_switch(context, scoreboard, data):
                      {'switch' : dpid}),)
     else:  
         path = ['core/switch', 'applications/bigtap/interface-config']
-    bigdb_running_config(context, path, detail)
+    run_config.post_paths(context, path, detail)
            
        
 switch_running_config_tuple = (

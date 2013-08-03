@@ -43,7 +43,21 @@ def is_rbac_admin(context):
 #
 # --------------------------------------------------------------------------------
 
-def bigdb_running_config(context, path = None, detail = None):
+def post_paths(context, path = None, detail = None):
+    """
+    Initialize the run config from the schema and the command descriptions,
+    Query all the paths, post the results to the rc scoreboard.
+
+    @param path this is either a string, for the schema path to read,
+           or its a list or strings,
+           or its a tuple or a list of tuples.
+           When its a tuple, the first entry is a string (the schema path)
+           and the second entry is a dictionary to use to query the path.
+
+           This allows the requestor to specifiy exactly which data to
+           query, to use to generate the associated commands, which
+           get posted to the scoreboard
+    """
     if context.bigdb_run_config == None:
         context.bigdb_run_config = BigDB_run_config(context,
                                                     context.bigdb)
