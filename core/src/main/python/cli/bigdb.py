@@ -1491,7 +1491,7 @@ class BigDB():
         url = ('%s/api/v1/data/controller/%s%s' % (
                         self.controller_url(), xpath, select_items(si)))
 
-        if debug.cli:
+        if debug.cli():
             print 'PUT', url, apply_data
         rest_result = self.bigsh.rest_api.rest_post_request(url, apply_data)
 
