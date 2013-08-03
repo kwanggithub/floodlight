@@ -384,16 +384,19 @@ def complete_integer_comma_ranges(path, field, field_range, scoped, data,
 
     if type(field_range) != tuple:
         # XXX command description problem
-        print 'complete_integer_comma_ranges: range required to be a tuple;', field_range
+        raise error.error.CommandDescriptionError('complete_integer_comma_ranges:'
+                                                  'range must be tuple;', field_range)
     if len(field_range) != 2:
         # XXX command description problem
-        print 'complete_integer_comma_ranges: tuple must be (min, max);', field_range
+        raise error.error.CommandDescriptionError('complete_integer_comma_ranges:'
+                                                  'tuple must have two values;', field_range)
 
     # possibly also validate each field is an integer
     (lower,upper) = field_range
     if lower >= upper:
         # XXX command description problem
-        print 'complete_integer_comma_ranges: min >= max;', field_range
+        raise error.error.CommandDescriptionError('complete_integer_comma_ranges:'
+                                                  'min >= max;', field_range)
 
     # acquire the values:
     bigdb = bigsh.bigdb
