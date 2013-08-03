@@ -388,6 +388,63 @@ def convert_tag_to_parts(value, data, namespace_key, name_key, value_key):
     data[value_key]     = tag_and_value[1]
 
 
+CICR_RANGE_RE = re.compile(r'^(\d+)\-(\d+)$')
+CICR_SINGLE_RE = re.compile(r'^(\d+)$')
+
+def convert_integer_comma_ranges(value, path, field, field_range, data):
+    print 'convert_integer_comma_ranges:', value, path, field, field_range, data
+
+    list_of_integers = []
+    for r in value.split(','):
+        m = CICR_RANGE_RE.match(r);
+        if (m):
+            lower = int(m.group(1))
+            upper = int(m.group(2))
+
+            list_of_integers += range(int(lower), int(upper) + 1)
+        else:
+            m = CICR_SINGLE_RE.match(r)
+            print 'INCH', m.group(1)
+            list_of_integers.append(int(m.group(1)))
+    print 'NLIST', list_of_integers
+    # with the list_of_integers, determine what the value should be.
+    bigdb = bigsh.bigdb
+    field_path = '%s/%s' % (path, field)
+    (schema, item_index) = bigdb.schema_of_path(field_path, {})
+    node_type = schema.get('nodeType')
+    if node_type == 'LEAF_LIST':
+        data[field_path] = list_of_integers
+    elif node_type == 'LIST':
+        # find the integer to set.
+        print schema.keys()
+        list_element_node = schema.get('listElementSchemaNode')
+        list_children_nodes = list_element_node.get('childNodes')
+        # examine all the children for this node. look for a field with
+        # the same range.   Assume field_range is a two-tuple of (low, high)
+        candidates = []
+        for (child_name, child_value) in list_children_nodes.items():
+            child_node_type = child_value.get('nodeType')
+            child_type_details = child_value.get('typeSchemaNode')
+            print 'CV', child_name, child_node_type, child_type_details
+            validators = child_type_details.get('typeValidator')
+            if validators:
+                # look for a range validator.
+                print 'TV', validators
+                for validator in validators:
+                    if validator['type'] == 'RANGE_VALIDATOR':
+                        ranges = validator['ranges']
+                        for r in ranges:
+                            if r.get('start') == field_range[0] and \
+                               r.get('end') == field_range[1]:
+                                print 'SAME RANGE', child_name
+                                candidates.append(child_name)
+        if len(candidates) == 1:
+            value_name = candidates[0]
+            data[field_path] = [{value_name: v} for v in list_of_integers]
+    else:
+        print 'convert_integer_comma_ranges: no management for ', node_type
+
+
 def init_data_handlers(bs):
     global bigsh
     bigsh = bs
@@ -469,3 +526,11 @@ def init_data_handlers(bs):
                                     'namespace_key'  : '$namespace-key',
                                     'name_key'       : '$name-key',
                                     'value_key'      : '$value-key'}})
+
+    command.add_argument_data_handler('convert-integer-comma-ranges',
+                                      convert_integer_comma_ranges,
+                        {'kwargs': {'value'          : '$value',
+                                    'data'           : '$data',
+                                    'path'           : '$path',
+                                    'field_range'    : '$range',
+                                    'field'          : '$field', }})

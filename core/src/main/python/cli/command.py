@@ -4416,11 +4416,16 @@ def init_command(bs):
         'validation' : 'validate-config',
     })
 
-
     add_typedef({
         'name'       : 'string-reserved',
         'help-name'  : 'string excluding reserved words',
         'base-type'  : 'string',
         'validation' : 'validate-not-reserved',
+    })
+
+    add_typedef({
+        'name'       : 'integer-comma-ranges',
+        'base-type'  : 'string',
+        'validation' : 'validate-integer-comma-ranges',
     })
 
