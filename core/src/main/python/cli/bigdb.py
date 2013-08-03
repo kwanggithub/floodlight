@@ -4110,8 +4110,24 @@ class BigDB_run_config():
                     if find_mode in self.target_modes:
                         return True
             return False
-            
-        def fields_associated(command):
+
+
+        # indexed first by command_self, then field
+        self.command_fields_types = {}
+
+
+        def attach_command_fields_type(command_self, field, field_type):
+            if field_type == None:
+                return
+
+            if not command_self in self.command_fields_types:
+                self.command_fields_types[command_self] = {}
+            if not field in  self.command_fields_types[command_self]:
+                self.command_fields_types[command_self][field] = []
+            self.command_fields_types[command_self][field].append(field_type)
+
+
+        def fields_associated(command, command_self):
             fields = []
 
             def args_recurse(args, fields):
@@ -4124,6 +4140,9 @@ class BigDB_run_config():
                             args_recurse(arg, fields)
                     elif 'args' in args:
                         args_recurse(args['args'], fields)
+                        attach_command_fields_type(command_self,
+                                                   args['field'],
+                                                   args.get('type'))
                     # 
                     if 'field' in args:
                         fields.append(args['field'])
@@ -4193,7 +4212,7 @@ class BigDB_run_config():
                         continue
                     path = self.mode_path[mode_index]
                     
-                fields = fields_associated(command)
+                fields = fields_associated(command, command_self)
                 self.command_fields[command['self']] = fields
                 if not path in self.path_commands: 
                     self.path_commands[path] = []
@@ -4380,7 +4399,7 @@ class BigDB_run_config():
 
             self.log( 'PC', path, self.path_commands.get(path), collect_leaf)
             commands_path = path
-            
+
             if not self.path_commands.get(path): # None or zero length
                 keys = self.bigdb.search_keys.get(path)
                 if keys and len(keys) == 1:
@@ -4554,6 +4573,60 @@ class BigDB_run_config():
                          sorted(collect_leaf.keys()), sorted(collapsed_fields))
 
 
+        def collect_integer_comma_ranges(collect_leaf, field, schema, results):
+            # Special case code to manage convertion of collections of integers
+            # into a comma separated collection of integers and ranges
+
+            if self.bigsh.description:
+                print 'collect_integer_comma_ranges:', schema.keys()
+
+            node_type = schema['nodeType']
+
+            # Convert existing results into a list of
+            if node_type == 'LIST':
+                # find the member name
+                list_element_node = schema.get('listElementSchemaNode')
+                list_children_nodes = list_element_node.get('childNodes')
+                candidates = list_children_nodes.keys()
+                if len(candidates) == 1:
+                    key = candidates[0]
+                    values = sorted([x[key] for x in results[field]])
+                else:
+                    print 'collect_integer_comma_ranges: ', candidates
+                    return
+
+            elif node_type == 'LEAF_LIST':
+                values = results[field]
+
+
+            if len(values) > 0:
+                # compute the value, attach it to collect_leaf
+                # XXX improve, use schema to figure the data out
+                new_value = []
+                first_value = values[0]
+                last_value = first_value
+                for v in values[1:]:
+                    if v != last_value + 1:
+                        if first_value == last_value:
+                            new_value.append(str(first_value))
+                        else:
+                            new_value.append('%s-%s' %
+                                             (first_value,
+                                             last_value))
+                        first_value = v
+                        last_value = v
+                    else:
+                        last_value = v
+                # last element.
+                if first_value == last_value:
+                    new_value.append(str(first_value))
+                else:
+                    new_value.append('%s-%s' %
+                                     (first_value,
+                                     last_value))
+                collect_leaf[field] = ','.join(new_value)
+
+
         def config(path, children, result, submode_commands):
 
             # the schema is pointing at "children" of a node,
@@ -4616,6 +4689,23 @@ class BigDB_run_config():
                             collect_leaf[item[0]] = item[1]
                             self.log( 'CONTAINER children', item)
                         # XXX assume if these are found, they'll get used.
+                elif node_type == 'LIST':
+                    # special case.
+                    # rc-interger-comma-range
+                    # Look for commands associated with this path, check to see
+                    # if any fields associated with this command is 'integer-comma-range'
+                    # type.  In this case, see if any of the assciated values exsit,
+                    # and backward-convert a collection of int's into a comma
+                    # separated list of ranges.
+                    #
+                    for command_self in  self.path_commands.get(path, []):
+                        # lookup the fields of the commands.
+                        for (f, t) in self.command_fields_types[command_self].items():
+                            if 'integer-comma-ranges' in t:
+                                collect_integer_comma_ranges(collect_leaf,
+                                                             f,
+                                                             field_details,
+                                                             result)
                 else:
                     self.log( 'CONFIG: type', node_type, field, result)
 

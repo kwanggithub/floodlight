@@ -376,12 +376,51 @@ def complete_staticflow_actions(prefix, data, completions):
                 # how to match the values?
 
 
-def complete_integer_comma_ranges(prefix, data, no_command, completions):
-    # XXX range, values.
-    values_range = (0,4096)
-    values = [ 25, 26, 27,  1000, 1001, 1002 ]
-    lower = values_range[0]
-    upper = values_range[1]
+def complete_integer_comma_ranges(path, field, field_range, scoped, data,
+                                  prefix, no_command, completions):
+
+    if bigsh.description:   # description debugging
+        print 'complete_integer_comma_ranges:', path, field, range, scoped, data, prefix, no_command
+
+    if type(field_range) != tuple:
+        # XXX command description problem
+        raise error.error.CommandDescriptionError('complete_integer_comma_ranges:'
+                                                  'range must be tuple;', field_range)
+    if len(field_range) != 2:
+        # XXX command description problem
+        raise error.error.CommandDescriptionError('complete_integer_comma_ranges:'
+                                                  'tuple must have two values;', field_range)
+
+    # possibly also validate each field is an integer
+    (lower,upper) = field_range
+    if lower >= upper:
+        # XXX command description problem
+        raise error.error.CommandDescriptionError('complete_integer_comma_ranges:'
+                                                  'min >= max;', field_range)
+
+    # acquire the values:
+    bigdb = bigsh.bigdb
+    field_path = '%s/%s' % (path, field)
+    query_filter = dict(data)
+    if scoped: # if scoped is an integer, could pass it as max_depth
+        bigsh.bigdb.add_mode_stack_paths(query_filter)
+    (schema, results) = bigdb.schema_and_result(field_path, query_filter)
+    print 'FP', field_path, results.result, schema.get('nodeType')
+    node_type = schema.get('nodeType')
+    if node_type == 'LEAF_LIST':
+        values = results.result
+    elif node_type == 'LIST':
+        list_element_node = schema.get('listElementSchemaNode')
+        list_children_nodes = list_element_node.get('childNodes')
+        candidates = list_children_nodes.keys()
+        if len(candidates) == 1:
+            key = candidates[0]
+            values = sorted([x[key] for x in results.iter()])
+        else:
+            print 'complete_integer_comma_ranges: ', candidates
+            return
+    else:
+        print 'complete_integer_comma_ranges: need support for type:', path, node_type
 
     def validate_integer(parm):
         try:
@@ -392,10 +431,261 @@ def complete_integer_comma_ranges(prefix, data, no_command, completions):
             # not in acceptable range
             return None
         return prefix_integer
-        
+
+    prefix_ranges = prefix.split(',')
+    bad_ranges = False
+    for prefix_range in prefix_ranges[:-1]:
+        if len(prefix_range) == 0:
+            # prefix parts ended in a ',' or the prefix is ''
+            if len(prefix_ranges) > 0:
+                completions[prefix] = 'Bad syntax, no choice between commas'
+                bad_ranges = True
+    if bad_ranges:
+        return
+
+    # populate the values from the ranges, validate the syntax of each range
+    # there is no user feedbac if exceptions are raised.
+    # assume the list of values is sorted,
+    for prefix_range in prefix_ranges[:-1]:
+        prefix_parts = prefix_range.split('-')
+        # since the length of prefix_range isn't zero,
+        # prefix_parts has a mininum length of 1.
+        if len(prefix_parts) == 1:
+            if len(prefix_parts[0]) == 0:
+                # "-", or ",-", both invalid
+                completions[prefix] = 'Bad syntax, missing integer before dash'
+                return
+            start_integer = validate_integer(prefix_parts[0])
+            if start_integer == None:
+                completions[prefix] = 'Bad syntax, "%s": not an integer' % prefix_parts[0]
+                return
+            if no_command:
+                if start_integer in values:
+                    values = [x for x in values if x != start_integer]
+            else:
+                if not start_integer in values:
+                    values.append(start_integer)
+        elif len(prefix_parts) == 2:
+            if len(prefix_parts[0]) == 0:
+                # "--" or ",-" both invalid
+                completions[prefix] = 'Bad syntax, missing integer before dash'
+                return
+            start_integer = validate_integer(prefix_parts[0])
+            if start_integer == None:
+                completions[prefix] = 'Bad syntax, "%s": not an integer' % prefix_parts[0]
+                return
+            # the length parts[1] may be 0
+            if len(prefix_parts[1]) == 0:
+                end_integer = start_integer
+            else:
+                end_integer = validate_integer(prefix_parts[1])
+                if end_integer == None:
+                    completions[prefix] = 'Bad syntax, "%s": not an integer' % prefix_parts[1]
+                    return
+
+            if end_integer < start_integer:
+                completions[prefix] = 'Bad syntax, "%s" not greater than "%s"' % (
+                        end_integer, start_integer)
+                return
+            if no_command:
+                exclude_values = range(start_integer, end_integer + 1)
+                values = [x for x in values if x not in exclude_values]
+            else:
+                for current in range(start_integer, end_integer + 1):
+                    if current not in values:
+                        values.append(current)
+                values.sort() # the append could un-order the results
+        else:
+            # inalid syntax, more than one dash
+            return
+
+    last_prefix_range = prefix_ranges[-1]
+    early_prefix = ','.join(prefix_ranges[:-1])
+    if len(early_prefix):
+        early_prefix += ','
+
     if no_command:
-        # the 'no' command, pick what's currently selected
-        pass
+        # the 'no' command, add completions for what's currently selected.
+
+        print 'VAL', values
+        # there are three cases:  the obvious case is when the
+        # prefix is empty, then the set choices becomes completions,
+        # then if the last digit in the prefix is a digit, it may be
+        # the first or second integer in a range, then if the last
+        # character is a dash ('-'), the next choice is the upper bound
+        # for set values (if the values are set from the first digit)
+        if last_prefix_range == '' or last_prefix_range[-1] == ',':
+            if len(values) == 0:
+                return
+            first_value = values[0]
+            current = first_value
+            for next_value in values[1:]:
+                lots_of_choices = {}
+                if next_value == current + 1:
+                    current = next_value
+                else:
+                    choice = str(early_prefix)
+                    if current == first_value:
+                        choice += str(first_value)
+                    else:
+                        choice += '%s-%s' % (first_value, next_value)
+                    lots_of_choices[choice]       = 'Currently set range'
+                    lots_of_choices[choice + ','] = 'Currently set range'
+                    current = next_value
+            choice = str(early_prefix)
+            if first_value == next_value:
+                choice += str(first_value)
+            else:
+                choice += '%s-%s' % (first_value, next_value)
+            completions[choice] = 'Currently set range'
+            if len(lots_of_choices) < 14: # 14 is pretty arbitrary
+                completions.update(lots_of_choices)
+
+        elif last_prefix_range[-1] in '0123456789':
+            # either [,]<int> or [,]<int>-<int>
+            if len(values) == 0:
+                return
+            prefix_parts = last_prefix_range.split('-')
+            if len(prefix_parts) == 1:
+                start_integer = validate_integer(prefix_parts[0])
+                if start_integer == None:
+                    completions[prefix] = '"%s": not an integer' % prefix_parts[0]
+                    return
+                # look for any set items which start with the range_parts[0]
+                lots_of_choices = []
+                choice = None
+                for value in values:
+                    if str(value).startswith(prefix_parts[0]):
+                        choice = early_prefix + str(value)
+                        msg = 'Currently set starting integer: %s' % start_integer
+                        lots_of_choies[choice]       = msg
+                        lots_of_choies[choice + ','] = msg
+                        lots_of_choies[choice + '-'] = msg
+                if len(lots_of_choices) < 16: # arbitrary
+                    completions.update(lots_of_choices)
+                elif choice: # only add the last if there's too many choices
+                    completions[choice]       = msg
+                    completions[choice + ','] = msg
+                    completions[choice + '-'] = msg
+            elif len(prefix_parts) == 2:
+                # [,]<int>-<int>, second <int) possibly incomplete
+                start_integer = validate_integer(prefix_parts[0])
+                if start_integer == None:
+                    completions[prefix] = '"%s": not an integer' % prefix_parts[0]
+                    return
+                if start_integer not in values:
+                    completions[prefix] = 'Starting value for range not set' \
+                                          ', "%s-": ' % prefix_parts[0]
+                    return
+                if len(prefix_parts[1]) == 0:
+                    # end of the range starting with start_integer
+                    print 'POP', values
+                    lots_of_choices = {}
+                    current = None
+                    choice = None
+                    for value in values:
+                        if start_integer == value:
+                            # <x>-<x> isn't a sensible range for the same x
+                            current = start_integer
+                        elif current:
+                            if value == current + 1:
+                                current = value
+                                choice = early_prefix + str(value)
+                                msg = 'Set starting integer: %s' % start_integer
+                                lots_of_choices[choice]       = msg
+                                lots_of_choices[choice + ','] = msg
+                            else:
+                                break
+                    if len(lots_of_choices) < 16:
+                        completions.update(lots_of_choices)
+                    elif choice:
+                        completions[choice]       = msg
+                        completions[choice + ','] = msg
+                else:
+                    end_integer = validate_integer(prefix_parts[1])
+                    if end_integer == None:
+                        completions[prefix] = '"%s": not an integer' % prefix_parts[1]
+                        return
+                    # look for possible end values, ranges which start
+                    # with start_integer, and end with the prefix of the
+                    # end_integer
+
+                    lots_of_choices = {}
+                    choice = None
+                    for value in values:
+                        if str(value).startswith(prefix_parts[1]) and value > start_integer:
+                            choice = early_prefix + '%s-%s' % ( start_integer, value)
+                            msg = 'Range starting with %s-%s' % (
+                                                start_integer, prefix_parts[1])
+                            lots_of_choices[choice]        = msg
+                            lots_of_choices[choice + ',']  = msg
+
+                    if len(lots_of_choices) < 16:
+                        completions.update(lots_of_choices)
+                    elif choice:
+                        completions[choice]       = msg
+                        completions[choice + ','] = msg
+            else: # too many items in the range
+                completions[prefix] = 'Too many dashes "-" for range'
+        elif last_prefix_range[-1] == '-':
+            if len(values) == 0:
+                return
+            prefix_parts = last_prefix_range.split('-')
+            start_integer = validate_integer(prefix_parts[0])
+            if start_integer == None:
+                completions[prefix] = '"%s": not an integer' % prefix_parts[0]
+                return
+            if start_integer not in values:
+                completions[prefix] = 'Starting value for range not set' \
+                                      ', "%s-": ' % prefix_parts[0]
+                return
+            if len(prefix_parts[1]) == 0:
+                # end of the range starting with start_integer
+                print 'POP', values
+                lots_of_choices = {}
+                current = None
+                # start_integer must appear in the list of values, that's been verified
+                for value in values:
+                    if start_integer == value:
+                        current = value
+                    elif current:
+                        if value == current + 1:
+                            current = value
+                            choice = early_prefix + str(value)
+                            msg = 'Set starting integer: %s' % start_integer
+                            lots_of_choices[choice]       = msg
+                            lots_of_choices[choice + ','] = msg
+                        else:
+                            break
+                if len(lots_of_choices) < 16:
+                    completions.update(lots_of_choices)
+                elif choice:
+                    completions[choice]       = msg
+                    completions[choice + ','] = msg
+            else:
+                # ','<x>-<y>, y is second range, a prefix of prefix_parts[1]
+                end_integer = validate_integer(prefix_parts[1])
+                if end_integer == None:
+                    completions[prefix] = '"%s": not an integer' % prefix_parts[1]
+                    return
+                # look for possible end values, ranges which start
+                # with start_integer, and end with the prefix of the
+                # end_integer
+                lots_of_choices = {}
+                choice = None
+                for value in values:
+                    if str(value).startswith(prefix_parts[1]) and value > start_integer:
+                        choice = early_prefix + ',%s-%s' % (start_integer, value)
+                        msg = 'Range starting with %s-%s' % (start_integer, value)
+                        lots_of_choices[choice ]      = msg
+                        lots_of_choices[choice + ','] = msg
+                if len(lots_of_choices) < 16:
+                    completions.update(lots_of_choices)
+                elif choice:
+                    completions[choice]       = msg
+                    completions[choice + ','] = msg
+        else:
+            completions[prefix] = 'Bad Syntax: expect integer or range'
     else:
         # not the 'no' command,  return new choices (items NOT currently selected)
         #
@@ -403,56 +693,6 @@ def complete_integer_comma_ranges(prefix, data, no_command, completions):
         # values is a list of integers representing selected items.
         # parse the current values of prefix and add these to values.
 
-        # populate the values from the ranges, validate the syntax of each range
-        prefix_ranges = prefix.split(',')
-        for prefix_range in prefix_ranges[:-1]:
-            if len(prefix_range) == 0:
-                # prefix parts ended in a ',' or the prefix is ''
-                if len(prefix_ranges) > 0:
-                    completions[prefix] = 'Bad syntax, no choice between commas'
-                continue
-            prefix_parts = prefix_range.split('-')
-            # since the length of prefix_range isn't zero,
-            # prefix_parts has a mininum length of 1.
-            if len(prefix_parts) == 1:
-                if len(prefix_parts[0]) == 0:
-                    # "-", or ",-", both invalid
-                    completions[prefix] = 'Bad syntax, missing integer before dash'
-                    return
-                start_integer = validate_integer(prefix_parts[0])
-                if start_integer == None:
-                    completions[prefix] = 'Bad syntax, "%s": not an integer' % prefix_parts[0]
-                    return
-                if not start_integer in values:
-                    values.append(start_integer)
-            elif len(prefix_parts) == 2:
-                if len(prefix_parts[0]) == 0:
-                    # "--" or ",-" both invalid
-                    completions[prefix] = 'Bad syntax, missing integer before dash'
-                    return
-                start_integer = validate_integer(prefix_parts[0])
-                if start_integer == None:
-                    completions[prefix] = 'Bad syntax, "%s": not an integer' % prefix_parts[0]
-                    return
-                # the length parts[1] may be 0
-                if len(prefix_parts[1]) == 0:
-                    end_integer = start_integer
-                else:
-                    end_integer = validate_integer(prefix_parts[1])
-                    if end_integer == None:
-                        completions[prefix] = 'Bad syntax, "%s": not an integer' % prefix_parts[1]
-                        return
-
-                if end_integer < start_integer:
-                    completions[prefix] = 'Bad syntax, "%s" not greater than "%s"' % (
-                            end_integer, start_integer)
-                    return
-                for current in range(start_integer, end_integer + 1):
-                    if current not in values:
-                        values.append(current)
-            else:
-                # inalid syntax, more than one dash
-                return
 
         # prefix_range is the last item in the collection of values.
         # Use the last character of prefix to determine what to add
@@ -462,99 +702,181 @@ def complete_integer_comma_ranges(prefix, data, no_command, completions):
         # If its a dash, then add the end of the unset range,
         # if the dash represents a set value, then don't provide a choice
         # use the collection of unset values to select completions
-        last_prefix_range = prefix_ranges[-1]
         if last_prefix_range == '' or last_prefix_range[-1] == ',':
-            # add all range
+            # add all new ranges, pick unset items
             current = lower
             while current <= upper:
                 if not current in values:
                     # begin collecting a range of values
                     end = current + 1
                     if end in values:
-                        completions[prefix + "%s"] = 'Single unset value'
+                        completions[early_prefix + "%s"]  = 'Single unset value'
+                        completions[early_prefix + "%s,"] = 'Single unset value'
+                        completions[early_prefix + "%s-"] = 'Single unset value'
                     else:
                         end += 1
                         while (not end in values) and (end <= upper):
                             end += 1
-                        unset_range = '%s-%s' % (current, end - 1)
-                        completions[prefix + unset_range] = (
-                                'Currently unset range: %s' % unset_range)
+                        choice = '%s-%s' % (current, end - 1)
+                        msg = 'Currently unset range: %s' % choice
+                        completions[early_prefix + choice]       = msg
+                        msg = 'Currently unset range: %s, add new range' % choice
+                        completions[early_prefix + choice + ','] = msg
+
                         while (end in values) and (end <= upper):
                             end += 1
+                        end -= 1
                     current = end + 1
                 else:
                     current += 1
         elif last_prefix_range[-1] in '0123456789':
+            # either [..,]<x> or [..,]<x>-<iy>
             last_prefix_ranges = last_prefix_range.split('-')
             if len(last_prefix_ranges) == 1:
+                # [..,]<x>, where x is a prefix
                 lower_range = lower
                 start_integer = validate_integer(last_prefix_range)
                 if start_integer == None:
-                    completions[prefix] = 'Bad Syntax ("%s": not integer)' % last_prefix_range
+                    completions[prefix] = '"%s": not an integer' % last_prefix_range
                     return
                 if not start_integer in values:
-                    completions[prefix + '-'] = 'Complete range'
+                    completions[prefix + '-'] = 'Continue to complete range'
                     completions[prefix + ','] = 'Add more ranges'
-                base_prefix = ''.join(['%s,' %  x for x in prefix_ranges[:-1]])
-                last_prefix_integer = last_prefix_range
+                else:
+                    completions[prefix] = '%s value already set' % start_integer
+                    return
+                base_prefix = early_prefix
+                last_prefix_integer = last_prefix_range[0]
+
+                # look for integers which aren't set startswith() last_prefix_ranges[0]
             elif len(last_prefix_ranges) == 2:
                 last_prefix_integer = last_prefix_ranges[1]
                 end_integer = validate_integer(last_prefix_integer)
                 if end_integer == None:
+                    completions[prefix] = '"%s": not an integer' % last_prefix_ranges[1]
                     return
-                if end_integer in values:
-                    completions[prefix + ','] = 'Value %s already set' % end_integer
-                    return
+                # can't test for end_integer in values since end_integer
+                # is a prefix for the values, same with testing for
+                # end_integer > start_integer.
 
                 lower_range = validate_integer(last_prefix_ranges[0])
                 if lower_range == None:
-                    completions[prefix] = 'Bad Syntax ("%s": lower range)' % last_prefix_ranges[0]
+                    completions[prefix] = '"%s": not an integer' % last_prefix_ranges[0]
                     return
 
-                completions[prefix + ','] = 'End of Range, add additional range'
-                completions[prefix] = 'End of Range'
+                if lower_range in values:
+                    completions[prefix] = '%s: already set' % lower_range
+                    return
 
-                base_prefix = ''.join(['%s,' %  x for x in prefix_ranges[:-1]])
-                base_prefix += last_prefix_ranges[0] + '-'
+                completions[prefix]       = 'End of Range'
+                completions[prefix + ','] = 'End of Range, add additional range'
+
+                base_prefix += early_prefix + last_prefix_ranges[0] + '-'
+                # look for end range with a first integer of last_prefix_ranges[0],
+                # and with integers startswith() of last_prefix_ranges[1]
             else:
-                completions[prefix] = 'Bad Syntax (too many dashes "-" for range)'
+                completions[prefix] = 'Bad Syntax (use one dash "-" for range)'
                 return
 
-            many = len(last_prefix_integer) + 1
             # first find all the possible completion digits which are unset
             # try not to create thousands of choices, when there's too many then
             # provide ambiguous unselectable entries.
-            proposed = {}
-            short_proposed = {}
-            for current in range(lower_range, upper + 1):
-                curr_str = str(current)
-                if not current in values and curr_str.startswith(last_prefix_integer):
-                    if len(curr_str) >= many:
-                        short_proposed[base_prefix + curr_str[:many]] = 'More digits from unselected choices'
-                        short_proposed[base_prefix + curr_str[:many] + ' ...'] = 'More digits from unselected choices'
-                        proposed[base_prefix + curr_str] = 'More digits from unselected choices'
-            if len(proposed) <= 20: # arbitrary number of choices
-                completions.update(proposed)
+            lots_of_choices = {}
+            fewer_choices = {}
+            # limit range here to prevent huge slections of choices (like: 2^31)
+            if upper - lower_range > 2**15:
+                # compute the set ranges for large ranges
+                set_ranges = []
+                if len(values) == 0:
+                    set_ranges.append('%s-%s' % (lower_range, upper))
+                else:
+                    if lower_range != values[0]:
+                        set_ranges.append('%s-%s' % (lower_range, upper))
+                    # enumerate values, find set groups
+                    first_value = values[0]
+                    current_value = first_value
+                    for value in values[1:]:
+                        if value != current_value + 1:
+                            if first_value == current_value:
+                                set_ranges.append("%s" % first_value)
+                            else:
+                                set_ranges.append("%s-%s" % (
+                                                  first_value, current_value))
+                            first_value = value
+                        current_value = value
+                    # last entry may need to be added, extent range to upper bound
+                    if current_value != first_value:
+                        if first_value == current_value:
+                            if first_value == upper:
+                                set_ranges.append("%s" % first_value)
+                            else:
+                                set_ranges.append("%s-%s" % (first_value, upper))
+                        else:
+                            set_ranges.append("%s-%s" % (first_value, upper))
+                    # possible last value to end of range
+                    elif first_value < upper:
+                        set_ranges.append("%s-%s" % (first_value, upper))
+
+                # select ranges from set ranges using the last prefix element.
+                for set_range in set_ranges:
+                    if set_range.startsiwth(last_prefix_range):
+                        msg = 'Currently set range'
+                        completions[early_prefix + set_range]        = msg
+                        completions[early_prefix + set_range + ',' ] = msg
             else:
-                completions.update(short_proposed)
+                min_length = len(last_prefix_integer) + 1
+                for current in range(lower_range, upper + 1):
+                    # when computing end values for ranges,
+                    # stop once a set value is found
+                    if len(last_prefix_ranges) == 2 and current in value:
+                        break;
+                    curr_str = str(current)
+                    if len(curr_str) < min_length:
+                        continue
+                    if not current in values and curr_str.startswith(last_prefix_integer):
+                        choice = early_prefix + curr_str[:min_length]
+                        # limit choices to the next character
+                        msg = 'Some digits from unselected choices'
+                        fewer_choices[choice] = msg
+                        msg = 'More digits from unselected choices'
+                        fewer_choices[choice + '...'] = msg
+
+                        lots_of_choices[early_prefix + curr_str] = msg
+                        if len(last_prefix_ranges) == 1:
+                            lots_of_choices[early_prefix + curr_str + '-'] = msg
+                        lots_of_choices[early_prefix + curr_str + ','] = msg
+            if len(lots_of_choices) <= 20: # arbitrary number of choices
+                completions.update(lots_of_choices)
+            else:
+                completions.update(fewer_choices)
             
         elif last_prefix_range[-1] == '-':
             start_integer = validate_integer(last_prefix_range[:-1])
             if start_integer == None:
-                completions[prefix] = 'Bad Syntax ("%s": not integer)' % last_prefix_range[:-1]
+                completions[prefix] = '"%s": not an integer' % last_prefix_range[:-1]
                 return
             if start_integer in values:
-                completions[prefix] = 'Bad Syntax "%s": beginning range already set' % (
+                completions[prefix] = '"%s": beginning range already set' % (
                                                 start_integer)
                 return
+
             end_integer = start_integer + 1
+            lots_of_choices = {}
             while (not end_integer in values) and (end_integer <= upper):
+                choice = prefix + str(end_integer)
+                lots_of_choices[choice ]      = 'End of range',
+                lots_of_choices[choice + ','] = 'End of range, add additional range'
                 end_integer += 1
-            if end_integer < upper:
-                completions[prefix + str(end_integer - 1) + ','] = 'End of range, add additional range'
-            completions[prefix + str(end_integer - 1)] = 'End of Range (last range)'
+
+            if len(lots_of_choices) < 16:
+                completions.update(lots_of_choices)
+            else:
+                if end_integer < upper:
+                    msg = 'End of range, add additional range'
+                    completions[prefix + str(end_integer - 1) + ','] = msg
+                completions[prefix + str(end_integer - 1)] = 'End of range'
         else:
-            completions[prefix] = 'Bad Syntax: "%s" (not an integer)' % prefix
+            completions[prefix] = 'Bad Syntax: expect integer or range'
 
 
 def complete_description_versions(prefix, completions):
@@ -675,7 +997,11 @@ def init_completions(bs):
                                        'completions' : '$completions'}})
 
     command.add_completion('complete-integer-comma-ranges', complete_integer_comma_ranges,
-                           {'kwargs': {'prefix'      : '$text',
+                           {'kwargs': {'path'        : '$path',
+                                       'field'       : '$field',
+                                       'scoped'      : '$scoped',
+                                       'field_range' : '$range',
+                                       'prefix'      : '$text',
                                        'data'        : '$data',
                                        'no_command'  : '$is-no-command',
                                        'completions' : '$completions'}})

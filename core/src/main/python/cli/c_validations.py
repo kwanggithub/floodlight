@@ -486,6 +486,27 @@ def validate_not_reserved(typedef, value, reserved = None):
         command._raise_argument_validation_exception(typedef, value, msg)
     return value
 
+ICR_RANGE_RE = re.compile(r'^(\d+)\-(\d+)$')
+ICR_SINGLE_RE = re.compile(r'^(\d+)$')
+
+def validate_integer_comma_ranges(typedef, value):
+    for range in value.split(','):
+        m = ICR_RANGE_RE.match(range);
+        if (m):
+            lower = int(m.group(1))
+            upper = int(m.group(2))
+            if (lower >= upper):
+                msg = "Invalid range: %d-%d" % (lower, upper)
+                command._raise_argument_validation_exception(typedef,
+                                                             value,
+                                                             msg)
+        elif not ICR_SINGLE_RE.match(range):
+            msg = "Must be a comma separated list of integers ranges" \
+                  ", such as '10-15,25,1-3'"
+            command._raise_argument_validation_exception(typedef,
+                                                         value,
+                                                         msg)
+    return value
 
 def init_validations(bs):
     global bigsh
@@ -523,3 +544,7 @@ def init_validations(bs):
                                         'value'    : '$value',
                                         'reserved' : '$reserved'}})
 
+    command.add_validation('validate-integer-comma-ranges',
+                           validate_integer_comma_ranges,
+                           {'kwargs' : {'typedef'  : '$typedef',
+                                        'value'    : '$value', }})
