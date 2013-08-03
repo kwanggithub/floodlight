@@ -25,7 +25,6 @@ import select
 import errno
 import fcntl
 import posixpath
-import random
 import copy
 import imp
 import locale
