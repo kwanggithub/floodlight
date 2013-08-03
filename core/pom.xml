@@ -478,7 +478,7 @@
                   </mapper>
                 </data>
                 <data>
-                  <src>${project.build.directory}/python/cli/usr/share/floodlight/cli/bigcli</src>
+                  <src>${project.build.directory}/python/cli/usr/share/floodlight/cli/cli</src>
                   <type>file</type>
                   <mapper>
                     <type>perm</type>
@@ -498,7 +498,7 @@
                 <data>
                   <type>link</type>
                   <linkName>/usr/bin/floodlight-cli</linkName>
-                  <linkTarget>/usr/share/floodlight/cli/bigcli</linkTarget>
+                  <linkTarget>/usr/share/floodlight/cli/cli</linkTarget>
                   <symlink>true</symlink>
                 </data>
                 <data>
