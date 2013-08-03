@@ -6,7 +6,7 @@ import run_config
 def running_config_user(context, config, data):
     detail = data.get('detail')
     if context.bigdb.enabled():
-        bigdb_running_config(context, 'core/aaa/local-user', detail)
+        run_config.post_paths(context, 'core/aaa/local-user', detail)
 
 
 user_running_config_tuple = (
@@ -33,7 +33,7 @@ run_config.register_running_config('user', 1000, None,
 def running_config_group(context, config, data):
     detail = data.get('detail')
     if context.bigdb.enabled():
-        bigdb_running_config(context, 'core/aaa/group', detail)
+        run_config.post_paths(context, 'core/aaa/group', detail)
 
 
 group_running_config_tuple = (

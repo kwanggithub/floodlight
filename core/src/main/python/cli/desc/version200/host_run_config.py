@@ -9,7 +9,7 @@ def running_config_host(context, scoreboard, data):
     """
 
     detail = data.get('detail', False)
-    context.running_config('core/device', detail)
+    run_config.post_paths('core/device', detail)
 
 
 host_running_config_tuple = (
