@@ -1590,10 +1590,58 @@ class BigSh():
 
     #
     # --------------------------------------------------------------------------------
+    # scp_command
+    #
+    def scp_command(self, line):
+        # if scp is requested, invoke it directly
+        # should we have a specific ssh group to allow its use
+        # Don't use shell=True, since that opens the possibility of
+        # having pipes or multiple commands.
+        return subprocess.call(['/usr/bin/scp'] + line.split()[1:])
+
+    #
+    # --------------------------------------------------------------------------------
+    # single_command
+    #
+    def single_command(self, line):
+        """Exeute a single command, manage exceptions"""
+        try:
+            url_cache.clear_cached_urls()
+
+            m = re.search('^watch (.*)$', line)
+            if m:
+                self.run.handle_watch_command(m.group(1))
+            else:
+                self.run.finder.completion_reset()
+                self.run.handle_multipart_line(line)
+            sys.stdout.flush()
+            return 0
+        except KeyboardInterrupt:
+            self.run.finder.completion_reset()
+            print "\nInterrupt."
+            return 1
+        except urllib2.HTTPError, e:
+            print 'HTTPError', e
+            return 4
+        except urllib2.URLError, e:
+            print error.error_message("communicating with REST API server on %s "
+                                      "- Network error: %s" %
+                                      (self.controller, e.reason))
+            return 3
+        except Exception, e:
+            print "\nError running command '%s'.\n" % line
+            if debug.cli():
+                print command._line(), ' backtrace'
+                traceback.print_exc()
+            return 127
+        return rc
+
+    #
+    # --------------------------------------------------------------------------------
     # loop
-    #  core dispatching command error handling
     #
     def loop(self):
+        """core dispatching command error handling"""
         self.running = True
         if not self.batch:
             print "Big Network Controller"
@@ -1617,9 +1665,7 @@ class BigSh():
         command.action_invoke('validate-switch', {})
 
         while self.running:
-            # Get command line - this will use the command completion above
             try:
-                url_cache.clear_cached_urls()
                 if self.options.single_command:
                     line = self.options.single_command
                     self.running = False
@@ -1630,32 +1676,16 @@ class BigSh():
                     # prompt is updated at each command prompt since the
                     # controller role may change spontaneously (MASTER->SLAVE)
                     line = raw_input('%s' % self.run.finder.mode_stack.get_prompt(update = True))
-
-                m = re.search('^watch (.*)$', line)
-                if m:
-                    self.run.handle_watch_command(m.group(1))
-                else:
-                    self.run.finder.completion_reset()
-                    self.run.handle_multipart_line(line)
-                sys.stdout.flush()
-            except KeyboardInterrupt:
-                self.run.finder.completion_reset()
-                print "\nInterrupt."
             except EOFError:
                 if debug.cli() or debug.description():
                     print "\nExiting."
-                return
-            except urllib2.HTTPError, e:
-                print 'HTTPError', e
-            except urllib2.URLError, e:
-                print error.error_message("communicating with REST API server on %s "
-                                          "- Network error: %s" %
-                                          (self.controller, e.reason))
-            except Exception, e:
-                print "\nError running command '%s'.\n" % line
-                if debug.cli():
-                    print command._line(), ' backtrace'
-                    traceback.print_exc()
+                return 0
+            except KeyboardInterrupt:
+                self.run.finder.completion_reset()
+                print "\nInterrupt."
+
+            rc = self.single_command(line)
+
 
 #
 # --------------------------------------------------------------------------------
@@ -1699,11 +1729,20 @@ def main():
 
     # Start CLI
     cli = BigSh()
-    cli.loop()
+    if cli.options.single_command:
+        command = cli.options.single_command
+        if command.startswith('scp '):
+            rc = cli.scp_command(command)
+        else:
+            rc = cli.single_command(command)
+    else:
+        rc = cli.loop()
 
     # cleanup.
     if cli.bigdb:
         cli.bigdb.revoke_session()
+
+    sys.exit(rc)
 
 if __name__ == '__main__':
     main()
