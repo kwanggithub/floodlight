@@ -1424,13 +1424,7 @@ class BigSh():
     def init_bigdb(self):
         # check for BigDB
         self.bigdb = bigdb.BigDB(self.controller, self)
-        if self.bigdb.enabled():
-            if debug.cli():
-                print 'BIGDB Enabled'
-            if os.environ.get('BSC_SESSION_COOKIE') == None:
-                print 'BIGDB Enabled: BSC_SESSION_COOKIE unset, no session cookie'
-            self.desc_version = 'bigdb' # temporary
-        else:
+        if not self.bigdb.enabled():
             print 'BIGDB NOT ENABLED'
         self.bigdb_run_config = None
         self.rc_scoreboard = None
