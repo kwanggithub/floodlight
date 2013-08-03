@@ -57,7 +57,7 @@ HOST_SUBMODE_COMMAND_DESCRIPTION = {
     'name'                : 'host',
     'path'                : 'core/device',
     'mode'                : 'config*',
-    'feature'             : 'bvs', 
+    # 'feature'           : 'bvs',  some other feature relatinoship is needed
     'command-type'        : 'config-submode',
     'submode-name'        : 'config-host',
     'short-help'          : 'Host submode, configure host details',
@@ -112,7 +112,7 @@ HOST_SUBMODE_COMMAND_DESCRIPTION = {
 SHOW_HOST_ENTITIES_COMMAND_DESCRIPTION = {
     'name'         : 'show',
     'mode'         : 'login',
-    'feature'      : 'bvs', 
+    # 'feature'    : 'bvs',  some other feature relatinoship is needed
     'short-help'   : 'Show host summaries',
     'doc'          : 'host|show',
     'doc-example'  : 'host|show-example',
@@ -299,7 +299,7 @@ host_show_mac_action = (
 HOST_SHOW_COMMAND_DESCRIPTION = {
     'name'         : 'show',
     'mode'         : 'login',
-    'feature'      : 'bvs',
+    # 'feature'      : 'bvs', some other feature relatinoship is needed
     'short-help'   : 'Show host summaries',
     'doc'          : 'host|show',
     'doc-example'  : 'host|show-example',
@@ -316,7 +316,7 @@ HOST_SHOW_COMMAND_DESCRIPTION = {
 HOST_SHOW_MAC_COMMAND_DESCRIPTION = {
     'name'         : 'show',
     'mode'         : 'login',
-    'feature'      : 'bvs',
+    # 'feature'      : 'bvs',  some other feature relatinoship is needed
     'short-help'   : 'Show host details based on query',
     'doc'          : 'host|show-host',
     'doc-example'  : 'host|show-host-example',
@@ -462,7 +462,7 @@ command.add_action('attachment-point-compose',  attachment_point_compose, )
 HOST_SHOW_MAC_ITEMS_COMMAND_DESCRIPTION = {
     'name'         : 'show',
     'mode'         : 'login',
-    'feature'      : 'bvs',
+    # 'feature'      : 'bvs',  some other feature relatinoship is needed
     'short-help'   : 'Show various host related details by query',
     'doc'          : 'host|show-host-items',
     'doc-example'  : 'host|show-host-items-example',

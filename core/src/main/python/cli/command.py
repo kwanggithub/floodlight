@@ -730,6 +730,7 @@ def _get_command_syntax_help_string(command, command_prefix_string):
 
     except Exception, e:
         if debug.cli():
+            print _line(), 'Backtrace'
             traceback.print_exc()
         raise error.CommandDescriptionError(str(e))
     
@@ -1003,6 +1004,7 @@ class CommandHandler(object):
                         
         except Exception, _e:
             if debug.cli():
+                print _line(), 'Backtrace'
                 traceback.print_exc()
             raise error.CommandDescriptionError('Missing mode or name', command)
         
@@ -1468,9 +1470,10 @@ class CommandHandler(object):
             # result = self.handle_command_results()
         except Exception, e:
             if debug.cli():
+                print _line(), 'Backtrace'
                 traceback.print_exc()
             if isinstance(e, error.CommandError):
-                yield  self.handle_command_error(e)
+                yield self.handle_command_error(e)
             else:
                 yield self.handle_exception(e)
 
@@ -1495,6 +1498,7 @@ class CommandExecutor(CommandHandler):
 
     def handle_exception(self, e):
         if debug.cli():
+            print _line(), 'Backtrace'
             traceback.print_exc()
         raise e
 
@@ -1942,7 +1946,7 @@ class CommandCompleter(CommandHandler):
                                             arg_scopes, command)
                     except TypeError, e:
                         if debug.cli():
-                            print "Issue: ", e
+                            print _line(), 'Backtrace Issue:', e
                             traceback.print_exc()
                         raise error.CommandDescriptionError("Unable to call completion",
                                                       command)
@@ -2031,6 +2035,7 @@ class CommandCompleter(CommandHandler):
         if isinstance(e, error.CommandDescriptionError):
             bigsh.print_completion_help(error.error_message(str(e)))
             if debug.cli():
+                print _line(), 'Backtrace'
                 traceback.print_exc()
 
 
@@ -4182,6 +4187,7 @@ def _lookup_command_candidates(command_prefix, command_list):
                     
     except Exception, _e:
         if debug.cli():
+            print _line(), 'Backtrace'
             traceback.print_exc()
         raise error.CommandDescriptionError('Missing mode or name', command)
     

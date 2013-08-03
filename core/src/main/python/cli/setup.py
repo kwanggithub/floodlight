@@ -37,10 +37,10 @@ def all_documentation(dir):
 
 
 setuptools.setup(
-    name="bigcli",
+    name="cli",
     version="0.1.0",
     zip_safe=True,
-    py_modules=["bigcli", "rest_api", "command",
+    py_modules=["cli", "rest_api", "command",
                 "c_actions", "c_data_handlers",  "c_completions", "c_validations",
                 "error", "debug", "utif", "run_config", 
                 "url_cache", "doc", "bigdb",
@@ -48,5 +48,5 @@ setuptools.setup(
                 "biglogin",
                 ] + all_modules_in_subdir('desc'),
     data_files=[("data", ["data/oui.txt"])] + all_documentation("documentation"),
-    entry_points=dict(console_scripts=["bigcli = bigcli:main", "biglogin = biglogin:main", ]),
+    entry_points=dict(console_scripts=["cli = cli:main", "biglogin = biglogin:main", ]),
     )

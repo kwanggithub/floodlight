@@ -229,26 +229,28 @@ def history_read(user_name = None):
         if bigdb.cached_user_name:
             user_name = bigdb.cached_user_name
             cached_schema_result = bigdb.cached_session_schema
-            child_schemas = cached_schema_result['listElementSchemaNode']['childNodes']
-            created_schema = child_schemas['created']
-            create_time = bigdb.cached_session_response['created']
-            formatted_time = bigdb.bigdb_format_value(create_time,
-                                                      created_schema)
 
-            last_address = bigdb.cached_session_response['last-address']
-            # nice_name = command.bigsh.controller_name_for_ip(last_address)
-            # XXX need <ip> -> <controller-name> map
-            nice_name = None
-            if nice_name:
-                if last_address == '127.0.0.1':
-                    last_address = '%s' % nice_name
+            if not command.bigsh.options.single_command:
+                child_schemas = cached_schema_result['listElementSchemaNode']['childNodes']
+                created_schema = child_schemas['created']
+                create_time = bigdb.cached_session_response['created']
+                formatted_time = bigdb.bigdb_format_value(create_time,
+                                                          created_schema)
+
+                last_address = bigdb.cached_session_response['last-address']
+                # nice_name = command.bigsh.controller_name_for_ip(last_address)
+                # XXX need <ip> -> <controller-name> map
+                nice_name = None
+                if nice_name:
+                    if last_address == '127.0.0.1':
+                        last_address = '%s' % nice_name
+                    else:
+                        last_address = '%s (%s)' % (nice_name, last_address)
                 else:
-                    last_address = '%s (%s)' % (nice_name, last_address)
-            else:
-                nice_name = last_address
+                    nice_name = last_address
 
-            print 'Logged in as %s, authenticated %s, auth request from %s' % (
-                    user_name, formatted_time, nice_name)
+                print 'Logged in as %s, authenticated %s, auth request from %s' % (
+                        user_name, formatted_time, nice_name)
 
             history_user = user_name
             history_file = history_path(user_name)

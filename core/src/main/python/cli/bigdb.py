@@ -416,7 +416,8 @@ class BigDB():
         Return if successful, throw an exception otherwise.
         """
         if os.getenv('BIGCLI_PRESERVE_SESSION'):
-            print 'Preserving Session'
+            if self.cached_session_cookie and not self.bigsh.options.single_command:
+                print 'Preserving Session'
             return
 
         # if the session cookie isn't passed in, try to find it in the bigsh.rest_api.
@@ -1433,7 +1434,7 @@ class BigDB():
         # validate requested select is for a field within the schema.
         if select:
             if select.startswith('config='):
-                # allow select to also say 'cofig=true'
+                # allow select to also say 'config=true'
                 pass
             else:
                 schema_type = schema.get('nodeType')
