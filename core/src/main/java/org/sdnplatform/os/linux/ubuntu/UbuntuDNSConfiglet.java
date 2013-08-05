@@ -3,12 +3,14 @@ package org.sdnplatform.os.linux.ubuntu;
 import java.io.File;
 import java.util.EnumSet;
 
+import org.python.google.common.base.Joiner;
 import org.sdnplatform.os.IOSConfiglet;
 import org.sdnplatform.os.WrapperOutput;
 import org.sdnplatform.os.model.NetworkConfig;
 import org.sdnplatform.os.model.NetworkInterface;
 import org.sdnplatform.os.model.NetworkInterface.ConfigMode;
 import org.sdnplatform.os.model.OSConfig;
+
 import static org.sdnplatform.os.ConfigletUtil.*;
 
 public class UbuntuDNSConfiglet implements IOSConfiglet {
@@ -43,11 +45,11 @@ public class UbuntuDNSConfiglet implements IOSConfiglet {
         
         boolean enabled = false;
         String[] servers = new String[] {};
-        String domainName = null;
+        String[] domainName = null;
         if (newNetwork != null) {
             enabled = newNetwork.isDomainLookupsEnabled();
             servers = newNetwork.getDnsServers();
-            domainName = newNetwork.getDomainName();
+            domainName = newNetwork.getDnsSearchPath();
         }
         StringBuilder resolv = new StringBuilder();
         addEditWarning(resolv, "#");
@@ -55,9 +57,8 @@ public class UbuntuDNSConfiglet implements IOSConfiglet {
             for (String s : servers) {
                 resolv.append("nameserver " + s + "\n");
             }
-            if (domainName != null) {
-                resolv.append("domain " + domainName + "\n");
-                resolv.append("search " + domainName + "\n");
+            if (domainName != null && domainName.length > 0) {
+                resolv.append("search " + Joiner.on(' ').join(domainName) + "\n");
             }
         }
         return writeConfigFile(basePath, RESOLV, 

@@ -14,7 +14,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class NetworkConfig implements OSModel {
     private boolean domainLookupsEnabled;
     private String[] dnsServers;
-    private String domainName;
+    private String[] dnsSearchPath;
     private String defaultGateway;
     private NetworkInterface[] networkInterfaces;
 
@@ -38,13 +38,13 @@ public class NetworkConfig implements OSModel {
         this.dnsServers = dnsServers;
     }
     @ConfigApplyType({ConfigType.NETWORK_DNS})
-    @JsonProperty("domain-name")
-    public String getDomainName() {
-        return domainName;
+    @JsonProperty("dns-search-path")
+    public String[] getDnsSearchPath() {
+        return dnsSearchPath;
     }
     @JsonProperty("domain-name")
-    public void setDomainName(String domainName) {
-        this.domainName = domainName;
+    public void setDomainName(String[] dnsSearchPath) {
+        this.dnsSearchPath = dnsSearchPath;
     }
     @ConfigApplyType({ConfigType.NETWORK_INTERFACES})
     @JsonProperty("default-gateway")

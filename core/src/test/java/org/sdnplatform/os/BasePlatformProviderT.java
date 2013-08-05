@@ -69,7 +69,7 @@ public abstract class BasePlatformProviderT {
         NetworkConfig nc = new NetworkConfig();
         nc.setDnsServers(new String[]{"8.8.8.8"});
         nc.setDomainLookupsEnabled(true);
-        nc.setDomainName("example.com");
+        nc.setDomainName(new String[]{"example.com"});
         nc.setNetworkInterfaces(new NetworkInterface[]{ni});
         cn.setNetworkConfig(nc);
         

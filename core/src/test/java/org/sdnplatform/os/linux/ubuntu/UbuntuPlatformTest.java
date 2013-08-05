@@ -139,7 +139,6 @@ public class UbuntuPlatformTest extends BasePlatformProviderT {
         checkFileContents(UbuntuDNSConfiglet.RESOLV,
                           "# WARNING: Automanaged file.  Do not edit\n\n" + 
                           "nameserver 8.8.8.8\n" + 
-                          "domain example.com\n" +
                           "search example.com\n");
 
         osConfig.getNodeConfig().getNetworkConfig().
@@ -151,7 +150,6 @@ public class UbuntuPlatformTest extends BasePlatformProviderT {
                           "# WARNING: Automanaged file.  Do not edit\n\n" + 
                           "nameserver 8.8.8.8\n" + 
                           "nameserver 1.2.3.4\n" + 
-                          "domain example.com\n" +
                           "search example.com\n");
 
         osConfig.getNodeConfig().getNetworkConfig().
