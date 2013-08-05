@@ -45,7 +45,7 @@ setuptools.setup(
                 "error", "debug", "feature", "bsn_constants", "term",
                 "utif", "run_config", 
                 "url_cache", "doc", "bigdb",
-                "timesince", "fmtcnt", "bigdb_fmtcnv",
+                "timesince", "fmtcnv", "bigdb_fmtcnv",
                 "biglogin",
                 ] + all_modules_in_subdir('desc'),
     data_files=[("data", ["data/oui.txt"])] + all_documentation("documentation"),
