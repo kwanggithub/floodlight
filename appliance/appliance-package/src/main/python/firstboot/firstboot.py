@@ -16,7 +16,6 @@ import os
 import sys
 import traceback
 import signal
-import subprocess
 
 logger = log_util.getMainLogger(__name__)
 locked = False
@@ -57,7 +56,6 @@ def normalErrorHandler(e):
     logger.error("!!!")
     logger.error("!!! %s" % str(e))
     logger.error("!!! Please correct corresponding parameters and retry.")
-    rc = subprocess.call(['/bin/bash'])
 
 def enterToContinue():
     raw_input("Press enter to continue > ")
