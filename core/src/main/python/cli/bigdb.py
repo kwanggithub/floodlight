@@ -2410,7 +2410,10 @@ class BigDB():
                 row_dict[name] = type_formatter[type_name](results, schema, detail)
             else:
                 row_dict[name] = str(results)
-        elif atomic_type(results):
+        elif atomic_type(results) or \
+             (type(results) == list and len(results) == 1 and atomic_type(results[0])):
+            if type(results) == list:
+                results = results[0]
             self.log('%s LEAF %s <- %s' % (path, name, results))
             type_node = schema.get('typeSchemaNode')
             type_name = type_node.get('name') if type_node else None
@@ -2650,8 +2653,6 @@ class BigDB():
             # should abstract name types be added?
             child_nodes = schema.get('childNodes')
             self.log('%s CONTAINER %s %s' % (path, name, child_nodes.keys()))
-            spath = path_adder(path, name)
-            # add_fields(spath, child_nodes)
             base_dict = dict(row_dict)
             if type(results) == list:
                 if len(results) > 1:
@@ -2681,15 +2682,19 @@ class BigDB():
                             row_dict[index_name] = index_value
 
             # peek at the node type of all the children to see whetehr
-            # there's anythinkg other than leaf/leaf-lists.  IF there's
+            # there's anything other than leaf/leaf-lists.  IF there's
             # no deeper entries, then the data here is the property of
+            # this container
 
             deeper_nodes = True
             if not caller_collects: # 
                 for (child_name, child_value) in child_nodes.items():
                     node_type = child_value.get('nodeType')
-                    if node_type != 'LEAF' and node_type != 'LEAF_LIST':
-                        break
+                    # check for any complex types
+                    if (node_type != 'LEAF' and 
+                        node_type != 'LEAF_LIST' and
+                        node_type != 'CONTAINER'):
+                            break
                 else:
                     deeper_nodes = False
 
@@ -2701,7 +2706,7 @@ class BigDB():
                 self.log('%s CONTAINER PART %s %s' %
                           (path, child_name, child_name in results))
                 if child_name in results:
-                    for item in self.map_schema_to_results(spath,
+                    for item in self.map_schema_to_results(path_adder(path, child_name),
                                                            child_value,
                                                            results[child_name],
                                                            row_dict,

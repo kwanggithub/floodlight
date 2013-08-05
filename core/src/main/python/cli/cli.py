@@ -898,7 +898,7 @@ class ModeStack():
                             return 'UNREACHABLE'
             if isinstance(e.reason, socket.timeout):
                 return 'REST-API-DOWN'
-            if debug.cli()
+            if debug.cli():
                 print 'ERROR IN HA ROLE COMPUTATION', e
             return ''
 
@@ -949,7 +949,8 @@ class ModeStack():
         if self.prompt_current_role != 'MASTER':
             current_role = self.prompt_current_role + ' ' # space separator
             if current_role == None or current_role == ' ':
-                current_role = '<role: exception> '
+                # current_role = '<ha-role> '
+                current_role = ''
 
         if self.current_mode().startswith("config"):
             current_mode = "(" + self.current_mode()
