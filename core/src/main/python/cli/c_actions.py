@@ -564,7 +564,7 @@ def push_mode_stack(mode_name,
 
     elif mode_name in ['config', 'enable', 'login']:
         # see if the mode is in the stack
-        if mode_name in [x['mode_name'] for x in bigsh.mode_stack]:
+        if mode_name in [x['mode_name'] for x in bigsh.run.finder.mode_stack.mode_stack]:
             if debug.description():   # description debugging
                 print 'push_mode: popping stack for', mode_name
             current_mode = bigsh.run.finder.mode_stack.current_mode()
