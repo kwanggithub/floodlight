@@ -64,6 +64,7 @@ def fatalErrorHandler(e):
     logger.error("!!! Unrecoverable fatal error occurred:")
     logger.error("!!!")
     logger.error("!!! %s" % str(e))
+    traceback.print_exc()
     for l in traceback.format_exc().split("\n"):
         logger.debug(l)
 
@@ -104,7 +105,7 @@ def main():
                 config_.runConfig()
                 break
             except Exception as e:
-                normalErrorTrap(e)
+                normalErrorHandler(e)
             finally:
                 disableSigIntTrap()
 
