@@ -95,6 +95,7 @@ class Config(object):
             iface = {"type": "Ethernet",
                      "number": 0,
                      "config-mode": "static",
+                     "ip-address" : getv(self.configMap,pdesc.PARAM_IP_ADDRESS),
                      "netmask": getv(self.configMap,pdesc.PARAM_IP_NETMASK)}
         else:
             iface = {"type": "Ethernet",
