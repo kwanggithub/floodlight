@@ -42,7 +42,7 @@ setuptools.setup(
     zip_safe=True,
     py_modules=["cli", "rest_api", "command",
                 "c_actions", "c_data_handlers",  "c_completions", "c_validations",
-                "error", "debug", "utif", "run_config", 
+                "error", "debug", "feature", "utif", "run_config", 
                 "url_cache", "doc", "bigdb",
                 "timesince", "fmtcnt", "bigdb_fmtcnv",
                 "biglogin",
