@@ -76,8 +76,8 @@ module os {
                         description "DNS servers to use for domain lookups";
                         type ietf:domain-name; 
                     }
-                    leaf domain-name {
-                        description "Domain to use in the DNS search path";
+                    leaf-list dns-search-path {
+                        description "Domains to use in the DNS search path";
                         type ietf:domain-name;
                     }
                     leaf default-gateway {
