@@ -1,3 +1,5 @@
+# (c) 2013 by Big Switch Networks
+# All rights reserved.
 #
 # middle ware.
 #
