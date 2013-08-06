@@ -24,10 +24,13 @@
     <artifactId>floodlight-appliance</artifactId>
     <version>2.0-SNAPSHOT</version>
   </parent>
-  <artifactId>libnss-remoteuser</artifactId>
+  <artifactId>binary-deps</artifactId>
   <packaging>jar</packaging>
 
-  <name>libnss-remoteuser</name>
+  <name>Binary Dependencies</name>
+  <properties>
+    <deb.version>2.0~SNAPSHOT</deb.version>
+  </properties>
 
   <build>
     <plugins>
@@ -67,7 +70,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>../create-chroot.sh</executable>
+              <executable>./create-chroot.sh</executable>
               <environmentVariables>
 		<ARCH>${arch}</ARCH>
 		<SUITE>${suite}</SUITE>
@@ -75,7 +78,27 @@
             </configuration>
           </execution>
           <execution>
-            <id>build-deb</id>
+            <id>build-deb-libpam-rest</id>
+            <phase>package</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>./build-libpam-rest.sh</executable>
+              <environmentVariables>
+		<ARCH>${arch}</ARCH>
+		<SUITE>${suite}</SUITE>
+		<PKG>libpam-rest</PKG>
+		<VER>${deb.version}</VER>
+              </environmentVariables>
+              <arguments>
+                <argument>libpam-rest</argument>
+                <argument>${project.build.directory}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>build-deb-libnss-remoteuser</id>
             <phase>package</phase>
             <goals>
               <goal>exec</goal>
@@ -85,7 +108,7 @@
               <environmentVariables>
 		<ARCH>${arch}</ARCH>
 		<SUITE>${suite}</SUITE>
-		<PKG>${project.name}</PKG>
+		<PKG>libnss-remoteuser</PKG>
 		<VER>${deb.version}</VER>
               </environmentVariables>
               <arguments>
@@ -101,19 +124,6 @@
         <artifactId>build-helper-maven-plugin</artifactId>
         <version>1.8</version>
         <executions>
-	  <execution>
-            <id>regex-property</id>
-            <goals>
-              <goal>regex-property</goal>
-            </goals>
-            <configuration>
-              <name>deb.version</name>
-              <value>${project.version}</value>
-              <regex>-SNAPSHOT</regex>
-              <replacement>~SNAPSHOT</replacement>
-              <failIfNoMatch>false</failIfNoMatch>
-            </configuration>
-          </execution>
           <execution>
             <id>attach-artifacts</id>
             <phase>package</phase>
@@ -123,8 +133,14 @@
             <configuration>
               <artifacts>
                 <artifact>
+                  <file>${project.build.directory}/libpam-rest_${deb.version}_${arch}.deb</file>
+                  <type>deb</type>
+		  <classifier>libpamrest-${suite}-${arch}</classifier>
+                </artifact>
+                <artifact>
                   <file>${project.build.directory}/libnss-remoteuser_${deb.version}_${arch}.deb</file>
                   <type>deb</type>
+		  <classifier>libnssremoteuser-${suite}-${arch}</classifier>
                 </artifact>
               </artifacts>
             </configuration>

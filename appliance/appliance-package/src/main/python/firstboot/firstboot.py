@@ -54,7 +54,7 @@ def disableSigIntTrap():
 def normalErrorHandler(e):
     logger.error("!!! The following error occurred during initialization:")
     logger.error("!!!")
-    logger.error("!!! %s" % str(e))
+    logger.error("!!! %s" % traceback.format_exc(e))
     logger.error("!!! Please correct corresponding parameters and retry.")
 
 def enterToContinue():

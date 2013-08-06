@@ -46,8 +46,7 @@
       <modules>
 	<module>appliance-package</module>
 	<module>appliance-maven</module>
-	<module>libpam-rest</module>
-	<module>libnss-remoteuser</module>
+	<module>binary-deps</module>
       </modules>
     </profile>
     <!-- Build the appliance dependencies and the VM only if
@@ -62,8 +61,7 @@
       <modules>
 	<module>appliance-package</module>
 	<module>appliance-maven</module>
-	<module>libpam-rest</module>
-	<module>libnss-remoteuser</module>
+	<module>binary-deps</module>
 	<module>appliance-vm</module>
       </modules>
     </profile>

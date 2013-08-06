@@ -17,15 +17,15 @@ import re
 
 logger = log_util.getMainLogger(__name__)
 
-def getv(map, key):
-    if (key in map):
-        return map[key]
+def getv(hmap, key):
+    if (key in hmap and hmap[key] != ""):
+        return hmap[key]
     else:
         return None
 
-def getl(map, key):
-    if (key in map):
-        return [map[key]]
+def getl(hmap, key):
+    if (key in hmap and hmap[key] != ""):
+        return [hmap[key]]
     else:
         return None
 
@@ -95,7 +95,7 @@ class Config(object):
             iface = {"type": "Ethernet",
                      "number": 0,
                      "config-mode": "static",
-                     "ip-address" : getv(self.configMap,pdesc.PARAM_IP_ADDRESS),
+                     "ip-address": getv(self.configMap,pdesc.PARAM_IP_ADDRESS),
                      "netmask": getv(self.configMap,pdesc.PARAM_IP_NETMASK)}
         else:
             iface = {"type": "Ethernet",
@@ -105,7 +105,7 @@ class Config(object):
         networkConfig = {"default-gateway": getv(self.configMap, 
                                                  pdesc.PARAM_IP_GATEWAY),
                          "domain-lookups-enabled": True,
-                         "domain-name": getv(self.configMap,pdesc.PARAM_DOMAIN),
+                         "dns-search-path": getl(self.configMap,pdesc.PARAM_DOMAIN),
                          "dns-servers": getl(self.configMap,pdesc.PARAM_DNS),
                          "network-interfaces": [iface]}
         timeConfig = {}
@@ -115,7 +115,7 @@ class Config(object):
         osconfig = {"local-node": cnode}
 
         #print json.dumps(osconfig, indent=2)
-        rest_lib.patch("os/config", json.dumps(osconfig))
+        rest_lib.put("os/config", json.dumps(osconfig))
         
         logger.info("  Waiting for network configuration")
         if (not self._waitForNetwork()):
@@ -137,7 +137,7 @@ class Config(object):
             if ('ntp-servers' in time_config and len(time_config['ntp-servers']) > 0):
                 self.configMap[pdesc.PARAM_NTP] = time_config['ntp-servers'][0]
                 
-            rest_lib.patch("os/config/local-node/time-config", json.dumps(time_config))
+            rest_lib.put("os/config/local-node/time-config", json.dumps(time_config))
 
         # Set system time using ntpdate
         logger.info("  Retrieving time from NTP server %s" % 

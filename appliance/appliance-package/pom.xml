@@ -42,15 +42,17 @@
     </dependency>
     <dependency>
       <groupId>org.projectfloodlight</groupId>
-      <artifactId>libpam-rest</artifactId>
+      <artifactId>binary-deps</artifactId>
       <version>2.0-SNAPSHOT</version>
       <type>deb</type>
+      <classifier>libpamrest-${suite}-${arch}</classifier>
     </dependency>
     <dependency>
       <groupId>org.projectfloodlight</groupId>
-      <artifactId>libnss-remoteuser</artifactId>
+      <artifactId>binary-deps</artifactId>
       <version>2.0-SNAPSHOT</version>
       <type>deb</type>
+      <classifier>libnssremoteuser-${suite}-${arch}</classifier>
     </dependency>
   </dependencies>
 
