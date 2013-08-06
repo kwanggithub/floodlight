@@ -392,7 +392,8 @@ CICR_RANGE_RE = re.compile(r'^(\d+)\-(\d+)$')
 CICR_SINGLE_RE = re.compile(r'^(\d+)$')
 
 def convert_integer_comma_ranges(value, path, field, field_range, data):
-    print 'convert_integer_comma_ranges:', value, path, field, field_range, data
+    if debug.cli():
+        print 'convert_integer_comma_ranges:', value, path, field, field_range, data
 
     list_of_integers = []
     for r in value.split(','):
@@ -404,9 +405,7 @@ def convert_integer_comma_ranges(value, path, field, field_range, data):
             list_of_integers += range(int(lower), int(upper) + 1)
         else:
             m = CICR_SINGLE_RE.match(r)
-            print 'INCH', m.group(1)
             list_of_integers.append(int(m.group(1)))
-    print 'NLIST', list_of_integers
     # with the list_of_integers, determine what the value should be.
     bigdb = bigsh.bigdb
     field_path = '%s/%s' % (path, field)
@@ -425,22 +424,22 @@ def convert_integer_comma_ranges(value, path, field, field_range, data):
         for (child_name, child_value) in list_children_nodes.items():
             child_node_type = child_value.get('nodeType')
             child_type_details = child_value.get('typeSchemaNode')
-            print 'CV', child_name, child_node_type, child_type_details
             validators = child_type_details.get('typeValidator')
             if validators:
                 # look for a range validator.
-                print 'TV', validators
                 for validator in validators:
                     if validator['type'] == 'RANGE_VALIDATOR':
                         ranges = validator['ranges']
                         for r in ranges:
                             if r.get('start') == field_range[0] and \
                                r.get('end') == field_range[1]:
-                                print 'SAME RANGE', child_name
                                 candidates.append(child_name)
         if len(candidates) == 1:
             value_name = candidates[0]
             data[field_path] = [{value_name: v} for v in list_of_integers]
+        else:
+            print 'convert_integer_comma_ranges: ' \
+                  'no candiate with range matching: ', field_range
     else:
         print 'convert_integer_comma_ranges: no management for ', node_type
 

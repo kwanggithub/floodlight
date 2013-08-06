@@ -3484,8 +3484,12 @@ class BigDB_show():
                 separator = ''
 
         elif style == 'detail': # intended to display a small number (1) of items
-            prefix_needed = True if len(self.tables) > 1 else False
-            for (table_name, table_details) in self.tables.items():
+            table_keys = self.tables.keys
+            if select:
+                table_keys = [x for x in table_keys if x in select]
+            prefix_needed = True if len(table_keys) > 1 else False
+            for table_name in table_keys:
+                table_details = self.tables[table_name]
                 prefix = table_name + ' ' if prefix_needed else ''
 
                 for row in table_details:
