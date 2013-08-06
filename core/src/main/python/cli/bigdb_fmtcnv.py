@@ -102,7 +102,7 @@ bigdb.bigdb_type_formatter_register('date-and-time', bigdb_iso_8601_date)
 
 
 def bigdb_session_auth_token(value, schema, detail, bigdb):
-    cookie = os.environ.get('BSC_SESSION_COOKIE')
+    cookie = os.environ.get('FL_SESSION_COOKIE')
     if cookie == value:
         return '*'
     return ''
