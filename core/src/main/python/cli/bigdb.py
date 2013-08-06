@@ -240,6 +240,7 @@ class BigDB():
                                     'controller-data-source',
                                     'topology-data-source',
                                     'aaa-data-source',
+                                    'node-local-config',
                                     'config'
                                   ]
 

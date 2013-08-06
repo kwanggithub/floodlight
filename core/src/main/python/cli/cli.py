@@ -30,6 +30,7 @@ import imp
 import locale
 import pwd
 
+import bsn_constants
 import utif
 import error
 import rest_api
@@ -73,10 +74,7 @@ class Desc():
     # --------------------------------------------------------------------------------
     #
     def command_packages_path(self):
-        desc_path = 'desc'
-        if desc_path:
-            # print "desc_path %s" % desc_path
-            return desc_path
+        command_descriptions = 'desc'
         desc_path = os.path.join(os.path.dirname(__file__), command_descriptions)
         if os.path.exists(desc_path):
             return desc_path
@@ -655,7 +653,8 @@ class Finder():
 class Audit():
     # Manage command auditing
 
-    def __init__(self):
+    def __init__(self, bigdb):
+        self.bigdb = bigdb
         self.suppress_audit = False
         if os.getenv('BIGCLI_SUPPRESS_AUDIT'):
             self.suppress_audit = True
@@ -711,10 +710,10 @@ class Audit():
                 # (not authorized, reauth) is OK during auditing
                 pass
             else:
-                if self.debug or self.debug_backtrace:
+                if debug.cli():
                     traceback.print_exc()
         except Exception as e:
-            if self.debug or self.debug_backtrace:
+            if debug.cli():
                 traceback.print_exc()
 
 
@@ -899,7 +898,8 @@ class ModeStack():
                             return 'UNREACHABLE'
             if isinstance(e.reason, socket.timeout):
                 return 'REST-API-DOWN'
-            print 'ERROR IN HA ROLE COMPUTATION', e
+            if debug.cli()
+                print 'ERROR IN HA ROLE COMPUTATION', e
             return ''
 
         except Exception, e:
@@ -974,9 +974,9 @@ class ModeStack():
 class Run():
     # Handle Running the command for the cli
 
-    def __init__(self, options, controller, rest_api):
+    def __init__(self, options, controller, bigdb, rest_api):
         self.finder = Finder(options, controller, rest_api)
-        self.audit = Audit()
+        self.audit = Audit(bigdb)
 
         self.screen_length = 0
 
@@ -1550,13 +1550,13 @@ class BigSh():
 
         #
         self.rest_api = rest_api.RestApi(self.controller)
-        self.run = Run(self.options, self.controller, self.rest_api)
+        self.init_bigdb()            # schema
+        self.run = Run(self.options, self.controller, self.bigdb, self.rest_api)
 
         #
         self.init_batch_mode()       # determine running mode
         self.init_documentation()    # build documentation references
         self.init_features()         # register core command feature assciations
-        self.init_bigdb()            # schema
         self.init_command()          # command descriptions
         #
         self.init_user(self.options) # "login" as requested user
