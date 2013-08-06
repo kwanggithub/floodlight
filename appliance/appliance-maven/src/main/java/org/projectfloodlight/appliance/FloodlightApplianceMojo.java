@@ -90,6 +90,12 @@ public class FloodlightApplianceMojo extends AbstractMojo
     @Parameter(property="appliance.buildUpgrade", defaultValue="false")
     private boolean buildUpgradePackage;
     
+    /**
+     * Whether to skip creating the VM (just build packages)
+     */
+    @Parameter(property="appliance.skipVM", defaultValue="false")
+    private boolean skipBuildVM;
+    
     public void setOutputDirectory(File outputDirectory) {
         this.outputDirectory = outputDirectory;
     }
@@ -129,6 +135,9 @@ public class FloodlightApplianceMojo extends AbstractMojo
                       " " + suite + "-" + arch);
         File buildDir = createBuildDir();
         createLocalAptRepo(buildDir);
+        if (skipBuildVM) {
+        	return;
+        }
         buildVM(buildDir);
         
         File qcow2 = new File(outputDirectory, 
