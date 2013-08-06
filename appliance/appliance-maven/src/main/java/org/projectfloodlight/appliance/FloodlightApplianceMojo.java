@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
@@ -233,8 +234,8 @@ public class FloodlightApplianceMojo extends AbstractMojo
             throw new MojoExecutionException("Failed to configure apt repo", e);
         }
         
-        addArtifacts(project.getArtifacts(), repoDirectory);
-        addArtifacts(project.getDependencyArtifacts(), repoDirectory);        
+        addArtifacts(new HashSet<Artifact>(project.getAttachedArtifacts()), repoDirectory);
+        addArtifacts(project.getArtifacts(), repoDirectory);        
     }
     
     protected void addArtifacts(Set<Artifact> artifacts, File repoDirectory)
