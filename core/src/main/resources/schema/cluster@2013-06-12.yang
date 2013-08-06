@@ -33,13 +33,13 @@ module cluster {
         container config {
             bigdb:cascade "false";
             description "Pseudo-RPC calls to set up clustering";
-        
+            
             leaf local-node-port {
                 description "The port to use for cluster communication.  This 
                     value is read/write.";
                 type ietf:port-number;
             }
-        
+            
             leaf local-node-iface {
                 description "The interface name to use for cluster communication.
                     The IP address for the node will be derived from the IP 
@@ -49,7 +49,7 @@ module cluster {
                     length "1 .. 32";
                 }
             }
-        
+            
             leaf local-node-host {
                 description "The ip address or hostname to use for cluster 
                     communication. This value is read/write; this value 
@@ -76,35 +76,35 @@ module cluster {
                     }
                 }
 
-		leaf cluster-secret {
-		    bigdb:cascade "false";
-		    description "Base64-encoded version of the cluster secret 
+                leaf cluster-secret {
+                    bigdb:cascade "false";
+                    description "Base64-encoded version of the cluster secret 
                         used for challenge-response authentication.  Writing
                         an empty string to this value will cause a new random
                         128-bit secret to be generated";
-		    type string {
-			length "0 .. 48";
-		    }
-		}
+                    type string {
+                        length "0 .. 48";
+                    }
+                }
             }
-        
+            
             leaf local-domain-id {
                 description "The domain ID of the local node.  This value
                     is read/write.";
                 type node-id;
             }
-        
+            
             leaf seeds {
                 description "Set the seeds list.  Note that this will only do
                     something if the node is not currently in a cluster, as a 
                     comma-separated list of host:port pairs.  This
                     value is write-only";
-        
+                
                 type string {
-		    length "0 .. 2048";
-		}
+                    length "0 .. 2048";
+                }
             }
-        
+            
             leaf reseed {
                 description "Set to true to trigger a reseed.  If you 
                     simultaneously change the IP of every node in the
@@ -118,7 +118,7 @@ module cluster {
                 
                 type boolean;
             }
-        
+            
             leaf delete-node {
                 description "Delete a node from the cluster.  Note that if 
                     the node is still active it will rejoin automatically, so only
@@ -171,7 +171,7 @@ module cluster {
                     }
                 }
             }
-        
+            
             leaf local-node-id {
                 description "The node ID of the current node";
                 type node-id;
@@ -181,8 +181,8 @@ module cluster {
                 description "The node ID of the current domain leader in
                     the local node's domain.  This leaf will be missing if 
                     there is no current leader";
-		leaf leader-id {
-		    type node-id;
+                leaf leader-id {
+                    type node-id;
                 }
             }
         }
