@@ -2379,7 +2379,7 @@ class BigDB():
             return result
         if type_name not in bigdb_type_formatter:
             return result
-        return bigdb_type_formatter[type_name](result, schema, detail)
+        return bigdb_type_formatter[type_name](result, schema, detail, self)
 
 
     def post_leaf_node_to_row(self, path, schema, results, row_dict,
@@ -2407,7 +2407,7 @@ class BigDB():
             type_node = schema.get('typeSchemaNode')
             type_name = type_node.get('name') if type_node else None
             if type_name and type_name in type_formatter:
-                row_dict[name] = type_formatter[type_name](results, schema, detail)
+                row_dict[name] = type_formatter[type_name](results, schema, detail, self)
             else:
                 row_dict[name] = str(results)
         elif atomic_type(results) or \
@@ -2418,7 +2418,7 @@ class BigDB():
             type_node = schema.get('typeSchemaNode')
             type_name = type_node.get('name') if type_node else None
             if type_name and type_name in type_formatter:
-                value = type_formatter[type_name](results, schema, detail)
+                value = type_formatter[type_name](results, schema, detail, self)
             else:
                 value = str(results)
             # if name in row_dict and row_dict[name] != value:

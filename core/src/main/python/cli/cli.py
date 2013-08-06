@@ -40,6 +40,7 @@ import run_config
 import doc
 import command
 import bigdb
+import bigdb_fmtcnv
 import url_cache
 import term
 
