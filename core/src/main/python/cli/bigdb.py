@@ -3485,7 +3485,7 @@ class BigDB_show():
                 separator = ''
 
         elif style == 'detail': # intended to display a small number (1) of items
-            table_keys = self.tables.keys
+            table_keys = self.tables.keys()
             if select:
                 table_keys = [x for x in table_keys if x in select]
             prefix_needed = True if len(table_keys) > 1 else False

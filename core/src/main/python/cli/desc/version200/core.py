@@ -266,6 +266,7 @@ SHOW_CLOCK_COMMAND_DESCRIPTION = {
     'command-type' : 'show',
     'path'         : 'os/action/time',
     'style'        : 'detail',
+    'select'       : 'time',
     'args' : (
             'clock',
     )
