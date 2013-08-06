@@ -42,8 +42,8 @@ public class NetworkConfig implements OSModel {
     public String[] getDnsSearchPath() {
         return dnsSearchPath;
     }
-    @JsonProperty("domain-name")
-    public void setDomainName(String[] dnsSearchPath) {
+    @JsonProperty("dns-search-path")
+    public void setDnsSearchPath(String[] dnsSearchPath) {
         this.dnsSearchPath = dnsSearchPath;
     }
     @ConfigApplyType({ConfigType.NETWORK_INTERFACES})
