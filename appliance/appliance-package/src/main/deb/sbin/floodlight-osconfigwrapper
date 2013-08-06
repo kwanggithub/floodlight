@@ -13,4 +13,4 @@ shift
 # only and cannot be used on a real system as this would allow for
 # fairly obvious privilege escalation attacks
 
-exec java -cp '/usr/share/floodlight/java/*' org.sdnplatform.os.OSConfigWrapper "$@"
+exec java -cp '/usr/share/floodlight/java/*' org.projectfloodlight.os.OSConfigWrapper "$@"

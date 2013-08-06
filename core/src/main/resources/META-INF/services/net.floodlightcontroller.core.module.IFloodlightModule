@@ -22,4 +22,3 @@ org.sdnplatform.sync.internal.SyncManager
 org.sdnplatform.sync.internal.config.bigdb.SyncConfigManager
 org.sdnplatform.sync.internal.SyncTorture
 net.bigdb.auth.DummyAuthenticator
-org.sdnplatform.os.OSConfigManager

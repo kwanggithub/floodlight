@@ -11,7 +11,6 @@ schema/floodlight-switch@2012-10-10.yang
 schema/floodlight-types@2012-10-07.yang
 schema/ietf-inet-types@2010-09-24.yang
 schema/ietf-yang-types@2010-09-24.yang
-schema/os@2013-06-12.yang
 schema/quantum@2012-11-21.yang
 schema/tag.yang
 schema/topology.yang
