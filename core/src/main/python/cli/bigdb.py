@@ -3885,7 +3885,7 @@ class BigDB_RC_scoreboard():
                         # if an integer appeared, prio_x is now a different type
                         if type(prio_x) != int:
                             return cmp((0, x[1]), y)
-                        return cmp((prio_y, x[1]), y)
+                        return cmp((prio_x, x[1]), y)
                 elif type_prio_y == tuple:
                     for order in prio_y:
                         if type(order) == str:
