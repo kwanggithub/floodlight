@@ -949,7 +949,7 @@ class ModeStack():
         if self.prompt_current_role != 'MASTER':
             current_role = self.prompt_current_role + ' ' # space separator
             if current_role == None or current_role == ' ':
-                # current_role = '<ha-role> '
+                # current_role = '<role: excpetion> '
                 current_role = ''
 
         if self.current_mode().startswith("config"):
