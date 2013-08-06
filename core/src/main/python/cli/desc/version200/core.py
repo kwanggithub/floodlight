@@ -259,3 +259,14 @@ DEBUG_CLI_PRIVILEGED_COMMAND_DESCRIPTION = {
         )
     }
 }
+
+SHOW_CLOCK_COMMAND_DESCRIPTION = {
+    'name'         : 'show',
+    'mode'         : 'login',
+    'command-type' : 'show',
+    'path'         : 'os/action/time',
+    'style'        : 'detail',
+    'args' : (
+            'clock',
+    )
+}
