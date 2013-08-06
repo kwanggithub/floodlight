@@ -28,8 +28,6 @@ treespaces:
         revision: 2012-10-22
       - name: topology
       - name: aaa
-      - name: os
-        revision: 2013-06-12
       - name: cluster
         revision: 2013-06-12
       - name: tag

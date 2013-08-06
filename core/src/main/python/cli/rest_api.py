@@ -97,7 +97,7 @@ class RestApi():
         Since the session cookies is stable for the duration
         of the session, saving it here makes sense
         """
-        self.session_cookie = os.environ.get('BSC_SESSION_COOKIE')
+        self.session_cookie = os.environ.get('FL_SESSION_COOKIE')
 
     def cache_session_address(self):
         """

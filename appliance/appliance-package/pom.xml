@@ -38,6 +38,24 @@
       <groupId>org.projectfloodlight</groupId>
       <artifactId>floodlight-core</artifactId>
       <version>2.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.projectfloodlight</groupId>
+      <artifactId>floodlight-core</artifactId>
+      <version>2.0-SNAPSHOT</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectfloodlight</groupId>
+      <artifactId>floodlight-core</artifactId>
+      <version>2.0-SNAPSHOT</version>
       <type>deb</type>
     </dependency>
     <dependency>
@@ -58,20 +76,6 @@
 
   <build>
     <plugins>
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.4</version>
-        <executions>
-          <execution>
-            <id>default-jar</id>
-            <phase>never</phase>
-            <configuration>
-              <finalName>unwanted</finalName>
-              <classifier>unwanted</classifier>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -127,6 +131,16 @@
               <verbose>false</verbose>
               <controlDir>${project.basedir}/src/main/deb/control</controlDir>
               <dataSet>
+                <!-- Jar files -->
+                <data>
+                  <src>${project.build.directory}/${project.build.finalName}.jar</src>
+                  <type>file</type>
+                  <mapper>
+                    <type>perm</type>
+                    <prefix>/usr/share/floodlight/java</prefix>
+                  </mapper>
+                </data>
+
                 <!-- Install firstboot -->
                 <data>
                   <src>${project.build.directory}/python/firstboot/</src>

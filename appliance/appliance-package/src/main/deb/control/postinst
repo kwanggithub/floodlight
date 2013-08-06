@@ -48,7 +48,7 @@ case "$1" in
 	    /usr/sbin/floodlight-osconfigwrapper dummycp dummymain \
 		--basePath / \
 	        --cachePath $CONFIG_CACHE \
-		--provider org.sdnplatform.os.linux.ubuntu.UbuntuPlatformProvider \
+		--provider org.projectfloodlight.os.linux.ubuntu.UbuntuPlatformProvider \
 		--default
 	fi
     ;;

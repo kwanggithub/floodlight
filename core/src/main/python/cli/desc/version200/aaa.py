@@ -603,7 +603,7 @@ def aaa_reauth(data):
     if result['success'] == True:
         # only revoke the current session cookie if we've been
         # able to collect a new one successfully.
-        cookie = os.environ.get('BSC_SESSION_COOKIE')
+        cookie = os.environ.get('FL_SESSION_COOKIE')
         if cookie:
             try:
                 bigdb.revoke_session()
@@ -613,9 +613,9 @@ def aaa_reauth(data):
             except Exception, e:
                 print 'Error: during previous cookie revocation:', e
 
-            del os.environ['BSC_SESSION_COOKIE']
-        os.putenv('BSC_SESSION_COOKIE', result['session_cookie'])
-        os.environ['BSC_SESSION_COOKIE'] =  result['session_cookie']
+            del os.environ['FL_SESSION_COOKIE']
+        os.putenv('FL_SESSION_COOKIE', result['session_cookie'])
+        os.environ['FL_SESSION_COOKIE'] =  result['session_cookie']
         command.bigsh.rest_api.cache_session_cookie()
         bigdb.cache_session_details()
     else:
