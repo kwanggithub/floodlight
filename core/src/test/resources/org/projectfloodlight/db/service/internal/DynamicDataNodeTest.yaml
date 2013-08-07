@@ -1,0 +1,12 @@
+treespaces:
+  - name: DynamicDataNodeTest
+    data_sources:
+        - name: test
+          implementation_class: org.projectfloodlight.db.data.memory.MemoryDataSource
+    data_source_mappings:
+      - data_source: "$data-source"
+    module_search_paths:
+      - path: src/test/resources/org/projectfloodlight/db/service/internal
+        recursive: true
+    modules:
+      - name: DynamicDataNodeTest

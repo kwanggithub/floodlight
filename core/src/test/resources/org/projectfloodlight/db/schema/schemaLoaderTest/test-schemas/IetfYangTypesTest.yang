@@ -1,0 +1,26 @@
+module IetfYangTypesTest {
+    namespace "urn:org.projectfloodlight.db";
+    prefix "mt";
+
+    import ietf-yang-types {
+        prefix "yang";
+        revision-date "2010-09-24";
+    }
+    
+    description "ietf yang common types";
+    
+    organization "Acme";
+    
+    container ietf-yang-types-test {
+        leaf date-time {
+            type yang:date-and-time;
+        }
+        leaf mac {
+            type yang:mac-address;
+        }
+
+        leaf timestamp {
+            type yang:timestamp;
+        }
+    }
+}

@@ -4,7 +4,7 @@
       <pattern>%d{HH:mm:ss.SSS} %level [%logger{20}:%thread] %msg%n</pattern>
     </encoder>
   </appender>
-  <appender name="EV_WARN_ERR" class="net.floodlightcontroller.debugevent.DebugEventAppender">
+  <appender name="EV_WARN_ERR" class="org.projectfloodlight.debugevent.DebugEventAppender">
   </appender>
   <root level="INFO">
     <appender-ref ref="STDOUT" />
@@ -12,7 +12,5 @@
   </root>
   <logger name="org" level="WARN"/>
   <logger name="LogService" level="WARN"/> <!-- Restlet access logging -->
-  <logger name="net.bigdb" level="INFO"/>
-  <logger name="net.floodlightcontroller" level="INFO"/>
-  <logger name="org.sdnplatform" level="INFO"/>
+  <logger name="org.projectfloodlight" level="INFO"/>
 </configuration>

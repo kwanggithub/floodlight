@@ -1,0 +1,5 @@
+{
+  "name" : "CommentTest",
+  "namespace" : "org.projectfloodlight.db",
+  "prefix" : "ct"
+}

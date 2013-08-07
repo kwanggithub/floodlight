@@ -19,9 +19,8 @@ package org.projectfloodlight.staticflow;
 import java.util.Map;
 
 import org.openflow.protocol.OFFlowMod;
-
-import net.bigdb.BigDBException;
-import net.floodlightcontroller.core.module.IFloodlightService;
+import org.projectfloodlight.core.module.IFloodlightService;
+import org.projectfloodlight.db.BigDBException;
 
 public interface IStaticFlowEntryPusherService extends IFloodlightService {
     /**

@@ -1,0 +1,18 @@
+module Extension-Defs {
+    namespace org.projectfloodlight.db;
+    prefix "extension-def";
+    
+    description "Defines extensions.";
+    
+    organization "Acme";
+
+    extension test-extension-1 {
+        description "This is test extension 1.";
+        argument extension-1;
+    }
+    
+    extension test-extension-2 {
+        description "This is test extension 2.";
+        argument extension-2;
+    }
+}

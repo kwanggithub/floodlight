@@ -3,16 +3,16 @@ treespaces:
     data_sources:
       - name: config
         config: true
-        implementation_class: net.bigdb.data.memory.MemoryDataSource
+        implementation_class: org.projectfloodlight.db.data.memory.MemoryDataSource
       - name: node-local-config
         config: true
-        implementation_class: net.bigdb.data.memory.MemoryDataSource
+        implementation_class: org.projectfloodlight.db.data.memory.MemoryDataSource
 treespaces:
   - name: controller
     data_sources:
         - name: config
           config: true
-          implementation_class: net.bigdb.data.memory.MemoryDataSource
+          implementation_class: org.projectfloodlight.db.data.memory.MemoryDataSource
     data_source_mappings:
       - data_source: config
         predicate: Config

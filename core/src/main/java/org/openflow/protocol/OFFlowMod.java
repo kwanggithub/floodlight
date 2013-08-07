@@ -20,15 +20,14 @@ package org.openflow.protocol;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.bigdb.data.annotation.BigDBProperty;
-import net.bigdb.data.annotation.BigDBSerialize;
-import net.floodlightcontroller.core.bigdb.serializers.OFMatchSerializer;
-
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.openflow.protocol.action.OFAction;
 import org.openflow.protocol.factory.OFActionFactory;
 import org.openflow.protocol.factory.OFActionFactoryAware;
 import org.openflow.util.U16;
+import org.projectfloodlight.core.bigdb.serializers.OFMatchSerializer;
+import org.projectfloodlight.db.data.annotation.BigDBProperty;
+import org.projectfloodlight.db.data.annotation.BigDBSerialize;
 
 /**
  * Represents an ofp_flow_mod message

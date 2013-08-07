@@ -25,7 +25,7 @@ case "$1" in
         if [ ! -f $KEYSTORE ]; then
 	    KSPASS=`dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 | rev | cut -b 2- | rev`
 	    umask 0077
-	    echo "org.sdnplatform.sync.internal.SyncManager.keyStorePassword=$KSPASS" > \
+	    echo "org.projectfloodlight.sync.internal.SyncManager.keyStorePassword=$KSPASS" > \
 		$KEYSTOREPASS
             authtool -a CHALLENGE_RESPONSE \
                 -ks $KEYSTORE \

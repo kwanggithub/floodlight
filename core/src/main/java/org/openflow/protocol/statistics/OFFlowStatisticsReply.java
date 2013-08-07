@@ -19,18 +19,17 @@ package org.openflow.protocol.statistics;
 
 import java.util.List;
 
-import net.bigdb.data.annotation.BigDBIgnore;
-import net.bigdb.data.annotation.BigDBProperty;
-import net.bigdb.data.annotation.BigDBSerialize;
-import net.bigdb.data.serializers.UnsignedShortSerializer;
-import net.floodlightcontroller.core.types.TimeDuration;
-
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.openflow.protocol.OFMatch;
 import org.openflow.protocol.action.OFAction;
 import org.openflow.protocol.factory.OFActionFactory;
 import org.openflow.protocol.factory.OFActionFactoryAware;
 import org.openflow.util.U16;
+import org.projectfloodlight.core.types.TimeDuration;
+import org.projectfloodlight.db.data.annotation.BigDBIgnore;
+import org.projectfloodlight.db.data.annotation.BigDBProperty;
+import org.projectfloodlight.db.data.annotation.BigDBSerialize;
+import org.projectfloodlight.db.data.serializers.UnsignedShortSerializer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

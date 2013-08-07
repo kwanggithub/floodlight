@@ -1,5 +1,5 @@
 module bigdb {
-    namespace net.bigdb;
+    namespace org.projectfloodlight.db;
     prefix "bigdb";
     
     description "Definitions to work with BigDB";

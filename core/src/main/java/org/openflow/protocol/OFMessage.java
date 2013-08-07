@@ -23,17 +23,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.bigdb.data.annotation.BigDBIgnore;
-import net.floodlightcontroller.core.FloodlightContext;
-import net.floodlightcontroller.core.IFloodlightProviderService;
-import net.floodlightcontroller.core.IOFSwitch;
-import net.floodlightcontroller.packet.Ethernet;
-
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.openflow.util.HexString;
 import org.openflow.util.U16;
 import org.openflow.util.U32;
 import org.openflow.util.U8;
+import org.projectfloodlight.core.FloodlightContext;
+import org.projectfloodlight.core.IFloodlightProviderService;
+import org.projectfloodlight.core.IOFSwitch;
+import org.projectfloodlight.db.data.annotation.BigDBIgnore;
+import org.projectfloodlight.packet.Ethernet;
 
 /**
  * The base class for all OpenFlow protocol messages. This class contains the

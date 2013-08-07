@@ -1,5 +1,5 @@
 module aaa {
-    namespace "net.bigdb";
+    namespace "org.projectfloodlight.db";
     prefix "aaa";
 
     import bigdb {

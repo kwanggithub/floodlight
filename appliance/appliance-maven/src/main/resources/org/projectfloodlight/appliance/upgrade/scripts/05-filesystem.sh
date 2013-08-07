@@ -280,13 +280,13 @@ sed -i.old "s/- seeds: .*/- seeds: \"$SEED\"/" /opt/bigswitch/db/conf/cassandra.
 # Configure the floodlight configuration property files to
 # use the correct controller ID.
 FLOODLIGHT_CONFIG_DIR=/opt/bigswitch/floodlight/configuration
-FLOODLIGHT_PROVIDER_NAME=net.floodlightcontroller.core.FloodlightProvider
+FLOODLIGHT_PROVIDER_NAME=org.projectfloodlight.core.FloodlightProvider
 for name in \
     bigfloodlight \
     bigtapconfig \
     reactiveflowonlyconfig
 do
-    echo -e "\nnet.floodlightcontroller.core.FloodlightProvider.controllerid=$CONTROLLER_ID" >> /opt/bigswitch/floodlight/configuration/\${name}.properties
+    echo -e "\norg.projectfloodlight.core.FloodlightProvider.controllerid=$CONTROLLER_ID" >> /opt/bigswitch/floodlight/configuration/\${name}.properties
 done
 EOF
 fi

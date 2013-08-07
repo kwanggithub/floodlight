@@ -1,0 +1,19 @@
+treespaces:
+  - name: BasicTest
+    data_sources:
+        - name: config
+          implementation_class: org.projectfloodlight.db.data.memory.MemoryDataSource
+    data_source_mappings:
+      - data_source: config
+        predicate: Config
+      - data_source: "$data-source"
+        predicate: "!Config"
+    module_search_paths:
+      - path: src/test/resources/org/projectfloodlight/db/service/internal
+        recursive: true
+    modules:
+      - name: BasicTest
+auth_config:
+    enable_null_authentication: true
+    default_authorization_hook: org.projectfloodlight.db.auth.NullAuthorizationHook
+    session_manager: org.projectfloodlight.db.auth.session.SimpleSessionManager

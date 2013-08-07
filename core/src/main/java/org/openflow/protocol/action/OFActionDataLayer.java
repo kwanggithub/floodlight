@@ -22,10 +22,9 @@ package org.openflow.protocol.action;
 
 import java.util.Arrays;
 
-import net.floodlightcontroller.util.MACAddress;
-
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.openflow.protocol.OFPhysicalPort;
+import org.projectfloodlight.util.MACAddress;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 

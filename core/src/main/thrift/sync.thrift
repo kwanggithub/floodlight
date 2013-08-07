@@ -2,8 +2,8 @@
 # Interface definition for sync
 #
 
-namespace java org.sdnplatform.sync.thrift
-namespace cpp org.sdnplatform.sync.thrift
+namespace java org.projectfloodlight.sync.thrift
+namespace cpp org.projectfloodlight.sync.thrift
 namespace py sync
 namespace php sync
 namespace perl sync
