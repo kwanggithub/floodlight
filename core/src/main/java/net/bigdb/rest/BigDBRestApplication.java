@@ -8,10 +8,6 @@ import net.bigdb.auth.RestAuditFilter;
 import net.bigdb.rest.auth.LoginAuthDisabledResource;
 import net.bigdb.rest.auth.LoginResource;
 import net.bigdb.service.Service;
-import net.floodlightcontroller.quantum.QuantumHandleAttachment;
-import net.floodlightcontroller.quantum.QuantumHandleNetwork;
-import net.floodlightcontroller.quantum.QuantumHandlePort;
-import net.floodlightcontroller.quantum.QuantumHandleTenant;
 
 import org.restlet.Application;
 import org.restlet.Component;
@@ -64,40 +60,22 @@ public class BigDBRestApplication extends Application {
         routerV1.attach("module/{treespace}/{name}/{revision}", ModuleResource.class);
         routerV1.attach("data/{treespace}", DataResource.class, Template.MODE_STARTS_WITH);
 
-        //routerV1.attach("typedef/{treespace}/{module}, TypedefResource.class);
-        //routerV1.attach("typedef/{treespace}/{module}/{revision}", TypedefResource.class);
-        //routerV1.attach("typedef/{treespace}/{module}/{revision}/{typedef}", TypedefResource.class);
-
-        // TODO - find a general way to plug in other URL paths and then remove this.
-        Router quantumRouter = new Router(getContext());
-        quantumRouter.attach("tenants", QuantumHandleTenant.class);
-        quantumRouter.attach("tenants/", QuantumHandleTenant.class);
-        quantumRouter.attach("tenants/{tenant}", QuantumHandleTenant.class);
-        quantumRouter.attach("tenants/{tenant}/networks", QuantumHandleNetwork.class);
-        quantumRouter.attach("tenants/{tenant}/networks/", QuantumHandleNetwork.class);
-        quantumRouter.attach("tenants/{tenant}/networks/{network}", QuantumHandleNetwork.class);
-        quantumRouter.attach("tenants/{tenant}/networks/{network}/", QuantumHandleNetwork.class);
-        quantumRouter.attach("tenants/{tenant}/networks/{network}/ports", QuantumHandlePort.class);
-        quantumRouter.attach("tenants/{tenant}/networks/{network}/ports/", QuantumHandlePort.class);
-        quantumRouter.attach("tenants/{tenant}/networks/{network}/ports/{port}", QuantumHandlePort.class);
-        quantumRouter.attach("tenants/{tenant}/networks/{network}/ports/{port}/", QuantumHandlePort.class);
-        quantumRouter.attach("tenants/{tenant}/networks/{network}/ports/{port}/attachment", QuantumHandleAttachment.class);
-
         Router authRouter = new Router(getContext());
         authRouter.setDefaultMatchingMode(Template.MODE_STARTS_WITH);
+        routerV1.attach("auth/", authRouter);
 
-        Router rootRouter = new Router(getContext());
-        rootRouter.setDefaultMatchingMode(Template.MODE_STARTS_WITH);
-
-        rootRouter.attach("/api/v1/", new RestAuditFilter(authService, getContext(), routerV1));
-        rootRouter.attach("/auth/", new RestAuditFilter(authService, getContext(), authRouter));
-        rootRouter.attach("/networkService/v1.1/", new RestAuditFilter(authService, getContext(), quantumRouter));
+        routerV1.attach("auth/", new RestAuditFilter(authService, getContext(), authRouter));
 
         if(authService != null) {
             authRouter.attach("login", LoginResource.class, Template.MODE_STARTS_WITH);
         } else {
             authRouter.attach("login", LoginAuthDisabledResource.class);
         }
+
+        Router rootRouter = new Router(getContext());
+        rootRouter.setDefaultMatchingMode(Template.MODE_STARTS_WITH);
+
+        rootRouter.attach("/api/v1/", new RestAuditFilter(authService, getContext(), routerV1));
 
         return rootRouter;
     }

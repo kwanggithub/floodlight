@@ -21,7 +21,7 @@ class AuthBigDBClient(object):
         req = {'user': options.user, 'password' : options.password }
         json_foo = json.dumps(req)
 
-        self.connection.request('POST', '/auth/login', json_foo, headers)
+        self.connection.request('POST', '/api/v1/auth/login', json_foo, headers)
 
         response = self.connection.getresponse()
 

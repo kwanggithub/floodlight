@@ -227,7 +227,7 @@ env = {}
 portal = portal.Portal(ExampleRealm())
 agent = Agent(reactor)
 
-restChecker = FloodlightRestPasswordChecker(agent, "http://%s/auth/login" % options.host, env)
+restChecker = FloodlightRestPasswordChecker(agent, "http://%s/api/v1/auth/login" % options.host, env)
 portal.registerChecker(restChecker)
 ExampleFactory.portal = portal
 
