@@ -38,7 +38,7 @@ public class LoginResourceRestAPITest extends BigDBRestAPITestBase {
     @Test
     public void testIncompleteRequest() throws Exception {
         try {
-            ClientResource client = new ClientResource(Method.POST, REST_SERVER + "/auth/login");
+            ClientResource client = new ClientResource(Method.POST, REST_SERVER + "/api/v1/auth/login");
             client.post("{ \"user\": \"not-found\" }", Map.class);
             fail("Expected restlet ResourceException");
         } catch(ResourceException e) {
@@ -49,7 +49,7 @@ public class LoginResourceRestAPITest extends BigDBRestAPITestBase {
     @Test
     public void testUserNotFound() throws Exception {
         try {
-            ClientResource client = new ClientResource(Method.POST, REST_SERVER + "/auth/login");
+            ClientResource client = new ClientResource(Method.POST, REST_SERVER + "/api/v1/auth/login");
             client.post("{ \"user\": \"not-found\", \"password\": \"hrtl\" }", Map.class);
             fail("Expected restlet ResourceException");
         } catch(ResourceException e) {
@@ -60,7 +60,7 @@ public class LoginResourceRestAPITest extends BigDBRestAPITestBase {
     @Test
     public void testWrongPassword() throws Exception {
         try {
-            ClientResource client = new ClientResource(Method.POST, REST_SERVER + "/auth/login");
+            ClientResource client = new ClientResource(Method.POST, REST_SERVER + "/api/v1/auth/login");
             client.post("{ \"user\": \"admin\", \"password\": \"notmypassword\" }", Map.class);
             fail("Expected restlet ResourceException");
         } catch(ResourceException e) {
@@ -70,7 +70,7 @@ public class LoginResourceRestAPITest extends BigDBRestAPITestBase {
 
     @Test
     public void testSuccess() throws Exception {
-        ClientResource client = new ClientResource(Method.POST, REST_SERVER + "/auth/login");
+        ClientResource client = new ClientResource(Method.POST, REST_SERVER + "/api/v1/auth/login");
         Map<?,?> map = client.post("{ \"user\": \"admin\", \"password\": \"adminpw\" }", Map.class);
         assertTrue(map != null);
         assertTrue(map.containsKey("success"));

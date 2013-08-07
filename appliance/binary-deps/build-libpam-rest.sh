@@ -12,7 +12,10 @@ DST=${2?missing source directory argument}
 
 DEB_NAME="${PKG}_${VER}_${ARCH}"
 
-if [ -f "$DST/$DEB_NAME.deb" ]; then
+if [[ -f "$DST/$DEB_NAME.deb" && \
+	"$DST/$DEB_NAME.deb" -nt "$SRC/Makefile.am" && \
+	"$DST/$DEB_NAME.deb" -nt "$SRC/pam_rest.c" \
+    ]]; then
     echo "$DST/$DEB_NAME.deb already exists"
     exit 0
 fi

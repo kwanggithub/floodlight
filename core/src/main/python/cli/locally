@@ -26,7 +26,7 @@ def authenticate():
     headers = {'Content-type': 'application/json'}
     req = {'user': options.user, 'password' : options.password }
 
-    connection.request('POST', '/auth/login', json.dumps(req), headers)
+    connection.request('POST', '/api/v1/auth/login', json.dumps(req), headers)
     response = connection.getresponse()
 
     # likely needs to be expanded to better manage errors

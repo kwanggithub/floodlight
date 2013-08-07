@@ -98,7 +98,7 @@ public class ShowSessionTest extends BigDBRestAPITestBase {
     }
 
     private void doLogin(String baseUrl) throws Exception {
-        ClientResource client = new ClientResource(Method.POST, baseUrl + "/auth/login");
+        ClientResource client = new ClientResource(Method.POST, baseUrl + "/api/v1/auth/login");
         Map<?,?> map = client.post("{ \"user\": \"admin\", \"password\": \"adminpw\" }", Map.class);
         assertTrue(map != null);
         assertTrue(map.containsKey("success"));

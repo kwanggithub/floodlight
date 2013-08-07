@@ -40,7 +40,7 @@ def auth(host, username="admin", password=""):
         return
     login = {"user": username,
              "password": password}
-    session = json.loads(request("/auth/login",
+    session = json.loads(request("/api/v1/auth/login",
                                  prefix='',
                                  method='POST', 
                                  data=json.dumps(login), 
