@@ -360,7 +360,7 @@ class BigDB():
         headers = {'Content-type': 'application/json'}
         post_data = {'user': user, 'password' : password }
 
-        tail = '/auth/login'
+        tail = '/api/v1/auth/login'
         url = self.controller_url() + tail
         request = urllib2.Request(url, json.dumps(post_data), headers = headers)
         try:

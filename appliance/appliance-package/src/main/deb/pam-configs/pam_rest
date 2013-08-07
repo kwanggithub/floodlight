@@ -3,10 +3,10 @@ Default: yes
 Priority: 257
 Auth-Type: Primary
 Auth:
-        sufficient    pam_rest.so uri=http://127.0.0.1:8082/auth/login method=POST post_type=json
+        sufficient    pam_rest.so uri=http://127.0.0.1:8082/api/v1/auth/login method=POST post_type=json
 Account-Type: Primary
 Account:
-        sufficient    pam_rest.so uri=http://127.0.0.1:8082/auth/login method=POST post_type=json
+        sufficient    pam_rest.so uri=http://127.0.0.1:8082/api/v1/auth/login method=POST post_type=json
 Session-Type: Additional
 Session:
 	required	pam_env.so	conffile=/etc/pam_rest_env.conf

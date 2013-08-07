@@ -52,7 +52,7 @@ public class AuthenticatedRestClient {
 
     /** login to BigDB using the supplied username and passwords */
     public String login(String user, String password) throws JsonParseException, JsonMappingException, IOException {
-        ClientResource client = new ClientResource(baseUri.resolve("/auth/login"));
+        ClientResource client = new ClientResource(baseUri.resolve("/api/v1/auth/login"));
 
         Representation response = client.post(ImmutableMap.of("user", user, "password", password), MediaType.APPLICATION_JSON);
         ObjectMapper mapper = new ObjectMapper();

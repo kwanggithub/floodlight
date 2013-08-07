@@ -71,7 +71,7 @@ test_pam_rest_LDADD		= -lpam
 
 test_pam_rest.pam.conf: Makefile
 	/bin/cp /dev/null $@
-	echo "auth required $(abs_builddir)/.libs/pam_rest.so uri=http://localhost:8000/auth method=POST post_type=json debug" >> $@
+	echo "auth required $(abs_builddir)/.libs/pam_rest.so uri=http://localhost:8000/api/v1/auth method=POST post_type=json debug" >> $@
 	echo "account required $(abs_builddir)/.libs/pam_rest.so debug" >> $@
 
 check-cowbuilder-install: pam_rest.la

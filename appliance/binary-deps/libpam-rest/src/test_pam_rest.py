@@ -84,7 +84,7 @@ class RestRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
 
         rec = urlparse.urlparse(self.path)
-        if rec.path != "/auth":
+        if rec.path != "/api/v1/auth":
             self.send_error(404, "invalid path")
             return
 
@@ -95,7 +95,7 @@ class RestRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_POST(self):
 
         rec = urlparse.urlparse(self.path)
-        if rec.path != "/auth":
+        if rec.path != "/api/v1/auth":
             self.send_error(404, "invalid path")
             return
 

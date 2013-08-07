@@ -170,7 +170,7 @@ public class RestAccountingTest extends BigDBRestAPITestBase {
     }
 
     private void doLogin() throws Exception {
-        ClientResource client = new ClientResource(Method.POST, REST_SERVER + "/auth/login");
+        ClientResource client = new ClientResource(Method.POST, REST_SERVER + "/api/v1/auth/login");
         Map<?,?> map = client.post("{ \"user\": \"admin\", \"password\": \"adminpw\" }", Map.class);
         assertTrue(map != null);
         assertTrue(map.containsKey("success"));
