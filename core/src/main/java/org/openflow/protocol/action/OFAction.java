@@ -17,10 +17,9 @@
 
 package org.openflow.protocol.action;
 
-import net.bigdb.data.annotation.BigDBSerialize;
-
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.openflow.util.U16;
+import org.projectfloodlight.db.data.annotation.BigDBSerialize;
 
 /**
  * The base class for all OpenFlow Actions.

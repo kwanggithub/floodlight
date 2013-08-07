@@ -1,5 +1,5 @@
 module controller {
-    namespace net.bigdb;
+    namespace org.projectfloodlight.db;
     prefix "c";
     
     description "Model for an OpenFlow controller";

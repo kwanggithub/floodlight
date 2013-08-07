@@ -1,0 +1,42 @@
+module ExtensionTest {
+    namespace org.projectfloodlight.db;
+    prefix "mt";
+    import Extension-Defs {
+        prefix "ext";
+    }
+    
+    description "More common types";
+    
+    organization "Acme";
+    
+    container extension-test {
+        description "Testing the extension parsing.";
+        
+        ext:test-extension-1 "extension-1-container";
+        
+        leaf leaf-node-test {
+            ext:test-extension-1 "extension-1-leaf";
+            type string {
+                //ext:extension-1 "extension-1-type";
+                length 2..32;
+            }
+            default "5678FA";
+        }
+        leaf-list leaf-list-node-test {
+            ext:test-extension-1 "extension-1-leaf-list";
+            type string;
+        }
+        
+        list list-node-test {
+            description "list node with an extension";
+            key "id";
+            ext:test-extension-1 "extension-1-list-node";
+            leaf id {
+                type int32;
+            }
+            leaf name {
+                type string;
+            }
+        }
+    }
+}

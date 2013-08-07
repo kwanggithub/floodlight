@@ -1,0 +1,21 @@
+module Simple {
+    namespace org.projectfloodlight.db;
+    prefix "s";
+    
+    description "Simple model";
+    
+    organization "Acme";
+    
+    typedef positive-integer {
+        description "A positive integer";
+        type int16 {
+            range 1..max;
+        }
+    }
+    
+    container schemas {
+        leaf test {
+            type positive-integer;
+        }
+    }
+}

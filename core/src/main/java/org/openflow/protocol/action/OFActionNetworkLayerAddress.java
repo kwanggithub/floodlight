@@ -21,9 +21,8 @@
 package org.openflow.protocol.action;
 
 
-import net.floodlightcontroller.packet.IPv4;
-
 import org.jboss.netty.buffer.ChannelBuffer;
+import org.projectfloodlight.packet.IPv4;
 
 /**
  * Represents an ofp_action_nw_addr

@@ -16,15 +16,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 
-import net.floodlightcontroller.bigdb.IBigDBService;
-import net.floodlightcontroller.bigdb.MockBigDBService;
-import net.floodlightcontroller.core.module.FloodlightModuleContext;
-import net.floodlightcontroller.core.test.MockThreadPoolService;
-import net.floodlightcontroller.threadpool.IThreadPoolService;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
+import org.projectfloodlight.core.module.FloodlightModuleContext;
+import org.projectfloodlight.core.test.MockThreadPoolService;
+import org.projectfloodlight.db.IBigDBService;
+import org.projectfloodlight.db.MockBigDBService;
 import org.projectfloodlight.os.ConfigletUtil;
 import org.projectfloodlight.os.OSConfigManager;
 import org.projectfloodlight.os.WrapperOutput;
@@ -40,6 +38,7 @@ import org.projectfloodlight.os.model.OSConfig;
 import org.projectfloodlight.os.model.SNMPConfig;
 import org.projectfloodlight.os.model.TimeConfig;
 import org.projectfloodlight.os.model.NetworkInterface.ConfigMode;
+import org.projectfloodlight.threadpool.IThreadPoolService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

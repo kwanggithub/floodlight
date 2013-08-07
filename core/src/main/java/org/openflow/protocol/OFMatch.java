@@ -21,11 +21,6 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-import net.bigdb.data.annotation.BigDBSerialize;
-import net.floodlightcontroller.core.bigdb.serializers.OFMatchSerializer;
-import net.floodlightcontroller.packet.Ethernet;
-import net.floodlightcontroller.packet.IPv4;
-
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -35,7 +30,11 @@ import org.openflow.protocol.serializers.OFMatchJSONSerializer;
 import org.openflow.util.HexString;
 import org.openflow.util.U16;
 import org.openflow.util.U8;
+import org.projectfloodlight.core.bigdb.serializers.OFMatchSerializer;
 // FIXME: It seems sort 
+import org.projectfloodlight.db.data.annotation.BigDBSerialize;
+import org.projectfloodlight.packet.Ethernet;
+import org.projectfloodlight.packet.IPv4;
 
 /**
  * Represents an ofp_match structure

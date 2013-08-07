@@ -1,0 +1,13 @@
+treespaces:
+  - name: DiffDataNodeTest
+    data_sources:
+        - name: config
+          implementation_class: org.projectfloodlight.db.data.memory.MemoryDataSource
+    data_source_mappings:
+      - data_source: config
+        predicate: Config
+    module_search_paths:
+      - path: src/test/resources/org/projectfloodlight/db/service/internal
+        recursive: true
+    modules:
+      - name: DiffDataNodeTest

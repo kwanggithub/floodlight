@@ -18,13 +18,12 @@
 package org.openflow.protocol.statistics;
 
 
-import net.bigdb.data.annotation.BigDBIgnore;
-import net.bigdb.data.annotation.BigDBProperty;
-import net.bigdb.data.annotation.BigDBSerialize;
-import net.floodlightcontroller.core.bigdb.serializers.OFTableWildcardSerializer;
-
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.openflow.util.StringByteSerializer;
+import org.projectfloodlight.core.bigdb.serializers.OFTableWildcardSerializer;
+import org.projectfloodlight.db.data.annotation.BigDBIgnore;
+import org.projectfloodlight.db.data.annotation.BigDBProperty;
+import org.projectfloodlight.db.data.annotation.BigDBSerialize;
 
 /**
  * Represents an ofp_table_stats structure

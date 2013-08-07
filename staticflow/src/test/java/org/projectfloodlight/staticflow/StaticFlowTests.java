@@ -27,15 +27,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.floodlightcontroller.bigdb.IBigDBService;
-import net.floodlightcontroller.bigdb.MockBigDBService;
-import net.floodlightcontroller.core.FloodlightContext;
-import net.floodlightcontroller.core.IFloodlightProviderService;
-import net.floodlightcontroller.core.IOFSwitch;
-import net.floodlightcontroller.core.module.FloodlightModuleContext;
-import net.floodlightcontroller.core.test.MockFloodlightProvider;
-import net.floodlightcontroller.test.FloodlightTestCase;
-
 import org.easymock.Capture;
 import org.easymock.CaptureType;
 import org.easymock.EasyMock;
@@ -47,8 +38,16 @@ import org.openflow.protocol.OFPort;
 import org.openflow.protocol.action.OFAction;
 import org.openflow.protocol.action.OFActionOutput;
 import org.openflow.util.HexString;
+import org.projectfloodlight.core.FloodlightContext;
+import org.projectfloodlight.core.IFloodlightProviderService;
+import org.projectfloodlight.core.IOFSwitch;
+import org.projectfloodlight.core.module.FloodlightModuleContext;
+import org.projectfloodlight.core.test.MockFloodlightProvider;
+import org.projectfloodlight.db.IBigDBService;
+import org.projectfloodlight.db.MockBigDBService;
 import org.projectfloodlight.staticflow.StaticFlowEntry;
 import org.projectfloodlight.staticflow.StaticFlowEntryPusher;
+import org.projectfloodlight.test.FloodlightTestCase;
 
 public class StaticFlowTests extends FloodlightTestCase {
 

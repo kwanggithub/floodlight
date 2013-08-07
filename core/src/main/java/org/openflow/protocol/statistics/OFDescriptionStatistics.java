@@ -17,11 +17,10 @@
 
 package org.openflow.protocol.statistics;
 
-import net.bigdb.data.annotation.BigDBIgnore;
-import net.bigdb.data.annotation.BigDBProperty;
-
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.openflow.util.StringByteSerializer;
+import org.projectfloodlight.db.data.annotation.BigDBIgnore;
+import org.projectfloodlight.db.data.annotation.BigDBProperty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

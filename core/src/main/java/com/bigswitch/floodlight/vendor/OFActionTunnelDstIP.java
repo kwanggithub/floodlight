@@ -1,8 +1,7 @@
 package com.bigswitch.floodlight.vendor;
 
-import net.floodlightcontroller.packet.IPv4;
-
 import org.jboss.netty.buffer.ChannelBuffer;
+import org.projectfloodlight.packet.IPv4;
 
 public class OFActionTunnelDstIP extends OFActionBigSwitchVendor {
     public final static int MINIMUM_LENGTH_TUNNEL_DST = 16;

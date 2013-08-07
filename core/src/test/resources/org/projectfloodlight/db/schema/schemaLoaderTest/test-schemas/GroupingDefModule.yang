@@ -1,0 +1,28 @@
+module GroupingDefModule {
+    namespace org.projectfloodlight.db;
+    prefix "group-def";
+    
+    description "Test grouping";
+    
+    organization "Acme";
+    
+    grouping port-resource {
+        description "The grouping for port resource properties for testing grouping";
+        leaf id {
+            type string;
+            description "A unique identifier"; 
+        }
+        leaf number {
+            type uint64;
+            config false;
+        }
+        leaf name { 
+            type string { length "1..16"; }
+            config false;
+        }
+        leaf current-rate {
+            type uint32;
+            config false;
+        }
+    }
+}

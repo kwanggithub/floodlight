@@ -1,7 +1,7 @@
 package org.openflow.protocol.statistics;
 
-import net.bigdb.data.annotation.BigDBProperty;
-import net.floodlightcontroller.core.types.PortInterfacePair;
+import org.projectfloodlight.core.types.PortInterfacePair;
+import org.projectfloodlight.db.data.annotation.BigDBProperty;
 
 /**
  * An OFQueueStatisticsReply with added information.

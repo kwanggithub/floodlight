@@ -1,6 +1,6 @@
 # Enable authentication 
 auth_config: {
     enabled: true,
-    session_manager: net.bigdb.auth.session.SimpleSessionManager,
+    session_manager: org.projectfloodlight.db.auth.session.SimpleSessionManager,
     allow_empty_admin: true
 }

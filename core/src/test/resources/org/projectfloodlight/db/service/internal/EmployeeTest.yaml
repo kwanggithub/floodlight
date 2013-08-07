@@ -1,0 +1,20 @@
+treespaces:
+  - name: SimpleTest
+    data_sources:
+        - name: config
+          implementation_class: org.projectfloodlight.db.data.memory.MemoryDataSource
+        - name: operational
+          implementation_class: org.projectfloodlight.db.data.memory.MemoryDataSource
+    data_source_mappings:
+      - data_source: config
+        predicate: Config
+      - data_source: "$data-source"
+        predicate: "!Config"
+      - data_source: operational
+    module_search_paths:
+      - path: src/test/resources/org/projectfloodlight/db/service/internal
+        recursive: true
+    modules:
+      - name: EmployeeTest
+auth_config:
+    enabled: false

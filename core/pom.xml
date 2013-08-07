@@ -312,7 +312,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>net.floodlightcontroller.core.Main</mainClass>
+              <mainClass>org.projectfloodlight.core.Main</mainClass>
             </manifest>
           </archive>
         </configuration>

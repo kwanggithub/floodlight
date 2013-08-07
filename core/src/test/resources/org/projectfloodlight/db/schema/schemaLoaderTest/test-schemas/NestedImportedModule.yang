@@ -1,0 +1,23 @@
+module NestedImportedModule {
+    namespace org.projectfloodlight.db;
+    prefix "nim";
+    import Types {
+        prefix t;
+    }
+    import MoreTypes {
+        prefix mt;
+    }
+    
+    description "Test nested module importing";
+    
+    organization "Acme";
+    
+    container schemas {
+        leaf test-int {
+            type t:positive-integer;
+        }
+        leaf test-string {
+            type mt:hex-string;
+        }
+    }
+}

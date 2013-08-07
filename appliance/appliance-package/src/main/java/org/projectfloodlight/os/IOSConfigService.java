@@ -1,10 +1,9 @@
 package org.projectfloodlight.os;
 
+import org.projectfloodlight.core.module.IFloodlightService;
+import org.projectfloodlight.db.data.DataNode;
 import org.projectfloodlight.os.model.OSAction;
 import org.projectfloodlight.os.model.OSConfig;
-
-import net.bigdb.data.DataNode;
-import net.floodlightcontroller.core.module.IFloodlightService;
 
 /**
  * Service that allows modifying the configuration of the underlying operating

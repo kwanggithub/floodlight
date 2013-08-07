@@ -3,6 +3,15 @@ package org.projectfloodlight.os;
 import java.util.Date;
 import java.util.EnumSet;
 
+import org.projectfloodlight.db.BigDBException;
+import org.projectfloodlight.db.FloodlightResource;
+import org.projectfloodlight.db.data.DataNode;
+import org.projectfloodlight.db.data.annotation.BigDBInsert;
+import org.projectfloodlight.db.data.annotation.BigDBParam;
+import org.projectfloodlight.db.data.annotation.BigDBPath;
+import org.projectfloodlight.db.data.annotation.BigDBQuery;
+import org.projectfloodlight.db.data.serializers.ISODateDataNodeSerializer;
+import org.projectfloodlight.db.query.Step;
 import org.projectfloodlight.os.model.OSAction;
 import org.projectfloodlight.os.model.PowerAction;
 import org.projectfloodlight.os.model.RegenKeysAction;
@@ -11,16 +20,6 @@ import org.projectfloodlight.os.model.SetShellAction;
 import org.projectfloodlight.os.model.TimeAction;
 import org.projectfloodlight.os.model.PowerAction.Action;
 import org.projectfloodlight.os.model.SetShellAction.Shell;
-
-import net.bigdb.BigDBException;
-import net.bigdb.data.DataNode;
-import net.bigdb.data.annotation.BigDBInsert;
-import net.bigdb.data.annotation.BigDBParam;
-import net.bigdb.data.annotation.BigDBPath;
-import net.bigdb.data.annotation.BigDBQuery;
-import net.bigdb.data.serializers.ISODateDataNodeSerializer;
-import net.bigdb.query.Step;
-import net.floodlightcontroller.bigdb.FloodlightResource;
 
 /**
  * Resource for handling OS system actions from the REST API

@@ -5,14 +5,14 @@ treespaces:
       - name: config
         config: true
         # temporary - replace with sync backend 
-        implementation_class: net.bigdb.data.syncmem.SyncingDataSource
+        implementation_class: org.projectfloodlight.db.data.syncmem.SyncingDataSource
         properties: {
           file: /var/lib/floodlight/configdb.json,
           asyncWrites: true
         }
       - name: node-local-config
         config: true
-        implementation_class: net.bigdb.data.persistmem.PersistMemDataSource
+        implementation_class: org.projectfloodlight.db.data.persistmem.PersistMemDataSource
         properties: {
           file: /var/lib/floodlight/node-local.json,
           asyncWrites: true

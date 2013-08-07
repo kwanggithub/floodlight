@@ -1,0 +1,14 @@
+module Types {
+    namespace org.projectfloodlight.db;
+    prefix "t";
+    
+    description "Common types";
+    
+    organization "Acme";
+    
+    typedef short-string {
+        type string {
+            length 0..32;
+        }
+    }
+}

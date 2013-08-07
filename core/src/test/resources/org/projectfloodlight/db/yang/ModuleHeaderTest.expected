@@ -1,0 +1,10 @@
+{
+  "name" : "ModuleHeaderTest",
+  "yangVersion" : "1.0",
+  "organization" : "www.openflowhub.org",
+  "contact" : "Paddy Huntington",
+  "description" : "Test module headers",
+  "reference" : "Test reference",
+  "namespace" : "org.projectfloodlight.db",
+  "prefix" : "mht"
+}

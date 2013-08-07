@@ -3,14 +3,12 @@ package org.projectfloodlight.staticflow;
 import java.io.IOException;
 import java.util.List;
 
-import net.floodlightcontroller.core.bigdb.serializers.OFMatchSerializer;
-import net.floodlightcontroller.packet.IPv4;
-
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+
 import org.openflow.protocol.OFMatch;
 import org.openflow.protocol.action.OFAction;
 import org.openflow.protocol.action.OFActionDataLayerDestination;
@@ -27,6 +25,8 @@ import org.openflow.protocol.action.OFActionVirtualLanPriorityCodePoint;
 import org.openflow.util.HexString;
 import org.openflow.util.U16;
 import org.openflow.util.U32;
+import org.projectfloodlight.core.bigdb.serializers.OFMatchSerializer;
+import org.projectfloodlight.packet.IPv4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

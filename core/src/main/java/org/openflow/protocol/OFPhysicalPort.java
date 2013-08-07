@@ -21,13 +21,12 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
-import net.bigdb.data.annotation.BigDBProperty;
-import net.bigdb.data.annotation.BigDBSerialize;
-import net.floodlightcontroller.core.bigdb.serializers.UIntegerDataNodeSerializer;
-import net.floodlightcontroller.util.EnumBitmaps;
-
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.openflow.util.HexString;
+import org.projectfloodlight.core.bigdb.serializers.UIntegerDataNodeSerializer;
+import org.projectfloodlight.db.data.annotation.BigDBProperty;
+import org.projectfloodlight.db.data.annotation.BigDBSerialize;
+import org.projectfloodlight.util.EnumBitmaps;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 

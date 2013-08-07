@@ -6,7 +6,7 @@
     <suffixPattern>floodlight: %-5level [%logger:%thread] %msg</suffixPattern>
     <stackTracePattern>floodlight: %-5level [%logger:%thread] \t</stackTracePattern>
   </appender>
-  <appender name="EV_WARN_ERR" class="net.floodlightcontroller.debugevent.DebugEventAppender">
+  <appender name="EV_WARN_ERR" class="org.projectfloodlight.debugevent.DebugEventAppender">
   </appender>
   <root level="INFO">
     <appender-ref ref="SYSLOG" />
@@ -14,8 +14,8 @@
   </root>
   <logger name="org" level="WARN"/>
   <logger name="LogService" level="WARN"/> <!-- Restlet access logging -->
-  <logger name="net.floodlightcontroller" level="INFO"/>
-  <logger name="net.floodlightcontroller.logging" level="WARN"/>
+  <logger name="org.projectfloodlight" level="INFO"/>
+  <logger name="org.projectfloodlight.logging" level="WARN"/>
   <logger name="com.bigswitch" level="INFO"/>
-  <logger name="org.sdnplatform" level="INFO"/>
+  <logger name="org.projectfloodlight" level="INFO"/>
 </configuration>

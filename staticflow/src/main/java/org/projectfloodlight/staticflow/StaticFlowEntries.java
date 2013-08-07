@@ -22,11 +22,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.floodlightcontroller.core.annotations.LogMessageCategory;
-import net.floodlightcontroller.core.annotations.LogMessageDoc;
-import net.floodlightcontroller.core.util.AppCookie;
-import net.floodlightcontroller.packet.IPv4;
-
 import org.openflow.protocol.OFFlowMod;
 import org.openflow.protocol.OFPacketOut;
 import org.openflow.protocol.OFPort;
@@ -44,6 +39,10 @@ import org.openflow.protocol.action.OFActionTransportLayerSource;
 import org.openflow.protocol.action.OFActionVirtualLanIdentifier;
 import org.openflow.protocol.action.OFActionVirtualLanPriorityCodePoint;
 import org.openflow.util.HexString;
+import org.projectfloodlight.core.annotations.LogMessageCategory;
+import org.projectfloodlight.core.annotations.LogMessageDoc;
+import org.projectfloodlight.core.util.AppCookie;
+import org.projectfloodlight.packet.IPv4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

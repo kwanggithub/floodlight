@@ -1,12 +1,11 @@
 package com.bigswitch.floodlight.vendor;
 
-import net.floodlightcontroller.packet.IPv4;
-import net.floodlightcontroller.test.FloodlightTestCase;
-
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.junit.Test;
 import org.openflow.protocol.action.OFActionType;
+import org.projectfloodlight.packet.IPv4;
+import org.projectfloodlight.test.FloodlightTestCase;
 
 import static org.junit.Assert.*;
 
