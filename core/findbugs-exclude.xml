@@ -5,7 +5,7 @@
     <!-- don't complain about switch statements / external
          representation exposed by generated parser files (the last
          part matches inner classes of these classes) -->
-    <Class name="~net\.bigdb\.(query|yang)\.parser\..*(Lexer|Parser)(\$.*)?" />
+    <Class name="~org\.projectfloodlight\.fb\.(query|yang)\.parser\..*(Lexer|Parser)(\$.*)?" />
     <Or>
       <Bug pattern="SF_SWITCH_NO_DEFAULT,EI_EXPOSE_REP,SBSC_USE_STRINGBUFFER_CONCATENATION,SIC_INNER_SHOULD_BE_STATIC,DLS_DEAD_LOCAL_STORE" />
       <Bug category="PERFORMANCE,MALICIOUS_CODE" />
@@ -14,7 +14,7 @@
 
   <Match>
     <!-- Exclude warnings in generated thrift class files -->
-    <Class name="~org\.sdnplatform\.sync\.thrift\..*" />
+    <Class name="~org\.projectfloodlight\.sync\.thrift\..*" />
     <Bug pattern="CN_IDIOM,DLS_DEAD_LOCAL_STORE,NM_CLASS_NAMING_CONVENTION" />
   </Match>
 
