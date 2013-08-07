@@ -171,7 +171,7 @@ COMMAND_UUID_RE = re.compile(r'^[A-Fa-f\d]{8}-([A-Fa-f\d]{4}-){3}[A-Fa-f\d]{12}$
 
 
 
-def quote_string(value):
+def quote_string(value, always = False):
     """
     Return a quoted version of the string when there's imbedded
     spaces.  Worst case is when the string has both single and
@@ -195,6 +195,8 @@ def quote_string(value):
     elif value == '':
         return "''"
     else:
+        if always:
+            return '"%s"' % value
         return value
 
 

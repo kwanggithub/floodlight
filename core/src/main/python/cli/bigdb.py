@@ -457,7 +457,8 @@ class BigDB():
         """
         Use a REST API to hash the data value.
         """
-        tail = '/api/v1/data/controller/core/aaa/hash-password[password="%s"]' % data
+        tail = ('/api/v1/data/controller/core/aaa/hash-password[password="%s"]'
+                % utif.quote_string(data, True))
         url = self.controller_url() + tail
         try:
             result = self.bigsh.rest_api.rest_json_request(url)
@@ -662,7 +663,7 @@ class BigDB():
         if key_type == 'INTEGER':
             return '[%s=%s]' % (name, value)
         else:
-            return '[%s="%s"]' % (name, value)
+            return '[%s=%s]' % (name, utif.quote_string(value, always = True))
 
 
     def rest_xpath_url(self, path, data, oper):
@@ -3885,7 +3886,7 @@ class BigDB_RC_scoreboard():
                         # if an integer appeared, prio_x is now a different type
                         if type(prio_x) != int:
                             return cmp((0, x[1]), y)
-                        return cmp((prio_y, x[1]), y)
+                        return cmp((prio_x, x[1]), y)
                 elif type_prio_y == tuple:
                     for order in prio_y:
                         if type(order) == str:
